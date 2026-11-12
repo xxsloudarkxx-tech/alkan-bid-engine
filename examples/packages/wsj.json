@@ -1,0 +1,578 @@
+{
+  "schema": "alkan-package/1",
+  "estimate_id": "SS-EST-2026-WSJ-01",
+  "date": "2026-11-08",
+  "relationship": "sub_to_gc",
+  "tier": "competitive",
+  "contractor": {
+    "name": "S & S CUSTOM IRON WORKS LLC",
+    "tag": "METAL FABRICATION · WELDING",
+    "address": "18526 N High Rock Rd, Monroe, WA 98272",
+    "license": "WA Contractor Lic. SSCUSSC781J9 · UBI 604 724 501",
+    "phone": "(425) 443-1691",
+    "email": "info@ss-ironworks.com",
+    "contact": "Shervin Faezi, Member",
+    "logo": "assets/ss_logo.png"
+  },
+  "project": {
+    "key": "WSJ",
+    "short": "West Seattle Junction Landbank Park",
+    "title": "West Seattle Junction Landbank Park — Metal Fabrication (Base Bid)",
+    "owner": "City of Seattle — Seattle Parks & Recreation",
+    "owner_contact": "Project Manager: Fred Gu (Fred.Gu@seattle.gov)",
+    "project_no": "PW# 2019-094",
+    "site": "4731 40th Ave SW, Seattle, WA 98116 (King County)",
+    "county": "King",
+    "prime_contractor": "to be confirmed at award",
+    "bid_date": "July 15, 2026, 2:00 PM",
+    "wage_basis": "King County prevailing wage (L&I journey-level rates eff. 8/31/2026)",
+    "scope_label": "metal fabrication scope",
+    "documents": [
+      "West Seattle Junction Landbank Park Plans (37 sheets, 11/26/2025)",
+      "Project Manual / Specifications (incl. 05 52 00, 12 93 00)",
+      "Addendum No. 1 and Addendum No. 2"
+    ]
+  },
+  "labor_rates": {
+    "IW": {
+      "label": "Ironworker",
+      "kind": "prevailing_wage",
+      "trade": "ironworker",
+      "rate": "94.82",
+      "burden_pct": "15",
+      "source": "L&I journey-level, King Co., eff. 8/31/2026"
+    },
+    "FE": {
+      "label": "Fence erector",
+      "kind": "prevailing_wage",
+      "trade": "fence_erector",
+      "rate": "57.66",
+      "burden_pct": "15",
+      "source": "L&I journey-level, King Co., eff. 8/31/2026"
+    },
+    "SHOP": {
+      "label": "Shop fabricator",
+      "kind": "loaded",
+      "rate": "65.00",
+      "source": "S&S in-shop metal fabrication loaded rate"
+    },
+    "ADMIN": {
+      "label": "PM / admin",
+      "kind": "loaded",
+      "rate": "75.00",
+      "source": "Office / submittals / certified payroll"
+    }
+  },
+  "markups": {
+    "contingency_pct": "5",
+    "overhead_pct": "10",
+    "profit_pct": "10",
+    "rounding": "50"
+  },
+  "tax": {
+    "mode": "excluded_resale"
+  },
+  "materials": [
+    {
+      "id": "M001",
+      "section": "A. Structural steel (pin piles)",
+      "item": "Pipe 4\" STD, 21'-0\" (cut 3 @ 6'-2\")",
+      "spec": "ASTM A53 Gr B black, 4.500\" OD x 0.237\" w, 10.79 lb/ft",
+      "qty": "1",
+      "unit": "EA",
+      "unit_price": "438.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "RFQ #1"
+    },
+    {
+      "id": "M002",
+      "section": "A. Structural steel (pin piles)",
+      "item": "Saw cuts, Pipe 4 STD",
+      "spec": "Supplier cut-to-length",
+      "qty": "3",
+      "unit": "CUT",
+      "unit_price": "12.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "RFQ"
+    },
+    {
+      "id": "M003",
+      "section": "A. Structural steel (pin piles)",
+      "item": "Pipe 1-1/2\" Sch 40, 21'-0\" (cut 3 @ 4'-2\")",
+      "spec": "ASTM A53 Gr B black, 1.900\" OD, 2.72 lb/ft",
+      "qty": "1",
+      "unit": "EA",
+      "unit_price": "116.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "RFQ #2"
+    },
+    {
+      "id": "M004",
+      "section": "A. Structural steel (pin piles)",
+      "item": "Plate 1/2\" x 6-1/2\" x 6-1/2\" cap/base",
+      "spec": "ASTM A36, sheared",
+      "qty": "3",
+      "unit": "EA",
+      "unit_price": "18.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "RFQ #3"
+    },
+    {
+      "id": "M005",
+      "section": "A. Structural steel (pin piles)",
+      "item": "Hot-dip galvanizing (approx. 252 lb, lot minimum)",
+      "spec": "ASTM A123, incl. vent holes",
+      "qty": "1",
+      "unit": "LOT",
+      "unit_price": "375.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "S1.02"
+    },
+    {
+      "id": "M006",
+      "section": "A. Structural steel (pin piles)",
+      "item": "Black finish over galvanizing (post above pile)",
+      "spec": "Galv-compatible primer + black enamel",
+      "qty": "1",
+      "unit": "LS",
+      "unit_price": "60.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "L6.3"
+    },
+    {
+      "id": "M007",
+      "section": "A. Structural steel (pin piles)",
+      "item": "Welding wire / gas / grinding consumables",
+      "spec": "ER70S-6, C25, discs",
+      "qty": "1",
+      "unit": "LS",
+      "unit_price": "85.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": ""
+    },
+    {
+      "id": "M008",
+      "section": "A. Structural steel (pin piles)",
+      "item": "Delivery of steel to shop (Monroe)",
+      "spec": "Supplier freight",
+      "qty": "1",
+      "unit": "EA",
+      "unit_price": "95.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": ""
+    },
+    {
+      "id": "M009",
+      "section": "B. Chain-link fence system",
+      "item": "Fabric 4'-0\" x 50' roll, 2\" mesh",
+      "spec": "9 ga core / 8 ga finished, PVC black, KK, ASTM F668 Cl. 2b",
+      "qty": "5",
+      "unit": "ROLL",
+      "unit_price": "310.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "RFQ #4"
+    },
+    {
+      "id": "M010",
+      "section": "B. Chain-link fence system",
+      "item": "Line post 1-7/8\" OD x 6'-0\"",
+      "spec": "Sch 40 galv + PVC black, ASTM F1043/F1083",
+      "qty": "17",
+      "unit": "EA",
+      "unit_price": "62.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "RFQ #5"
+    },
+    {
+      "id": "M011",
+      "section": "B. Chain-link fence system",
+      "item": "Terminal/corner/pull post 2-3/8\" OD x 6'-6\"",
+      "spec": "Sch 40 galv + PVC black",
+      "qty": "4",
+      "unit": "EA",
+      "unit_price": "98.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "RFQ #6"
+    },
+    {
+      "id": "M012",
+      "section": "B. Chain-link fence system",
+      "item": "Top rail 1-5/8\" OD x 21'-0\" swedged",
+      "spec": "ASTM F1043 galv + PVC black",
+      "qty": "12",
+      "unit": "EA",
+      "unit_price": "88.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "RFQ #7"
+    },
+    {
+      "id": "M013",
+      "section": "B. Chain-link fence system",
+      "item": "Bottom tension wire 7 ga (500 LF roll)",
+      "spec": "ASTM F1664, PVC black",
+      "qty": "1",
+      "unit": "ROLL",
+      "unit_price": "95.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "RFQ #8"
+    },
+    {
+      "id": "M014",
+      "section": "B. Chain-link fence system",
+      "item": "Tension bar 3/16\" x 3/4\" x 3'-10\"",
+      "spec": "Galv + PVC black",
+      "qty": "6",
+      "unit": "EA",
+      "unit_price": "11.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "RFQ #9"
+    },
+    {
+      "id": "M015",
+      "section": "B. Chain-link fence system",
+      "item": "Tension band 2-3/8\" (@ 12\" o.c.)",
+      "spec": "Black",
+      "qty": "24",
+      "unit": "EA",
+      "unit_price": "3.25",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "RFQ #10"
+    },
+    {
+      "id": "M016",
+      "section": "B. Chain-link fence system",
+      "item": "Brace band 2-3/8\"",
+      "spec": "Black",
+      "qty": "6",
+      "unit": "EA",
+      "unit_price": "3.50",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "RFQ #11"
+    },
+    {
+      "id": "M017",
+      "section": "B. Chain-link fence system",
+      "item": "Rail end cup 1-5/8\"",
+      "spec": "Black",
+      "qty": "6",
+      "unit": "EA",
+      "unit_price": "6.50",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "RFQ #12"
+    },
+    {
+      "id": "M018",
+      "section": "B. Chain-link fence system",
+      "item": "Dome cap 2-3/8\"",
+      "spec": "Black",
+      "qty": "4",
+      "unit": "EA",
+      "unit_price": "7.50",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "RFQ #13"
+    },
+    {
+      "id": "M019",
+      "section": "B. Chain-link fence system",
+      "item": "Loop (eye) cap 1-7/8\" x 1-5/8\"",
+      "spec": "Black",
+      "qty": "20",
+      "unit": "EA",
+      "unit_price": "6.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "RFQ #14"
+    },
+    {
+      "id": "M020",
+      "section": "B. Chain-link fence system",
+      "item": "Top rail sleeve 1-5/8\"",
+      "spec": "Galv/black",
+      "qty": "11",
+      "unit": "EA",
+      "unit_price": "5.50",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "RFQ #15"
+    },
+    {
+      "id": "M021",
+      "section": "B. Chain-link fence system",
+      "item": "Fabric ties 9 ga aluminum @ 12\" o.c.",
+      "spec": "Bag of 100",
+      "qty": "4",
+      "unit": "BAG",
+      "unit_price": "28.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "RFQ #16"
+    },
+    {
+      "id": "M022",
+      "section": "B. Chain-link fence system",
+      "item": "Hog rings, fabric to tension wire @ 18\" o.c.",
+      "spec": "Galv, bag of 250",
+      "qty": "1",
+      "unit": "BAG",
+      "unit_price": "24.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "RFQ #17"
+    },
+    {
+      "id": "M023",
+      "section": "B. Chain-link fence system",
+      "item": "Carriage bolts 5/16\" x 1-1/4\" w/ nuts",
+      "spec": "Galv/black",
+      "qty": "40",
+      "unit": "EA",
+      "unit_price": "0.65",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "RFQ #18"
+    },
+    {
+      "id": "M024",
+      "section": "B. Chain-link fence system",
+      "item": "Freight to jobsite, liftgate (alley access)",
+      "spec": "Fence distributor",
+      "qty": "1",
+      "unit": "EA",
+      "unit_price": "275.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "RFQ"
+    },
+    {
+      "id": "M025",
+      "section": "C. Concrete & aggregate",
+      "item": "Concrete mix, 80 lb bag",
+      "spec": "3,000 psi, Class C equiv.",
+      "qty": "64",
+      "unit": "BAG",
+      "unit_price": "7.25",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "RFQ #19"
+    },
+    {
+      "id": "M026",
+      "section": "C. Concrete & aggregate",
+      "item": "5/8\" minus crushed rock, 0.5 cf bag",
+      "spec": "Type 1 crushed rock base 4\"",
+      "qty": "12",
+      "unit": "BAG",
+      "unit_price": "7.50",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "RFQ #20"
+    },
+    {
+      "id": "M027",
+      "section": "C. Concrete & aggregate",
+      "item": "Delivery to jobsite",
+      "spec": "Local supply yard",
+      "qty": "1",
+      "unit": "EA",
+      "unit_price": "125.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": ""
+    }
+  ],
+  "labor": [
+    {
+      "id": "L001",
+      "task": "Shop: cut, fit & weld 3 pin-pile/post assemblies; vent holes",
+      "rate": "SHOP",
+      "hours": "7.5"
+    },
+    {
+      "id": "L002",
+      "task": "Shop: load/unload galvanizer, black finish on posts",
+      "rate": "SHOP",
+      "hours": "2"
+    },
+    {
+      "id": "L003",
+      "task": "Field: layout & string line (230 LF)",
+      "rate": "FE",
+      "hours": "8"
+    },
+    {
+      "id": "L004",
+      "task": "Field: auger 21 post holes 12\" dia, rock base",
+      "rate": "FE",
+      "hours": "23"
+    },
+    {
+      "id": "L005",
+      "task": "Field: set posts & pour footings (21)",
+      "rate": "FE",
+      "hours": "12.6"
+    },
+    {
+      "id": "L006",
+      "task": "Field: top rail 230 LF",
+      "rate": "FE",
+      "hours": "9.2"
+    },
+    {
+      "id": "L007",
+      "task": "Field: hang/stretch/tie fabric 230 LF",
+      "rate": "FE",
+      "hours": "18.4"
+    },
+    {
+      "id": "L008",
+      "task": "Field: tension wire & hog rings",
+      "rate": "FE",
+      "hours": "4.6"
+    },
+    {
+      "id": "L009",
+      "task": "Field: terminal fittings, caps, bands",
+      "rate": "FE",
+      "hours": "6"
+    },
+    {
+      "id": "L010",
+      "task": "Field: clean-up and punch list",
+      "rate": "FE",
+      "hours": "4"
+    },
+    {
+      "id": "L011",
+      "task": "Field: drive 3 Pipe 4 STD pin piles at trees",
+      "rate": "IW",
+      "hours": "9"
+    },
+    {
+      "id": "L012",
+      "task": "Field: set/plumb posts on piles, touch-up",
+      "rate": "IW",
+      "hours": "4.5"
+    },
+    {
+      "id": "L013",
+      "task": "Office: submittals (MTRs, data sheets, color chart, shop dwg)",
+      "rate": "ADMIN",
+      "hours": "6"
+    },
+    {
+      "id": "L014",
+      "task": "Office: L&I intents/affidavits, certified payroll",
+      "rate": "ADMIN",
+      "hours": "4"
+    }
+  ],
+  "other": [
+    {
+      "id": "O001",
+      "item": "Mini auger / 2-man earth auger rental",
+      "category": "Equipment",
+      "qty": "2",
+      "unit": "DAY",
+      "rate": "210.00"
+    },
+    {
+      "id": "O002",
+      "item": "Hydraulic breaker w/ pile-driving adapter rental",
+      "category": "Equipment",
+      "qty": "1",
+      "unit": "DAY",
+      "rate": "260.00"
+    },
+    {
+      "id": "O003",
+      "item": "Welder/generator trailer",
+      "category": "Equipment",
+      "qty": "1",
+      "unit": "DAY",
+      "rate": "150.00"
+    },
+    {
+      "id": "O004",
+      "item": "Concrete mixer rental",
+      "category": "Equipment",
+      "qty": "1",
+      "unit": "DAY",
+      "rate": "120.00"
+    },
+    {
+      "id": "O005",
+      "item": "Mobilization: truck, trailer, fuel (2 mobs)",
+      "category": "Mobilization",
+      "qty": "2",
+      "unit": "EA",
+      "rate": "325.00"
+    },
+    {
+      "id": "O006",
+      "item": "L&I filing fees (Intent + Affidavit)",
+      "category": "Fees",
+      "qty": "2",
+      "unit": "EA",
+      "rate": "40.00"
+    },
+    {
+      "id": "O007",
+      "item": "Small tools, PPE, consumables",
+      "category": "Other",
+      "qty": "1",
+      "unit": "LS",
+      "rate": "180.00"
+    }
+  ],
+  "scope": [
+    {
+      "title": "Perimeter chain-link fence (Tag MF, 3/L6.3)",
+      "text": "Furnish and install 230 LF of 4'-0\" high chain-link fence, PVC-coated black, in two straight runs (150' and 80') with 1 corner, 2 end and 1 pull post. 2\" mesh 9 ga core / 8 ga finished fabric (ASTM F668 Class 2b), knuckled top and bottom; 1-7/8\" OD line posts at 10'-0\" max; 2-3/8\" OD Sch 40 terminal posts; 1-5/8\" OD top rail; 7 ga bottom tension wire with hog rings at 18\" o.c.; ties at 12\" o.c.; Class C concrete footings 12\" dia x 24\"/30\" on 4\" compacted crushed-rock base."
+    },
+    {
+      "title": "Fence supports at existing trees (Pipe 4 STD pin piles, S-series detail)",
+      "text": "Fabricate and install 3 fence support assemblies at existing trees: Pipe 4 STD (A53 Gr B) pin pile 6'-2\" long, 1/2\" x 6-1/2\" x 6-1/2\" A36 cap plate, 1-1/2\" Sch 40 post 4'-2\" above pile; hot-dip galvanized after fabrication (ASTM A123) and finished black to match fence."
+    },
+    {
+      "title": "Submittals and compliance",
+      "text": "Mill test reports, manufacturer data sheets, PVC color chart, shop drawing of pin-pile support, L&I Intents/Affidavits and certified payroll."
+    }
+  ],
+  "exclusions": [
+    "Additive Bid #1 in full (Gateway, Metal Museum Rail at decking, Site Benches, Pebble Seats, Concrete Plank System).",
+    "Concrete curbs, paving, flatwork, play equipment and surfacing (OFOI), site furnishings (trash/recycling receptacle), lighting.",
+    "Removal/disposal of existing fencing, tree protection fencing, survey/layout control, permits and permit fees.",
+    "Rock, roots or obstructions encountered during post-hole excavation; spoils hauled off site (spoils left in place by others).",
+    "Performance & payment bond (add 1.5% if required), Washington retail sales tax (collected by prime per WAC 458-20-171)."
+  ],
+  "assumptions": [],
+  "alkan_commission": {
+    "find_estimate_pct": "3",
+    "coordination_pct": "3",
+    "coordination_included": false
+  },
+  "release": {
+    "authorized": false,
+    "allow_budget_prices": true,
+    "note": "Budget pricing accepted for submission while supplier RFQs are pending (S&S decision required)."
+  },
+  "validity_days": 30
+}

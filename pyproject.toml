@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bidkit"
+version = "3.6.0"
+description = "Auditable public-construction bid analysis toolkit"
+requires-python = ">=3.11"
+dependencies = [
+  "pypdf>=5.0",
+  "reportlab>=4.0",
+  "pypdfium2>=4.0",
+  "openpyxl>=3.1",
+  "Pillow>=10.0",
+  "python-docx>=1.1",
+  "jsonschema>=4.0",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8.0"]
+
+[project.scripts]
+bidkit = "bidkit.__main__:main"
+bidkit-rfq = "bidkit.rfq_cli:main"
+bidkit-agent = "bidkit.rfq_agent:main"
+bidkit-package = "bidkit.package_build:main"
+bidkit-estimator = "bidkit.estimator_agent.agent:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+bidkit = ["*.html", "*.js", "*.json"]
+"bidkit.estimator_agent" = ["knowledge/*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,47 @@
+[
+ {
+  "county": "King",
+  "trade": "Ironworkers",
+  "classification": "Journeyman",
+  "rate": "94.82",
+  "effective": "2026-08-31",
+  "source": "L&I journey-level rates, King Co., eff. 8/31/2026 (published in City of Redmond IFB 10912-26 Att. F)",
+  "verified": true
+ },
+ {
+  "county": "King",
+  "trade": "Fence Erectors",
+  "classification": "Fence Erector",
+  "rate": "57.66",
+  "effective": "2026-08-31",
+  "source": "L&I journey-level rates, King Co., eff. 8/31/2026 (City of Redmond IFB 10912-26 Att. F)",
+  "verified": true
+ },
+ {
+  "county": "King",
+  "trade": "Fence Erectors",
+  "classification": "Fence Laborer",
+  "rate": "57.66",
+  "effective": "2026-08-31",
+  "source": "L&I journey-level rates, King Co., eff. 8/31/2026",
+  "verified": true
+ },
+ {
+  "county": "Pierce",
+  "trade": "Ironworkers",
+  "classification": "Journeyman",
+  "rate": "94.82",
+  "effective": "2026-08-31",
+  "source": "ASSUMED equal to King (W. WA union rate) \u2014 verify on secure.lni.wa.gov/wagelookup",
+  "verified": false
+ },
+ {
+  "county": "Pierce",
+  "trade": "Fence Erectors",
+  "classification": "Fence Erector",
+  "rate": "57.66",
+  "effective": "2026-08-31",
+  "source": "ASSUMED equal to King/Clallam 3/4/2026 ($57.66) \u2014 verify on L&I",
+  "verified": false
+ }
+]

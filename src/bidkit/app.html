@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ALKAN Bid Engine</title>
+<style>
+:root{font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;--ink:#103e43;--ink2:#18565f;--accent:#d9ad59;--bg:#f0f3f4;--card:#fff;--border:#d9e2e4;--muted:#61747c;--ok:#1d7a52;--bad:#b84b31;--warn:#9a6b00;color:#172d36;background:var(--bg)}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;grid-template-columns:232px 1fr}
+aside{background:var(--ink);color:#fff;padding:20px 14px;display:flex;flex-direction:column;gap:4px;position:sticky;top:0;height:100vh;overflow:auto}
+.brand{font-size:20px;font-weight:700;padding:0 8px 2px}.brand span{font-weight:350}.ver{color:#9fc1bf;font-size:12px;padding:0 8px 14px}
+nav a{display:flex;align-items:center;gap:10px;color:#d5e6e4;text-decoration:none;padding:9px 10px;border-radius:8px;font-size:14px}
+nav a:hover{background:#1b5158}nav a.on{background:#fff;color:var(--ink);font-weight:600}
+nav .sep{color:#8fb3b1;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:14px 10px 4px}
+nav .dot{margin-left:auto;width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.who{margin-top:auto;padding:10px 8px 0;border-top:1px solid #2b6067}.who label{color:#9fc1bf;font-size:12px}
+.who input{width:100%;margin-top:4px;background:#0c3136;border:1px solid #2b6067;color:#fff;padding:7px 9px;border-radius:7px;font:inherit;font-size:13px}
+main{padding:28px clamp(16px,4vw,44px);max-width:1180px;width:100%}
+h1{font-size:24px;margin:0 0 2px;color:var(--ink)}h2{font-size:17px;margin:0 0 10px;color:var(--ink)}h3{font-size:14px;margin:14px 0 6px;color:var(--ink)}
+.sub{color:var(--muted);font-size:14px;margin:0 0 20px}.muted{color:var(--muted);font-size:13px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:16px}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}.grow{flex:1}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px 16px}.grid .wide{grid-column:1/-1}
+label.f{display:flex;flex-direction:column;gap:4px;font-size:13px;color:#35515b;font-weight:500}
+label.c{display:flex;gap:8px;align-items:flex-start;font-size:14px}label.c input{margin-top:3px}
+label small{font-weight:400;color:var(--muted)}
+input[type=text],input[type=password],input[type=number],select,textarea{font:inherit;border:1px solid #b6c8cd;border-radius:8px;padding:8px 10px;background:#fff;color:#172d36;width:100%}
+textarea{min-height:74px;resize:vertical}input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:0;border-color:var(--accent)}
+button,.btn{font:inherit;font-weight:600;border:0;border-radius:8px;padding:9px 16px;cursor:pointer;background:#e5eeed;color:var(--ink);text-decoration:none;display:inline-flex;align-items:center;gap:6px;font-size:14px}
+button.primary,.btn.primary{background:var(--ink);color:#fff}button.big{padding:13px 26px;font-size:16px}button.danger{background:#fbe7e1;color:#8a2c16}
+button:disabled{opacity:.5;cursor:not-allowed}button.link{background:none;padding:0;color:var(--ink2);text-decoration:underline;font-weight:500}
+.pill{display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#e5eeed;color:var(--ink);white-space:nowrap}
+.pill.ok{background:#dcf1e6;color:#0f5132}.pill.bad{background:#fbe7e1;color:#8a2c16}.pill.warn{background:#fff1d4;color:#7a5600}.pill.live{background:var(--ink);color:#fff}
+.notice{padding:12px 16px;border-radius:10px;margin-bottom:14px;font-size:14px;border-left:4px solid var(--accent);background:#fff8e6;color:#5c4800}
+.notice.error{background:#fff0e9;color:#842b17;border-color:var(--bad)}.notice.ok{background:#dfefea;color:#0f5132;border-color:var(--ok)}
+#toast{position:fixed;right:20px;bottom:20px;max-width:440px;z-index:9}
+.check{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-top:1px solid #edf1f2}.check:first-child{border-top:0}
+.check .ic{width:22px;height:22px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:13px;font-weight:700;color:#fff;background:var(--ok)}
+.check .ic.no{background:var(--bad)}.check .ic.opt{background:#9fb3b8}.check b{font-size:14px}.check .d{font-size:13px;color:var(--muted)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}th{text-align:left;color:var(--muted);font-weight:600;font-size:12px;padding:6px 8px;border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:8px;border-bottom:1px solid #edf1f2;vertical-align:top}tr.click{cursor:pointer}tr.click:hover td{background:#f6f9f9}.num{text-align:right;font-variant-numeric:tabular-nums}
+.drop{border:2px dashed #b6c8cd;border-radius:12px;padding:26px 16px;text-align:center;position:relative;color:var(--muted)}
+.drop.over{border-color:var(--accent);background:#fdf8ee}.drop input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.chip{background:#eef4f3;border-radius:6px;padding:4px 10px;font-size:12.5px}.chip b{cursor:pointer;color:var(--bad);margin-left:6px}
+.bar{height:8px;background:#e5eeed;border-radius:4px;overflow:hidden}.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .4s}
+.stat{min-width:150px}.stat .k{font-size:12px;color:var(--muted)}.stat .v{font-size:22px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+.log{max-height:340px;overflow:auto;font-size:13px}.log div{padding:6px 0;border-top:1px solid #edf1f2}.log .st{font-weight:600;color:var(--ink)}.log .tl{color:var(--muted);font-size:12px}
+.tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:16px;border-bottom:1px solid var(--border)}.tabs a{padding:8px 14px;text-decoration:none;color:var(--muted);font-size:14px;border-bottom:3px solid transparent;margin-bottom:-1px}
+.tabs a.on{color:var(--ink);font-weight:600;border-color:var(--accent)}
+.kb{overflow:auto;max-height:60vh;border:1px solid var(--border);border-radius:8px}.kb table{font-size:12.5px}.kb th{position:sticky;top:0;background:#f6f9f9;z-index:1}
+.kb td{padding:2px 3px}.kb input[type=text]{border-color:transparent;padding:5px 6px;border-radius:5px;min-width:90px;background:transparent}.kb input[type=text]:hover{border-color:#b6c8cd}.kb td.w input{min-width:260px}
+.report h2{margin-top:18px}.report ul{margin:4px 0 8px;padding-left:20px}.report li{margin:3px 0;font-size:14px}.report p{margin:6px 0;font-size:14px}
+.files a{display:flex;gap:10px;align-items:center;padding:9px 12px;border:1px solid var(--border);border-radius:8px;text-decoration:none;color:#172d36;margin-bottom:6px;font-size:14px}
+.files a:hover{border-color:var(--accent)}.files .sz{margin-left:auto;color:var(--muted);font-size:12px}
+.hidden{display:none!important}
+@media(max-width:820px){body{grid-template-columns:1fr}aside{position:static;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;padding:10px}nav{display:flex;flex-wrap:wrap;gap:2px}nav .sep,.ver{display:none}.who{margin:0;border:0;padding:0}.who label{display:none}.who input{width:150px}}
+</style></head>
+<body>
+<aside>
+  <div><div class="brand">ALKAN <span>Bid Engine</span></div><div class="ver" id="ver"></div></div>
+  <nav id="nav">
+    <a href="#inicio" data-v="inicio">Inicio</a>
+    <a href="#nuevo" data-v="nuevo">Nuevo estimado</a>
+    <a href="#entregas" data-v="entregas">Entregas<i class="dot hidden" id="liveDot"></i></a>
+    <div class="sep">Herramientas</div>
+    <a href="/expedientes">Expedientes</a>
+    <a href="/herramientas">Medición en planos</a>
+    <div class="sep">Configuración</div>
+    <a href="#admin" data-v="admin">Administrador</a>
+  </nav>
+  <div class="who"><label for="actor">Responsable de esta sesión</label><input id="actor" type="text" placeholder="Tu nombre" autocomplete="name"></div>
+</aside>
+<main id="view" aria-live="polite"></main>
+<div id="toast" role="status"></div>
+<script src="/app.js"></script>
+</body></html>

@@ -1,0 +1,52 @@
+{
+  "profile": "S & S Custom Iron Works LLC",
+  "estimate_prefix": "SS-EST-2026",
+  "date": "AUTO",
+  "contractor": {
+    "name": "S & S CUSTOM IRON WORKS LLC",
+    "tag": "METAL FABRICATION · WELDING",
+    "address": "18526 N High Rock Rd, Monroe, WA 98272",
+    "license": "WA Contractor Lic. SSCUSSC781J9 · UBI 604 724 501",
+    "phone": "(425) 443-1691",
+    "email": "info@ss-ironworks.com",
+    "contact": "Shervin Faezi, Member",
+    "logo": "assets/ss_logo.png"
+  },
+  "relationship": "sub_to_gc",
+  "tier": "competitive",
+  "labor_rates": {
+    "SHOP": {
+      "label": "Shop fabricator",
+      "kind": "loaded",
+      "rate": "65.00",
+      "source": "S&S in-shop metal fabrication loaded rate"
+    },
+    "ADMIN": {
+      "label": "PM / admin",
+      "kind": "loaded",
+      "rate": "75.00",
+      "source": "Office / submittals / certified payroll"
+    }
+  },
+  "burden_pct": "15",
+  "markups": {
+    "contingency_pct": "5",
+    "overhead_pct": "10",
+    "profit_pct": "10",
+    "rounding": "50"
+  },
+  "tax": {
+    "mode": "excluded_resale"
+  },
+  "alkan_commission": {
+    "find_estimate_pct": "3",
+    "coordination_pct": "3",
+    "coordination_included": false
+  },
+  "validity_days": 30,
+  "scope_policy": [
+    "Metal fabrication and metal site elements only; base bid only — alternates excluded (list them).",
+    "Include: structural & misc. steel, steel deck, grating, handrails/guardrails, chain-link & ornamental fences and gates, bollards, bike racks, trash receptacles, basketball systems, sign structures (signs as allowance if pre-engineered by sign manufacturer).",
+    "Exclude unless asked: benches, picnic tables, boulders/bronze, logs, play equipment, light-gauge framing, sheet-metal flashing/gutters, wood fences, field finish painting, concrete foundations other than post/bollard footings, special inspection, bonds, sales tax."
+  ]
+}

@@ -1,0 +1,798 @@
+[
+  {
+    "name": "inventario_archivos",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "ruta": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "ruta"
+      ]
+    }
+  },
+  {
+    "name": "leer_texto_pdf",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "ruta": {
+          "type": "string"
+        },
+        "pagina_inicio": {
+          "type": "integer"
+        },
+        "pagina_fin": {
+          "type": "integer"
+        },
+        "conservar_layout": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "ruta",
+        "pagina_inicio",
+        "pagina_fin"
+      ]
+    }
+  },
+  {
+    "name": "buscar_en_pdf",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "ruta": {
+          "type": "string"
+        },
+        "terminos": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "ruta",
+        "terminos"
+      ]
+    }
+  },
+  {
+    "name": "rasterizar_pagina",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "ruta": {
+          "type": "string"
+        },
+        "pagina": {
+          "type": "integer"
+        },
+        "dpi": {
+          "type": "integer",
+          "default": 150
+        },
+        "region": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "description": "[x0,y0,x1,y1] en fracción 0-1"
+        }
+      },
+      "required": [
+        "ruta",
+        "pagina"
+      ]
+    }
+  },
+  {
+    "name": "ocr_pagina",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "ruta": {
+          "type": "string"
+        },
+        "pagina": {
+          "type": "integer"
+        },
+        "region": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "idioma": {
+          "type": "string",
+          "default": "eng"
+        }
+      },
+      "required": [
+        "ruta",
+        "pagina"
+      ]
+    }
+  },
+  {
+    "name": "calcular_takeoff",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "concepto": {
+          "type": "string"
+        },
+        "formula": {
+          "type": "string",
+          "description": "Expresión con variables nombradas"
+        },
+        "variables": {
+          "type": "object"
+        },
+        "unidad": {
+          "type": "string"
+        },
+        "desperdicio_pct": {
+          "type": "number"
+        },
+        "fuente": {
+          "type": "string",
+          "description": "Hoja/sección de origen"
+        },
+        "tamano_empaque": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string",
+              "pattern": "^\\d+(?:\\.\\d+)?$"
+            }
+          ]
+        },
+        "unidad_compra": {
+          "type": "string"
+        },
+        "redondeo": {
+          "type": "string",
+          "enum": [
+            "arriba",
+            "ninguno"
+          ]
+        },
+        "multiplo_compra": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string",
+              "pattern": "^\\d+(?:\\.\\d+)?$"
+            }
+          ]
+        }
+      },
+      "required": [
+        "concepto",
+        "formula",
+        "variables",
+        "unidad",
+        "fuente"
+      ]
+    },
+    "description": "Calcula cantidad con fórmula auditable y desperdicio. Para rollos, bolsas o piezas usa tamano_empaque (en unidad base) y unidad_compra: redondea arriba. Sin empaque conserva cantidades continuas."
+  },
+  {
+    "name": "optimizar_cortes",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "cortes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "longitud": {
+                "type": "number"
+              },
+              "cantidad": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        "longitudes_comerciales": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "kerf": {
+          "type": "number",
+          "default": 0
+        }
+      },
+      "required": [
+        "cortes",
+        "longitudes_comerciales"
+      ]
+    }
+  },
+  {
+    "name": "peso_acero",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "tipo": {
+          "type": "string",
+          "enum": [
+            "tubo",
+            "placa",
+            "perfil"
+          ]
+        },
+        "dimensiones": {
+          "type": "object"
+        },
+        "longitud": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "cantidad": {
+          "type": "integer"
+        },
+        "unidades": {
+          "type": "string",
+          "enum": [
+            "si",
+            "us"
+          ]
+        },
+        "unidad_dimensiones": {
+          "type": "string"
+        },
+        "unidad_longitud": {
+          "type": "string"
+        },
+        "unidad_area": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "tipo",
+        "dimensiones"
+      ]
+    },
+    "description": "Peso de acero SI/US. En us: dimensiones en pulgadas, longitud en pies, salida lb y kg. Alias od, wall, thickness y width. Usa OD/espesor reales; no inferir schedule ni diámetro nominal."
+  },
+  {
+    "name": "buscar_precio",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "concepto": {
+          "type": "string"
+        },
+        "unidad": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        },
+        "catalogo": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      },
+      "required": [
+        "concepto"
+      ]
+    }
+  },
+  {
+    "name": "generar_excel",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "proyecto": {
+          "type": "string"
+        },
+        "hojas": {
+          "type": "object"
+        },
+        "ruta_salida": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "proyecto",
+        "hojas",
+        "ruta_salida"
+      ]
+    }
+  },
+  {
+    "name": "generar_rfq_pdf",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "rfq": {
+          "type": "object"
+        },
+        "ruta_salida": {
+          "type": "string"
+        },
+        "borrador": {
+          "type": "boolean",
+          "default": true
+        },
+        "idioma": {
+          "type": "string",
+          "enum": [
+            "en",
+            "es"
+          ],
+          "default": "en"
+        },
+        "control": {
+          "type": "object",
+          "description": "Takeoff aprobado, QC con fuente/responsable, comprobaciones y supuestos"
+        }
+      },
+      "required": [
+        "rfq",
+        "ruta_salida"
+      ]
+    }
+  },
+  {
+    "name": "generar_documento",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "tipo": {
+          "type": "string",
+          "enum": [
+            "propuesta",
+            "memoria_tecnica",
+            "resumen_ejecutivo",
+            "registro_conflictos"
+          ]
+        },
+        "contenido": {
+          "type": "object"
+        },
+        "formato": {
+          "type": "string",
+          "enum": [
+            "docx",
+            "pdf"
+          ]
+        },
+        "ruta_salida": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "tipo",
+        "contenido",
+        "formato",
+        "ruta_salida"
+      ]
+    }
+  },
+  {
+    "name": "registrar_supuesto",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "tipo": {
+          "type": "string",
+          "enum": [
+            "supuesto",
+            "conflicto",
+            "pregunta_rfi",
+            "exclusion"
+          ]
+        },
+        "descripcion": {
+          "type": "string"
+        },
+        "fuente": {
+          "type": "string"
+        },
+        "impacto": {
+          "type": "string",
+          "enum": [
+            "alto",
+            "medio",
+            "bajo"
+          ]
+        },
+        "responsable": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "tipo",
+        "descripcion",
+        "fuente"
+      ]
+    }
+  },
+  {
+    "name": "validar_entregable",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "entregable": {
+          "type": "string"
+        },
+        "datos": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "entregable",
+        "datos"
+      ]
+    }
+  },
+  {
+    "name": "resolver_jerarquia",
+    "description": "Select explicit revisions per subject; retain conflicts, never silently infer dates.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "registros": {}
+      },
+      "required": [
+        "registros"
+      ]
+    }
+  },
+  {
+    "name": "alertas_fechas",
+    "description": "alertas_fechas",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "fecha_entrega": {},
+        "ahora": {}
+      },
+      "required": [
+        "fecha_entrega"
+      ]
+    }
+  },
+  {
+    "name": "convertir_unidades",
+    "description": "Convierte unidades explícitas compatibles usando Decimal: ft/in/m/mm, ft2/m2, ft3/yd3/m3, lb/kg. Rechaza dimensiones incompatibles.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "valor": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "de": {
+          "type": "string"
+        },
+        "a": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "valor",
+        "de",
+        "a"
+      ]
+    }
+  },
+  {
+    "name": "calibrar_escala",
+    "description": "Calibra una página PDF completa con dos puntos en píxeles de la rasterización a DPI indicado y una distancia real de cota escrita. Devuelve calibración con hash del PDF y escala. No adivines puntos, cota ni incertidumbre.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "ruta": {
+          "type": "string"
+        },
+        "pagina": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "puntos_referencia": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "distancia_real": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string",
+              "pattern": "^\\d+(?:\\.\\d+)?$"
+            }
+          ]
+        },
+        "unidad_real": {
+          "type": "string"
+        },
+        "fuente": {
+          "type": "string",
+          "minLength": 1
+        },
+        "dpi": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 300
+        },
+        "incertidumbre_pct": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "string",
+                  "pattern": "^\\d+(?:\\.\\d+)?$"
+                }
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "ruta",
+        "pagina",
+        "puntos_referencia",
+        "distancia_real",
+        "unidad_real",
+        "fuente"
+      ]
+    }
+  },
+  {
+    "name": "medir_plano",
+    "description": "Mide longitud de una polilínea o área de un polígono simple con calibración trazable del PDF. Puntos en píxeles de imagen completa, sin recortar. No usar factor inventado.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "calibracion": {
+          "type": "object"
+        },
+        "puntos": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "minItems": 2,
+          "maxItems": 10000
+        },
+        "tipo": {
+          "type": "string",
+          "enum": [
+            "longitud",
+            "area"
+          ]
+        },
+        "fuente": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "calibracion",
+        "puntos",
+        "tipo",
+        "fuente"
+      ]
+    }
+  },
+  {
+    "name": "medir_polilinea",
+    "description": "Longitud de una polilínea con calibración trazable. Usa calibrar_escala primero.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "calibracion": {
+          "type": "object"
+        },
+        "puntos": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "minItems": 2,
+          "maxItems": 10000
+        },
+        "fuente": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "calibracion",
+        "puntos",
+        "fuente"
+      ]
+    }
+  },
+  {
+    "name": "medir_poligono",
+    "description": "Área de polígono simple sin huecos con calibración trazable; rechaza cruces.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "calibracion": {
+          "type": "object"
+        },
+        "puntos": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "minItems": 3,
+          "maxItems": 10000
+        },
+        "fuente": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "calibracion",
+        "puntos",
+        "fuente"
+      ]
+    }
+  },
+  {
+    "name": "contar_espaciamiento",
+    "description": "Cuenta postes por tramos abiertos y espaciamiento máximo documentado. Indica extremos compartidos reales y terminales adicionales. Conteo gráfico opcional permite detectar discrepancias.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "longitudes_tramos": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string",
+                "pattern": "^\\d+(?:\\.\\d+)?$"
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "espaciamiento_max": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string",
+              "pattern": "^\\d+(?:\\.\\d+)?$"
+            }
+          ]
+        },
+        "fuente": {
+          "type": "string",
+          "minLength": 1
+        },
+        "extremos_compartidos": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "terminales_extra": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "conteo_grafico": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unidad": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "longitudes_tramos",
+        "espaciamiento_max",
+        "fuente"
+      ]
+    }
+  },
+  {
+    "name": "contar_por_espaciamiento",
+    "description": "Cuenta un tramo: ceil(longitud/espaciamiento)+1 con extremos, -1 sin extremos. Sin portones ni huecos.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "longitud": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string",
+              "pattern": "^\\d+(?:\\.\\d+)?$"
+            }
+          ]
+        },
+        "espaciamiento": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string",
+              "pattern": "^\\d+(?:\\.\\d+)?$"
+            }
+          ]
+        },
+        "fuente": {
+          "type": "string",
+          "minLength": 1
+        },
+        "extremos": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "longitud",
+        "espaciamiento",
+        "fuente"
+      ]
+    }
+  }
+]

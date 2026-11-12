@@ -1,0 +1,876 @@
+{
+  "schema": "alkan-package/1",
+  "estimate_id": "SS-EST-2026-OGP-01",
+  "date": "2026-11-08",
+  "relationship": "sub_to_gc",
+  "tier": "competitive",
+  "contractor": {
+    "name": "S & S CUSTOM IRON WORKS LLC",
+    "tag": "METAL FABRICATION · WELDING",
+    "address": "18526 N High Rock Rd, Monroe, WA 98272",
+    "license": "WA Contractor Lic. SSCUSSC781J9 · UBI 604 724 501",
+    "phone": "(425) 443-1691",
+    "email": "info@ss-ironworks.com",
+    "contact": "Shervin Faezi, Member",
+    "logo": "assets/ss_logo.png"
+  },
+  "project": {
+    "key": "ORANGEGATE",
+    "short": "Orangegate Park Phase 1",
+    "title": "Orangegate Park Phase 1 Site Improvements — Metal Fabrication & Metal Site Elements",
+    "owner": "Pierce County Parks & Recreation",
+    "owner_contact": "9850 64th Street West, University Place, WA 98467",
+    "project_no": "Bid No. 2026-MPW-241 · P-111031",
+    "site": "4526 84th St E, Tacoma, WA (Pierce County)",
+    "county": "Pierce",
+    "prime_contractor": "A-1 Landscaping and Construction, Inc. (Snohomish, WA) — Attn: Kayla Goins",
+    "bid_date": "November 10, 2026, 1:00 PM (extended by Addendum 3)",
+    "wage_basis": "Pierce County prevailing wage (W. WA union rates; verify at L&I for bid date)",
+    "scope_label": "metal fabrication scope",
+    "documents": [
+      "Bid Set Plans (163 sheets) and Technical Specifications (412 pp.)",
+      "Addenda No. 1, 2, 3 and 4 (LS01 schedule, LS04, LS05, LS12 revised 10/22/2026)",
+      "Spec sections 32 31 13 Chain Link Fencing & Gates, 32 33 00 Site Furnishings, 10 14 53"
+    ]
+  },
+  "labor_rates": {
+    "IW": {
+      "label": "Ironworker",
+      "kind": "prevailing_wage",
+      "trade": "ironworker",
+      "rate": "94.82",
+      "burden_pct": "15",
+      "source": "L&I journey-level, Pierce Co., eff. 8/31/2026 (Pierce assumed = King, W. WA union rate — verify)"
+    },
+    "FE": {
+      "label": "Fence erector",
+      "kind": "prevailing_wage",
+      "trade": "fence_erector",
+      "rate": "57.66",
+      "burden_pct": "15",
+      "source": "L&I journey-level, Pierce Co., eff. 8/31/2026 (Pierce assumed = King — verify)"
+    },
+    "SHOP": {
+      "label": "Shop fabricator",
+      "kind": "loaded",
+      "rate": "65.00",
+      "source": "S&S in-shop metal fabrication loaded rate"
+    },
+    "ADMIN": {
+      "label": "PM / admin",
+      "kind": "loaded",
+      "rate": "75.00",
+      "source": "Office / submittals / certified payroll"
+    }
+  },
+  "markups": {
+    "contingency_pct": "5",
+    "overhead_pct": "10",
+    "profit_pct": "10",
+    "rounding": "50"
+  },
+  "tax": {
+    "mode": "excluded_resale"
+  },
+  "materials": [
+    {
+      "id": "M001",
+      "section": "A. OLA chain-link fence (2,100 LF)",
+      "item": "Fabric 4'-0\" x 50' roll, 2\" mesh 9 ga",
+      "spec": "Black vinyl coated, ASTM F668",
+      "qty": "44",
+      "unit": "ROLL",
+      "unit_price": "310.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "1/LS12"
+    },
+    {
+      "id": "M002",
+      "section": "A. OLA chain-link fence (2,100 LF)",
+      "item": "Line post 1-7/8\" OD x 7'-0\"",
+      "spec": "Sch 40 galv + black vinyl",
+      "qty": "250",
+      "unit": "EA",
+      "unit_price": "68.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "1/LS12"
+    },
+    {
+      "id": "M003",
+      "section": "A. OLA chain-link fence (2,100 LF)",
+      "item": "Corner/terminal post 2-3/8\" OD x 7'-0\"",
+      "spec": "Sch 40 galv + black vinyl",
+      "qty": "16",
+      "unit": "EA",
+      "unit_price": "105.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "1/LS12"
+    },
+    {
+      "id": "M004",
+      "section": "A. OLA chain-link fence (2,100 LF)",
+      "item": "Gate post 2-7/8\" OD x 7'-0\"",
+      "spec": "Sch 40 galv + black vinyl",
+      "qty": "10",
+      "unit": "EA",
+      "unit_price": "145.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "1/LS12"
+    },
+    {
+      "id": "M005",
+      "section": "A. OLA chain-link fence (2,100 LF)",
+      "item": "Rail 1-5/8\" OD x 21' (top, mid, bottom = 6,300 LF + 5%)",
+      "spec": "Galv + black vinyl, swedged",
+      "qty": "315",
+      "unit": "EA",
+      "unit_price": "88.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "1/LS12"
+    },
+    {
+      "id": "M006",
+      "section": "A. OLA chain-link fence (2,100 LF)",
+      "item": "Pedestrian gate 3'-0\" x 4'-0\", 1-7/8\" frame, mid rail",
+      "spec": "Black vinyl, galv kick plate, forked latch, 180° hinges",
+      "qty": "4",
+      "unit": "EA",
+      "unit_price": "520.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "1/LS12"
+    },
+    {
+      "id": "M007",
+      "section": "A. OLA chain-link fence (2,100 LF)",
+      "item": "Maintenance double gate 12'-0\" x 4'-0\" (2 x 6')",
+      "spec": "Black vinyl, double latch, drop rod",
+      "qty": "1",
+      "unit": "EA",
+      "unit_price": "1350.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "1/LS12"
+    },
+    {
+      "id": "M008",
+      "section": "A. OLA chain-link fence (2,100 LF)",
+      "item": "Tension bar 4'",
+      "spec": "Black",
+      "qty": "34",
+      "unit": "EA",
+      "unit_price": "11.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "1/LS12"
+    },
+    {
+      "id": "M009",
+      "section": "A. OLA chain-link fence (2,100 LF)",
+      "item": "Tension band (@ 12\" o.c.)",
+      "spec": "Black",
+      "qty": "136",
+      "unit": "EA",
+      "unit_price": "3.25",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "1/LS12"
+    },
+    {
+      "id": "M010",
+      "section": "A. OLA chain-link fence (2,100 LF)",
+      "item": "Brace / rail end band",
+      "spec": "Black",
+      "qty": "102",
+      "unit": "EA",
+      "unit_price": "3.50",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "1/LS12"
+    },
+    {
+      "id": "M011",
+      "section": "A. OLA chain-link fence (2,100 LF)",
+      "item": "Rail end cup 1-5/8\"",
+      "spec": "Black",
+      "qty": "102",
+      "unit": "EA",
+      "unit_price": "6.50",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "1/LS12"
+    },
+    {
+      "id": "M012",
+      "section": "A. OLA chain-link fence (2,100 LF)",
+      "item": "Line rail clamp 1-7/8\" x 1-5/8\" (mid & bottom rails)",
+      "spec": "Black",
+      "qty": "500",
+      "unit": "EA",
+      "unit_price": "4.25",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "1/LS12"
+    },
+    {
+      "id": "M013",
+      "section": "A. OLA chain-link fence (2,100 LF)",
+      "item": "Line post loop cap 1-7/8\" x 1-5/8\"",
+      "spec": "Black",
+      "qty": "250",
+      "unit": "EA",
+      "unit_price": "6.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "1/LS12"
+    },
+    {
+      "id": "M014",
+      "section": "A. OLA chain-link fence (2,100 LF)",
+      "item": "Dome cap 2-3/8\"",
+      "spec": "Black",
+      "qty": "16",
+      "unit": "EA",
+      "unit_price": "7.50",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "1/LS12"
+    },
+    {
+      "id": "M015",
+      "section": "A. OLA chain-link fence (2,100 LF)",
+      "item": "Dome cap 2-7/8\"",
+      "spec": "Black",
+      "qty": "10",
+      "unit": "EA",
+      "unit_price": "9.50",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "1/LS12"
+    },
+    {
+      "id": "M016",
+      "section": "A. OLA chain-link fence (2,100 LF)",
+      "item": "Rail sleeve 1-5/8\"",
+      "spec": "Black",
+      "qty": "285",
+      "unit": "EA",
+      "unit_price": "5.50",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "1/LS12"
+    },
+    {
+      "id": "M017",
+      "section": "A. OLA chain-link fence (2,100 LF)",
+      "item": "Fabric ties 9 ga (@ 12\" o.c., ~7,300 ea)",
+      "spec": "Bag of 100, black",
+      "qty": "73",
+      "unit": "BAG",
+      "unit_price": "28.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "1/LS12"
+    },
+    {
+      "id": "M018",
+      "section": "A. OLA chain-link fence (2,100 LF)",
+      "item": "Carriage bolts 3/8\" x 2\" w/ nuts",
+      "spec": "Galv/black",
+      "qty": "238",
+      "unit": "EA",
+      "unit_price": "0.65",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "1/LS12"
+    },
+    {
+      "id": "M019",
+      "section": "A. OLA chain-link fence (2,100 LF)",
+      "item": "Ready-mix concrete 3,000 psi (276 footings ≈ 9.3 CY)",
+      "spec": "Incl. waste",
+      "qty": "10",
+      "unit": "CY",
+      "unit_price": "210.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "1/LS12"
+    },
+    {
+      "id": "M020",
+      "section": "A. OLA chain-link fence (2,100 LF)",
+      "item": "Short-load / delivery fees (3 pours)",
+      "spec": "Ready-mix supplier",
+      "qty": "3",
+      "unit": "EA",
+      "unit_price": "150.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": ""
+    },
+    {
+      "id": "M021",
+      "section": "A. OLA chain-link fence (2,100 LF)",
+      "item": "Crushed surfacing base course, 4\" at footings",
+      "spec": "WSDOT 9-03.9(3)",
+      "qty": "2",
+      "unit": "TON",
+      "unit_price": "60.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "1/LS12"
+    },
+    {
+      "id": "M022",
+      "section": "A. OLA chain-link fence (2,100 LF)",
+      "item": "Freight, 2 truckloads w/ liftgate",
+      "spec": "Fence distributor",
+      "qty": "2",
+      "unit": "EA",
+      "unit_price": "325.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": ""
+    },
+    {
+      "id": "M023",
+      "section": "B. Vehicular access gate",
+      "item": "Gate steel: pipe/HSS frame, hinge post, sleeve, plate (~650 lb)",
+      "spec": "ASTM A500/A53, F1043 Grp IA post",
+      "qty": "1",
+      "unit": "LS",
+      "unit_price": "2200.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "1/LS13"
+    },
+    {
+      "id": "M024",
+      "section": "B. Vehicular access gate",
+      "item": "Bearing sleeve, grease fittings, latch & hasp hardware",
+      "spec": "Galv/SS",
+      "qty": "1",
+      "unit": "LS",
+      "unit_price": "530.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "Spec 2.19"
+    },
+    {
+      "id": "M025",
+      "section": "B. Vehicular access gate",
+      "item": "Hot-dip galvanize gate post & receptacle posts",
+      "spec": "ASTM A123",
+      "qty": "1",
+      "unit": "LOT",
+      "unit_price": "300.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "Spec 2.19"
+    },
+    {
+      "id": "M026",
+      "section": "B. Vehicular access gate",
+      "item": "Polyester texture powder coat, white (oversize)",
+      "spec": "Flat finish",
+      "qty": "1",
+      "unit": "LS",
+      "unit_price": "1100.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "Spec 2.19"
+    },
+    {
+      "id": "M027",
+      "section": "B. Vehicular access gate",
+      "item": "Roadway reflective markers",
+      "spec": "Per detail",
+      "qty": "1",
+      "unit": "LS",
+      "unit_price": "120.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "1/LS13"
+    },
+    {
+      "id": "M028",
+      "section": "B. Vehicular access gate",
+      "item": "Ready-mix concrete, gate & receptacle footings",
+      "spec": "3,000 psi",
+      "qty": "2",
+      "unit": "CY",
+      "unit_price": "210.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "1/LS13"
+    },
+    {
+      "id": "M029",
+      "section": "B. Vehicular access gate",
+      "item": "Short-load fee",
+      "spec": "Ready-mix supplier",
+      "qty": "1",
+      "unit": "EA",
+      "unit_price": "250.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": ""
+    },
+    {
+      "id": "M030",
+      "section": "C. Removable bollards",
+      "item": "TrafficGuard RP3503 removable bollard w/ sleeve",
+      "spec": "3.5\" OD x 36\", black, reflective label",
+      "qty": "9",
+      "unit": "EA",
+      "unit_price": "650.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "Spec 2.14"
+    },
+    {
+      "id": "M031",
+      "section": "C. Removable bollards",
+      "item": "Additional in-ground bollard receiver sleeve",
+      "spec": "TrafficGuard",
+      "qty": "6",
+      "unit": "EA",
+      "unit_price": "165.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "Spec 2.14"
+    },
+    {
+      "id": "M032",
+      "section": "C. Removable bollards",
+      "item": "Freight",
+      "spec": "Manufacturer",
+      "qty": "1",
+      "unit": "EA",
+      "unit_price": "350.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": ""
+    },
+    {
+      "id": "M033",
+      "section": "C. Removable bollards",
+      "item": "Concrete mix 80 lb bag (15 footings)",
+      "spec": "3,000 psi",
+      "qty": "40",
+      "unit": "BAG",
+      "unit_price": "7.25",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "3/LS14"
+    },
+    {
+      "id": "M034",
+      "section": "D. Bike racks & receptacles",
+      "item": "Landscape Forms 'Emerson' bike rack, surface mount",
+      "spec": "Metallic silver",
+      "qty": "4",
+      "unit": "EA",
+      "unit_price": "1150.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "Spec 2.08"
+    },
+    {
+      "id": "M035",
+      "section": "D. Bike racks & receptacles",
+      "item": "Plaza Series flared receptacle, 35 gal liner, dome lid",
+      "spec": "Teal semi-gloss, surface mount",
+      "qty": "9",
+      "unit": "EA",
+      "unit_price": "1650.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "Spec 2.07"
+    },
+    {
+      "id": "M036",
+      "section": "D. Bike racks & receptacles",
+      "item": "Stainless anchors 1/2\" (bike racks 2 ea, receptacles 4 ea)",
+      "spec": "Type 304",
+      "qty": "44",
+      "unit": "EA",
+      "unit_price": "6.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "Spec 2.06"
+    },
+    {
+      "id": "M037",
+      "section": "D. Bike racks & receptacles",
+      "item": "Freight",
+      "spec": "Manufacturers",
+      "qty": "2",
+      "unit": "EA",
+      "unit_price": "400.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": ""
+    },
+    {
+      "id": "M038",
+      "section": "E. Park signage (allowance)",
+      "item": "Vehicular park entry sign, double face",
+      "spec": "App. D allowance",
+      "qty": "1",
+      "unit": "EA",
+      "unit_price": "2700.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "Sched. A"
+    },
+    {
+      "id": "M039",
+      "section": "E. Park signage (allowance)",
+      "item": "Park info & rules sign",
+      "spec": "App. D allowance",
+      "qty": "2",
+      "unit": "EA",
+      "unit_price": "1100.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "Sched. A"
+    },
+    {
+      "id": "M040",
+      "section": "E. Park signage (allowance)",
+      "item": "Amenity info & rules sign – playground",
+      "spec": "App. D allowance",
+      "qty": "1",
+      "unit": "EA",
+      "unit_price": "1150.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "Sched. A"
+    },
+    {
+      "id": "M041",
+      "section": "E. Park signage (allowance)",
+      "item": "Playground welcome sign",
+      "spec": "App. D allowance",
+      "qty": "1",
+      "unit": "EA",
+      "unit_price": "1300.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "Sched. A"
+    },
+    {
+      "id": "M042",
+      "section": "E. Park signage (allowance)",
+      "item": "Trail directional sign (2 Sched. A + 1 Sched. B)",
+      "spec": "App. D allowance",
+      "qty": "3",
+      "unit": "EA",
+      "unit_price": "1100.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "Sched. A/B"
+    },
+    {
+      "id": "M043",
+      "section": "E. Park signage (allowance)",
+      "item": "Trail entry – large sign (2 Sched. A + 1 Sched. B)",
+      "spec": "App. D allowance",
+      "qty": "3",
+      "unit": "EA",
+      "unit_price": "2450.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "Sched. A/B"
+    },
+    {
+      "id": "M044",
+      "section": "E. Park signage (allowance)",
+      "item": "Shelter rules panel, column mount",
+      "spec": "App. D allowance",
+      "qty": "2",
+      "unit": "EA",
+      "unit_price": "450.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "Sched. A"
+    },
+    {
+      "id": "M045",
+      "section": "E. Park signage (allowance)",
+      "item": "Off-leash rules panel, fence mount (MTL1 + GFM1)",
+      "spec": "App. D allowance",
+      "qty": "2",
+      "unit": "EA",
+      "unit_price": "450.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "Sched. A"
+    },
+    {
+      "id": "M046",
+      "section": "E. Park signage (allowance)",
+      "item": "Low profile informational sign",
+      "spec": "App. D allowance",
+      "qty": "1",
+      "unit": "EA",
+      "unit_price": "850.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "Sched. B"
+    },
+    {
+      "id": "M047",
+      "section": "E. Park signage (allowance)",
+      "item": "General sign – pedestrian scale",
+      "spec": "App. D allowance",
+      "qty": "2",
+      "unit": "EA",
+      "unit_price": "950.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "Sched. B"
+    },
+    {
+      "id": "M048",
+      "section": "E. Park signage (allowance)",
+      "item": "Concrete mix 80 lb bag (14 sign footings)",
+      "spec": "3,000 psi",
+      "qty": "56",
+      "unit": "BAG",
+      "unit_price": "7.25",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "App. D"
+    },
+    {
+      "id": "M049",
+      "section": "E. Park signage (allowance)",
+      "item": "Rebar cages for sign footings",
+      "spec": "ASTM A615 #4",
+      "qty": "14",
+      "unit": "EA",
+      "unit_price": "25.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "App. D"
+    },
+    {
+      "id": "M050",
+      "section": "F. Consumables",
+      "item": "Welding wire / gas / discs / galv repair",
+      "spec": "ER70S-6, ASTM A780",
+      "qty": "1",
+      "unit": "LS",
+      "unit_price": "450.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": ""
+    }
+  ],
+  "labor": [
+    {
+      "id": "L001",
+      "task": "Fence: layout & staking 2,100 LF w/ Owner's Rep",
+      "rate": "FE",
+      "hours": "16"
+    },
+    {
+      "id": "L002",
+      "task": "Fence: auger 276 post holes (mini-ex)",
+      "rate": "FE",
+      "hours": "69"
+    },
+    {
+      "id": "L003",
+      "task": "Fence: set posts & pour footings (276)",
+      "rate": "FE",
+      "hours": "110"
+    },
+    {
+      "id": "L004",
+      "task": "Fence: top/mid/bottom rails 6,300 LF",
+      "rate": "FE",
+      "hours": "126"
+    },
+    {
+      "id": "L005",
+      "task": "Fence: hang, stretch & tie fabric 2,100 LF",
+      "rate": "FE",
+      "hours": "126"
+    },
+    {
+      "id": "L006",
+      "task": "Fence: terminal fittings (26 terminals/gate posts)",
+      "rate": "FE",
+      "hours": "26"
+    },
+    {
+      "id": "L007",
+      "task": "Fence: hang 4 pedestrian gates + 1 double gate",
+      "rate": "FE",
+      "hours": "24"
+    },
+    {
+      "id": "L008",
+      "task": "Fence: clean-up & punch list",
+      "rate": "FE",
+      "hours": "24"
+    },
+    {
+      "id": "L009",
+      "task": "Vehicular gate: shop fabrication",
+      "rate": "SHOP",
+      "hours": "60"
+    },
+    {
+      "id": "L010",
+      "task": "Vehicular gate: footings, set post, receptacles, hang",
+      "rate": "IW",
+      "hours": "24"
+    },
+    {
+      "id": "L011",
+      "task": "Bollards: 15 sleeve footings & set bollards",
+      "rate": "FE",
+      "hours": "37.5"
+    },
+    {
+      "id": "L012",
+      "task": "Bike racks (4) & receptacles (9): assemble & anchor",
+      "rate": "FE",
+      "hours": "19.5"
+    },
+    {
+      "id": "L013",
+      "task": "Signs: shop frames/posts (14 post-mounted)",
+      "rate": "SHOP",
+      "hours": "70"
+    },
+    {
+      "id": "L014",
+      "task": "Signs: footings & install 14 post-mounted signs",
+      "rate": "IW",
+      "hours": "84"
+    },
+    {
+      "id": "L015",
+      "task": "Signs: column/fence-mount panels (4)",
+      "rate": "IW",
+      "hours": "6"
+    },
+    {
+      "id": "L016",
+      "task": "Office: shop drawings, submittals, samples",
+      "rate": "ADMIN",
+      "hours": "16"
+    },
+    {
+      "id": "L017",
+      "task": "Office: L&I intents/affidavits, certified payroll",
+      "rate": "ADMIN",
+      "hours": "10"
+    }
+  ],
+  "other": [
+    {
+      "id": "O001",
+      "item": "Mini-excavator w/ auger attachment",
+      "category": "Equipment",
+      "qty": "8",
+      "unit": "DAY",
+      "rate": "425.00"
+    },
+    {
+      "id": "O002",
+      "item": "Concrete buggy",
+      "category": "Equipment",
+      "qty": "4",
+      "unit": "DAY",
+      "rate": "140.00"
+    },
+    {
+      "id": "O003",
+      "item": "Welder/generator trailer",
+      "category": "Equipment",
+      "qty": "5",
+      "unit": "DAY",
+      "rate": "150.00"
+    },
+    {
+      "id": "O004",
+      "item": "Mobilization: trucks, trailer, fuel",
+      "category": "Mobilization",
+      "qty": "12",
+      "unit": "EA",
+      "rate": "150.00"
+    },
+    {
+      "id": "O005",
+      "item": "L&I filing fees (Intent + Affidavit)",
+      "category": "Fees",
+      "qty": "2",
+      "unit": "EA",
+      "rate": "40.00"
+    },
+    {
+      "id": "O006",
+      "item": "Small tools, fence stretchers, PPE",
+      "category": "Other",
+      "qty": "1",
+      "unit": "LS",
+      "rate": "600.00"
+    }
+  ],
+  "scope": [
+    {
+      "title": "OLA chain-link fence and gates (Schedule A, 1/LS12)",
+      "text": "Furnish and install 2,100 LF of 4'-0\" high off-leash-area chain-link fence, all components black vinyl coated: 1-7/8\" line posts at 8'-0\" o.c. in 8\" dia footings, 2-3/8\" corner/terminal posts, 2-7/8\" gate posts in 12\" dia footings, 1-5/8\" top, mid and bottom rails, 2\" mesh 9 ga fabric on inside of OLA, tension bars and bands at 12\" o.c., ties at 12\" o.c.; 4 pedestrian gates 3'-0\" with kick plate and forked latch, and 1 maintenance double gate 12'-0\" with drop rod. Alignment per Owner's Rep field direction to avoid existing trees."
+    },
+    {
+      "title": "Vehicular access gate (Schedule A, 1/LS13, Spec 2.19)",
+      "text": "Fabricate and install 1 hinge-less vehicular swing gate (270° operation) with galvanized gate post (ASTM F1043 Group IA), greased sleeve, latches, 2 gate receptacle posts and roadway markers; white polyester texture powder coat."
+    },
+    {
+      "title": "Removable bollards (Schedule A)",
+      "text": "Furnish and install 9 TrafficGuard RP3503 removable bollards (3.5\" OD x 36\", black, reflective label) and 6 additional in-ground bollard receivers, set in concrete footings."
+    },
+    {
+      "title": "Bike racks and trash/recycle receptacles (Schedule A)",
+      "text": "Furnish and install 4 Landscape Forms 'Emerson' bike racks (surface mount, metallic silver) and 9 Plaza Series flared receptacles (5 trash / 4 recycle, teal, surface mount) with stainless anchors."
+    },
+    {
+      "title": "Park signage structures (Schedules A & B base bid, Appendix D)",
+      "text": "Furnish and install 18 base-bid signs per Pierce County Parks Sign Standards: vehicular park entry (1), park info & rules (2), playground rules (1), playground welcome (1), trail directional (3), trail entry-large (3), low-profile (1), general pedestrian (2), shelter rules panels (2, column mount) and off-leash rules panels (2, fence mount), incl. steel frames/posts and footings. Sign panels/graphics carried as an allowance pending Appendix D review."
+    },
+    {
+      "title": "Submittals and compliance",
+      "text": "Shop drawings, product data, color samples, L&I Intents/Affidavits and certified payroll."
+    }
+  ],
+  "exclusions": [
+    "Picnic shelters (Romtec, Substitutive Alt. 1), picnic tables A/B, benches, dog mitt stations, car and trail counters, boardwalk, Knox box.",
+    "Split rail fence (494 LF base and 335 LF Alt. 4, cedar), Add Alt. 5 and Add Alt. 6 supply-only signs, playground equipment and surfacing.",
+    "Earthwork, paving, curbs, thickened concrete areas, rockeries, boulders; disposal of auger spoils off site (spread on site by others).",
+    "Performance & payment bond (add 1.5% if required), Washington retail sales tax (collected by prime per WAC 458-20-171), permits.",
+    "Gate count (4 pedestrian + 1 double maintenance) and terminal posts (16) are assumed — confirm on LS03/LS10 before award."
+  ],
+  "assumptions": [],
+  "alkan_commission": {
+    "find_estimate_pct": "3",
+    "coordination_pct": "3",
+    "coordination_included": false
+  },
+  "release": {
+    "authorized": false,
+    "allow_budget_prices": true,
+    "note": "Budget pricing accepted for submission while supplier RFQs are pending (S&S decision required)."
+  },
+  "validity_days": 30
+}

@@ -1,0 +1,1342 @@
+[
+ {
+  "item": "W12x26 wide flange — 6 columns + 3 moment-frame beams (≈138 LF; buy 160 LF ≈ 4,160 lb)",
+  "spec": "ASTM A992, @ $1.10/lb",
+  "unit": "LF",
+  "unit_price": "28.60",
+  "price_basis": "BUDGET",
+  "source": "Gonyea Playfield (2026-11-09) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-09",
+  "county": "Pierce"
+ },
+ {
+  "item": "HSS 5x3x1/4 roof purlins @ 44\" o.c. (12 pcs x 17' + overhangs ≈ 216 LF; buy 240 LF)",
+  "spec": "ASTM A500 Gr C, 12.21 lb/ft",
+  "unit": "LF",
+  "unit_price": "16.00",
+  "price_basis": "BUDGET",
+  "source": "Gonyea Playfield (2026-11-09) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-09",
+  "county": "Pierce"
+ },
+ {
+  "item": "Base plates 1\" (≈14\" x 14\"), 4 holes",
+  "spec": "ASTM A36, burned & drilled",
+  "unit": "EA",
+  "unit_price": "65.00",
+  "price_basis": "BUDGET",
+  "source": "Gonyea Playfield (2026-11-09) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-09",
+  "county": "Pierce"
+ },
+ {
+  "item": "Moment-connection plates, stiffeners, shear tabs, purlin clips",
+  "spec": "ASTM A36, 3/8\"–1/2\"",
+  "unit": "LS",
+  "unit_price": "450.00",
+  "price_basis": "BUDGET",
+  "source": "Gonyea Playfield (2026-11-09) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-09",
+  "county": "Pierce"
+ },
+ {
+  "item": "Anchor bolts 3/4\" x 12\" emb., F1554 Gr 36, nuts & washers (galv)",
+  "spec": "Supplied to GC for setting",
+  "unit": "EA",
+  "unit_price": "14.00",
+  "price_basis": "BUDGET",
+  "source": "Gonyea Playfield (2026-11-09) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-09",
+  "county": "Pierce"
+ },
+ {
+  "item": "Hot-dip galvanizing structural steel (≈7,500 lb @ $0.45/lb)",
+  "spec": "ASTM A123 (HPC-1 coated steel)",
+  "unit": "LOT",
+  "unit_price": "3375.00",
+  "price_basis": "BUDGET",
+  "source": "Gonyea Playfield (2026-11-09) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-09",
+  "county": "Pierce"
+ },
+ {
+  "item": "Shop primer over galvanizing for field finish (HPC-1)",
+  "spec": "Tnemec 394/69 per spec, ≈ 640 SF",
+  "unit": "LS",
+  "unit_price": "1400.00",
+  "price_basis": "BUDGET",
+  "source": "Gonyea Playfield (2026-11-09) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-09",
+  "county": "Pierce"
+ },
+ {
+  "item": "Steel roof deck 1-1/2\" Verco HSB-36, 20 ga, G60 galvanized (≈962 SF + waste)",
+  "spec": "w/ closures & flashing accessories",
+  "unit": "SF",
+  "unit_price": "3.25",
+  "price_basis": "BUDGET",
+  "source": "Gonyea Playfield (2026-11-09) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-09",
+  "county": "Pierce"
+ },
+ {
+  "item": "#10 self-drilling screws w/ EPDM washers + button-punch",
+  "spec": "Per 4/S4.1",
+  "unit": "LS",
+  "unit_price": "150.00",
+  "price_basis": "BUDGET",
+  "source": "Gonyea Playfield (2026-11-09) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-09",
+  "county": "Pierce"
+ },
+ {
+  "item": "Roof-hatch opening reinforcement L3x3x3/16 (≈40 LF)",
+  "spec": "ASTM A36",
+  "unit": "LF",
+  "unit_price": "4.50",
+  "price_basis": "BUDGET",
+  "source": "Gonyea Playfield (2026-11-09) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-09",
+  "county": "Pierce"
+ },
+ {
+  "item": "Continuous bent PL 1/4\" deck-edge support (≈128 LF, brake-formed)",
+  "spec": "ASTM A36, galv",
+  "unit": "LF",
+  "unit_price": "9.00",
+  "price_basis": "BUDGET",
+  "source": "Gonyea Playfield (2026-11-09) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-09",
+  "county": "Pierce"
+ },
+ {
+  "item": "19W4 steel bar grating, 1\" x 3/16\" bearing bars, galvanized, banded & cut to fit (≈700 SF)",
+  "spec": "Panels 2'-0\" x 8'-0\" walls; 2'-0\" x 3'-8\" counter",
+  "unit": "SF",
+  "unit_price": "19.00",
+  "price_basis": "BUDGET",
+  "source": "Gonyea Playfield (2026-11-09) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-09",
+  "county": "Pierce"
+ },
+ {
+  "item": "Continuous L 2-1/2x2x1/8 LLV grating support angles (≈220 LF + waste)",
+  "spec": "ASTM A36, galv",
+  "unit": "LF",
+  "unit_price": "3.10",
+  "price_basis": "BUDGET",
+  "source": "Gonyea Playfield (2026-11-09) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-09",
+  "county": "Pierce"
+ },
+ {
+  "item": "Grating clip plates PL 1/4\" x 4\" & PL 1/4\" x 3\" w/ A307 1/2\" bolts",
+  "spec": "Galv, ≈ 200 sets",
+  "unit": "EA",
+  "unit_price": "3.50",
+  "price_basis": "BUDGET",
+  "source": "Gonyea Playfield (2026-11-09) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-09",
+  "county": "Pierce"
+ },
+ {
+  "item": "Galvanizing misc. metals (angles, clips, bent plate ≈1,200 lb)",
+  "spec": "ASTM A123/A153",
+  "unit": "LOT",
+  "unit_price": "600.00",
+  "price_basis": "BUDGET",
+  "source": "Gonyea Playfield (2026-11-09) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-09",
+  "county": "Pierce"
+ },
+ {
+  "item": "Bike Rail — Urban Accessories, surface mount",
+  "spec": "Powder coat black semi-gloss",
+  "unit": "EA",
+  "unit_price": "850.00",
+  "price_basis": "BUDGET",
+  "source": "Gonyea Playfield (2026-11-09) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-09",
+  "county": "Pierce"
+ },
+ {
+  "item": "Dome trash receptacle — Tournesol PZ-075D-35, 35 gal",
+  "spec": "Powder coat Cardinal, surface mount",
+  "unit": "EA",
+  "unit_price": "1650.00",
+  "price_basis": "BUDGET",
+  "source": "Gonyea Playfield (2026-11-09) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-09",
+  "county": "Pierce"
+ },
+ {
+  "item": "Removable bollard w/ in-ground receiver",
+  "spec": "3.5\" OD x 36\", locking",
+  "unit": "EA",
+  "unit_price": "650.00",
+  "price_basis": "BUDGET",
+  "source": "Gonyea Playfield (2026-11-09) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-09",
+  "county": "Pierce"
+ },
+ {
+  "item": "Dog waste station: DOGIPOT 1206A-L + bag dispenser + 2x2x9' galv post + 12x18 sign",
+  "spec": "Per 12 93 00 2.6",
+  "unit": "EA",
+  "unit_price": "745.00",
+  "price_basis": "BUDGET",
+  "source": "Gonyea Playfield (2026-11-09) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-09",
+  "county": "Pierce"
+ },
+ {
+  "item": "Freestanding basketball system — Bison PR87 (BA780 5-9/16\" galv pole, BA472 backboard, goal, chain net)",
+  "spec": "Gooseneck, 72\" extension",
+  "unit": "EA",
+  "unit_price": "2650.00",
+  "price_basis": "BUDGET",
+  "source": "Gonyea Playfield (2026-11-09) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-09",
+  "county": "Pierce"
+ },
+ {
+  "item": "Plant protection fence end posts 2\" x 1/4\" raw steel pipe x 4'-6\", SS threaded end caps",
+  "spec": "ASTM A53 XS",
+  "unit": "EA",
+  "unit_price": "48.00",
+  "price_basis": "BUDGET",
+  "source": "Gonyea Playfield (2026-11-09) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-09",
+  "county": "Pierce"
+ },
+ {
+  "item": "1/4\" OD stainless wire rope + SS terminals/turnbuckles (≈110 LF)",
+  "spec": "Type 316",
+  "unit": "LF",
+  "unit_price": "3.40",
+  "price_basis": "BUDGET",
+  "source": "Gonyea Playfield (2026-11-09) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-09",
+  "county": "Pierce"
+ },
+ {
+  "item": "4\" dia. wood stakes @ 4'-0\" max, 1/2\" hole",
+  "spec": "Treated",
+  "unit": "EA",
+  "unit_price": "9.00",
+  "price_basis": "BUDGET",
+  "source": "Gonyea Playfield (2026-11-09) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-09",
+  "county": "Pierce"
+ },
+ {
+  "item": "Stainless anchors 1/2\" tamper-resistant (racks 2, cans 4 each)",
+  "spec": "Type 304",
+  "unit": "EA",
+  "unit_price": "6.00",
+  "price_basis": "BUDGET",
+  "source": "Gonyea Playfield (2026-11-09) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-09",
+  "county": "Pierce"
+ },
+ {
+  "item": "Ready-mix 3,000 psi — basketball footings 36\" dia x 4' (2.1 CY)",
+  "spec": "Incl. waste",
+  "unit": "CY",
+  "unit_price": "210.00",
+  "price_basis": "BUDGET",
+  "source": "Gonyea Playfield (2026-11-09) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-09",
+  "county": "Pierce"
+ },
+ {
+  "item": "Short-load fee",
+  "spec": "Ready-mix supplier",
+  "unit": "EA",
+  "unit_price": "250.00",
+  "price_basis": "BUDGET",
+  "source": "Gonyea Playfield (2026-11-09) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-09",
+  "county": "Pierce"
+ },
+ {
+  "item": "Concrete mix 80 lb bag (bollards, fence posts, dog station)",
+  "spec": "3,000 psi",
+  "unit": "BAG",
+  "unit_price": "7.25",
+  "price_basis": "BUDGET",
+  "source": "Gonyea Playfield (2026-11-09) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-09",
+  "county": "Pierce"
+ },
+ {
+  "item": "Crushed rock base 4\" at footings",
+  "spec": "5/8\" minus",
+  "unit": "TON",
+  "unit_price": "60.00",
+  "price_basis": "BUDGET",
+  "source": "Gonyea Playfield (2026-11-09) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-09",
+  "county": "Pierce"
+ },
+ {
+  "item": "S1 Park entry sign — vehicle scale (Pierce Co. standard, pre-engineered, fabricated box elements)",
+  "spec": "Design-team estimate L1.00",
+  "unit": "EA",
+  "unit_price": "20000.00",
+  "price_basis": "BUDGET",
+  "source": "Gonyea Playfield (2026-11-09) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-09",
+  "county": "Pierce"
+ },
+ {
+  "item": "S2 Park info & rules — pedestrian scale (3 signs; design estimate ~$20,000 read as total)",
+  "spec": "Design-team estimate L1.00",
+  "unit": "EA",
+  "unit_price": "6700.00",
+  "price_basis": "BUDGET",
+  "source": "Gonyea Playfield (2026-11-09) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-09",
+  "county": "Pierce"
+ },
+ {
+  "item": "S3 Playground info & rules — pedestrian scale",
+  "spec": "Design-team estimate $5,000–7,500",
+  "unit": "EA",
+  "unit_price": "6250.00",
+  "price_basis": "BUDGET",
+  "source": "Gonyea Playfield (2026-11-09) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-09",
+  "county": "Pierce"
+ },
+ {
+  "item": "S5 Bioretention sign (4 signs; design estimate $5,000–7,500 read as total)",
+  "spec": "Design-team estimate L1.00",
+  "unit": "EA",
+  "unit_price": "1565.00",
+  "price_basis": "BUDGET",
+  "source": "Gonyea Playfield (2026-11-09) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-09",
+  "county": "Pierce"
+ },
+ {
+  "item": "Welding wire / gas / discs / galv repair (ASTM A780)",
+  "spec": "ER70S-6, ZRC",
+  "unit": "LS",
+  "unit_price": "650.00",
+  "price_basis": "BUDGET",
+  "source": "Gonyea Playfield (2026-11-09) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-09",
+  "county": "Pierce"
+ },
+ {
+  "item": "Steel delivery to shop (2 loads)",
+  "spec": "Service center",
+  "unit": "EA",
+  "unit_price": "150.00",
+  "price_basis": "BUDGET",
+  "source": "Gonyea Playfield (2026-11-09) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-09",
+  "county": "Pierce"
+ },
+ {
+  "item": "Freight — site furnishings & basketball systems",
+  "spec": "Manufacturers",
+  "unit": "LS",
+  "unit_price": "1500.00",
+  "price_basis": "BUDGET",
+  "source": "Gonyea Playfield (2026-11-09) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-09",
+  "county": "Pierce"
+ },
+ {
+  "item": "Pipe 1-1/2\" Sch 40 x 21' (handrail 210 LF + guardrail 63 LF)",
+  "spec": "ASTM A53, black (galv after fab), 2.72 lb/ft",
+  "unit": "EA",
+  "unit_price": "115.50",
+  "price_basis": "BUDGET",
+  "source": "Meridian Play Area Renovation (RE-BID) (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Pipe 3/4\" Sch 40 x 21' (guardrail pickets, 48 pcs)",
+  "spec": "ASTM A53, black, 1.13 lb/ft",
+  "unit": "EA",
+  "unit_price": "60.90",
+  "price_basis": "BUDGET",
+  "source": "Meridian Play Area Renovation (RE-BID) (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Pipe 1-1/4\" Sch 40 slip-joint inserts",
+  "spec": "ASTM A53, 12\" pcs (Detail B)",
+  "unit": "EA",
+  "unit_price": "7.50",
+  "price_basis": "BUDGET",
+  "source": "Meridian Play Area Renovation (RE-BID) (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Pipe 2\" Sch 40 x 21' (bench supports, 6 frames)",
+  "spec": "ASTM A53, black, 3.65 lb/ft",
+  "unit": "EA",
+  "unit_price": "152.25",
+  "price_basis": "BUDGET",
+  "source": "Meridian Play Area Renovation (RE-BID) (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Bench base plates 3/8\" x 6\" x 8\"",
+  "spec": "ASTM A36",
+  "unit": "EA",
+  "unit_price": "9.00",
+  "price_basis": "BUDGET",
+  "source": "Meridian Play Area Renovation (RE-BID) (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Pipe rolling to ramp/wall radius (104 LF) + setup",
+  "spec": "Outside roll shop",
+  "unit": "LS",
+  "unit_price": "1398.00",
+  "price_basis": "BUDGET",
+  "source": "Meridian Play Area Renovation (RE-BID) (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Hot-dip galvanizing approx. 1,133 lb @ $0.60/lb",
+  "spec": "ASTM A123 after fabrication",
+  "unit": "LOT",
+  "unit_price": "680.00",
+  "price_basis": "BUDGET",
+  "source": "Meridian Play Area Renovation (RE-BID) (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Round-trip freight to galvanizer",
+  "spec": "Truck, Monroe-Arlington",
+  "unit": "EA",
+  "unit_price": "250.00",
+  "price_basis": "BUDGET",
+  "source": "Meridian Play Area Renovation (RE-BID) (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Non-shrink grout, 50 lb bag",
+  "spec": "ASTM C1107",
+  "unit": "BAG",
+  "unit_price": "28.00",
+  "price_basis": "BUDGET",
+  "source": "Meridian Play Area Renovation (RE-BID) (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "#4 reinforcing U-bar at each post",
+  "spec": "ASTM A615 Gr 60",
+  "unit": "EA",
+  "unit_price": "4.00",
+  "price_basis": "BUDGET",
+  "source": "Meridian Play Area Renovation (RE-BID) (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Stainless wedge anchors 1/2\" x 4-1/4\" (bench supports)",
+  "spec": "Type 304",
+  "unit": "EA",
+  "unit_price": "6.00",
+  "price_basis": "BUDGET",
+  "source": "Meridian Play Area Renovation (RE-BID) (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Diamond core bits 4\" & 3\" (wear allowance)",
+  "spec": "Wet core",
+  "unit": "LS",
+  "unit_price": "160.00",
+  "price_basis": "BUDGET",
+  "source": "Meridian Play Area Renovation (RE-BID) (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "2x4x8' Douglas Fir, select structural",
+  "spec": "Slats, 12 per bench",
+  "unit": "EA",
+  "unit_price": "9.50",
+  "price_basis": "BUDGET",
+  "source": "Meridian Play Area Renovation (RE-BID) (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Carriage bolt 3/8\" x 3-1/2\" w/ nut & washer",
+  "spec": "Hot-dip galvanized",
+  "unit": "EA",
+  "unit_price": "1.10",
+  "price_basis": "BUDGET",
+  "source": "Meridian Play Area Renovation (RE-BID) (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Cane bolt / drop rod, heavy duty",
+  "spec": "Steel, weld-on",
+  "unit": "EA",
+  "unit_price": "65.00",
+  "price_basis": "BUDGET",
+  "source": "Meridian Play Area Renovation (RE-BID) (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Slide latch, padlockable",
+  "spec": "Steel, weld-on",
+  "unit": "EA",
+  "unit_price": "55.00",
+  "price_basis": "BUDGET",
+  "source": "Meridian Play Area Renovation (RE-BID) (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Weld-on barrel hinge, heavy duty",
+  "spec": "Steel",
+  "unit": "EA",
+  "unit_price": "28.00",
+  "price_basis": "BUDGET",
+  "source": "Meridian Play Area Renovation (RE-BID) (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Flat bar 1/4\" x 2\" guide brackets & lever pass-thru plate",
+  "spec": "ASTM A36",
+  "unit": "LS",
+  "unit_price": "125.00",
+  "price_basis": "BUDGET",
+  "source": "Meridian Play Area Renovation (RE-BID) (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Fasteners frame-to-wall (SS screw anchors)",
+  "spec": "Type 304",
+  "unit": "LS",
+  "unit_price": "60.00",
+  "price_basis": "BUDGET",
+  "source": "Meridian Play Area Renovation (RE-BID) (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Welding wire / gas / discs",
+  "spec": "ER70S-6, C25",
+  "unit": "LS",
+  "unit_price": "270.00",
+  "price_basis": "BUDGET",
+  "source": "Meridian Play Area Renovation (RE-BID) (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Zinc-rich galvanizing repair (ASTM A780)",
+  "spec": "Spray cans",
+  "unit": "EA",
+  "unit_price": "15.00",
+  "price_basis": "BUDGET",
+  "source": "Meridian Play Area Renovation (RE-BID) (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Steel delivery to shop",
+  "spec": "Supplier freight",
+  "unit": "EA",
+  "unit_price": "120.00",
+  "price_basis": "BUDGET",
+  "source": "Meridian Play Area Renovation (RE-BID) (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Fabric 4'-0\" x 50' roll, 2\" mesh 9 ga",
+  "spec": "Black vinyl coated, ASTM F668",
+  "unit": "ROLL",
+  "unit_price": "310.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Line post 1-7/8\" OD x 7'-0\"",
+  "spec": "Sch 40 galv + black vinyl",
+  "unit": "EA",
+  "unit_price": "68.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Corner/terminal post 2-3/8\" OD x 7'-0\"",
+  "spec": "Sch 40 galv + black vinyl",
+  "unit": "EA",
+  "unit_price": "105.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Gate post 2-7/8\" OD x 7'-0\"",
+  "spec": "Sch 40 galv + black vinyl",
+  "unit": "EA",
+  "unit_price": "145.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Rail 1-5/8\" OD x 21' (top, mid, bottom = 6,300 LF + 5%)",
+  "spec": "Galv + black vinyl, swedged",
+  "unit": "EA",
+  "unit_price": "88.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Pedestrian gate 3'-0\" x 4'-0\", 1-7/8\" frame, mid rail",
+  "spec": "Black vinyl, galv kick plate, forked latch, 180° hinges",
+  "unit": "EA",
+  "unit_price": "520.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Maintenance double gate 12'-0\" x 4'-0\" (2 x 6')",
+  "spec": "Black vinyl, double latch, drop rod",
+  "unit": "EA",
+  "unit_price": "1350.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Tension bar 4'",
+  "spec": "Black",
+  "unit": "EA",
+  "unit_price": "11.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Tension band (@ 12\" o.c.)",
+  "spec": "Black",
+  "unit": "EA",
+  "unit_price": "3.25",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Brace / rail end band",
+  "spec": "Black",
+  "unit": "EA",
+  "unit_price": "3.50",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Rail end cup 1-5/8\"",
+  "spec": "Black",
+  "unit": "EA",
+  "unit_price": "6.50",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Line rail clamp 1-7/8\" x 1-5/8\" (mid & bottom rails)",
+  "spec": "Black",
+  "unit": "EA",
+  "unit_price": "4.25",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Line post loop cap 1-7/8\" x 1-5/8\"",
+  "spec": "Black",
+  "unit": "EA",
+  "unit_price": "6.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Dome cap 2-3/8\"",
+  "spec": "Black",
+  "unit": "EA",
+  "unit_price": "7.50",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Dome cap 2-7/8\"",
+  "spec": "Black",
+  "unit": "EA",
+  "unit_price": "9.50",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Rail sleeve 1-5/8\"",
+  "spec": "Black",
+  "unit": "EA",
+  "unit_price": "5.50",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Fabric ties 9 ga (@ 12\" o.c., ~7,300 ea)",
+  "spec": "Bag of 100, black",
+  "unit": "BAG",
+  "unit_price": "28.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Carriage bolts 3/8\" x 2\" w/ nuts",
+  "spec": "Galv/black",
+  "unit": "EA",
+  "unit_price": "0.65",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Ready-mix concrete 3,000 psi (276 footings ≈ 9.3 CY)",
+  "spec": "Incl. waste",
+  "unit": "CY",
+  "unit_price": "210.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Short-load / delivery fees (3 pours)",
+  "spec": "Ready-mix supplier",
+  "unit": "EA",
+  "unit_price": "150.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Crushed surfacing base course, 4\" at footings",
+  "spec": "WSDOT 9-03.9(3)",
+  "unit": "TON",
+  "unit_price": "60.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Freight, 2 truckloads w/ liftgate",
+  "spec": "Fence distributor",
+  "unit": "EA",
+  "unit_price": "325.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Gate steel: pipe/HSS frame, hinge post, sleeve, plate (~650 lb)",
+  "spec": "ASTM A500/A53, F1043 Grp IA post",
+  "unit": "LS",
+  "unit_price": "2200.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Bearing sleeve, grease fittings, latch & hasp hardware",
+  "spec": "Galv/SS",
+  "unit": "LS",
+  "unit_price": "530.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Hot-dip galvanize gate post & receptacle posts",
+  "spec": "ASTM A123",
+  "unit": "LOT",
+  "unit_price": "300.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Polyester texture powder coat, white (oversize)",
+  "spec": "Flat finish",
+  "unit": "LS",
+  "unit_price": "1100.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Roadway reflective markers",
+  "spec": "Per detail",
+  "unit": "LS",
+  "unit_price": "120.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Ready-mix concrete, gate & receptacle footings",
+  "spec": "3,000 psi",
+  "unit": "CY",
+  "unit_price": "210.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Short-load fee",
+  "spec": "Ready-mix supplier",
+  "unit": "EA",
+  "unit_price": "250.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "TrafficGuard RP3503 removable bollard w/ sleeve",
+  "spec": "3.5\" OD x 36\", black, reflective label",
+  "unit": "EA",
+  "unit_price": "650.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Additional in-ground bollard receiver sleeve",
+  "spec": "TrafficGuard",
+  "unit": "EA",
+  "unit_price": "165.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Freight",
+  "spec": "Manufacturer",
+  "unit": "EA",
+  "unit_price": "350.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Concrete mix 80 lb bag (15 footings)",
+  "spec": "3,000 psi",
+  "unit": "BAG",
+  "unit_price": "7.25",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Landscape Forms 'Emerson' bike rack, surface mount",
+  "spec": "Metallic silver",
+  "unit": "EA",
+  "unit_price": "1150.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Plaza Series flared receptacle, 35 gal liner, dome lid",
+  "spec": "Teal semi-gloss, surface mount",
+  "unit": "EA",
+  "unit_price": "1650.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Stainless anchors 1/2\" (bike racks 2 ea, receptacles 4 ea)",
+  "spec": "Type 304",
+  "unit": "EA",
+  "unit_price": "6.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Freight",
+  "spec": "Manufacturers",
+  "unit": "EA",
+  "unit_price": "400.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Vehicular park entry sign, double face",
+  "spec": "App. D allowance",
+  "unit": "EA",
+  "unit_price": "2700.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Park info & rules sign",
+  "spec": "App. D allowance",
+  "unit": "EA",
+  "unit_price": "1100.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Amenity info & rules sign – playground",
+  "spec": "App. D allowance",
+  "unit": "EA",
+  "unit_price": "1150.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Playground welcome sign",
+  "spec": "App. D allowance",
+  "unit": "EA",
+  "unit_price": "1300.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Trail directional sign (2 Sched. A + 1 Sched. B)",
+  "spec": "App. D allowance",
+  "unit": "EA",
+  "unit_price": "1100.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Trail entry – large sign (2 Sched. A + 1 Sched. B)",
+  "spec": "App. D allowance",
+  "unit": "EA",
+  "unit_price": "2450.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Shelter rules panel, column mount",
+  "spec": "App. D allowance",
+  "unit": "EA",
+  "unit_price": "450.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Off-leash rules panel, fence mount (MTL1 + GFM1)",
+  "spec": "App. D allowance",
+  "unit": "EA",
+  "unit_price": "450.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Low profile informational sign",
+  "spec": "App. D allowance",
+  "unit": "EA",
+  "unit_price": "850.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "General sign – pedestrian scale",
+  "spec": "App. D allowance",
+  "unit": "EA",
+  "unit_price": "950.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Concrete mix 80 lb bag (14 sign footings)",
+  "spec": "3,000 psi",
+  "unit": "BAG",
+  "unit_price": "7.25",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Rebar cages for sign footings",
+  "spec": "ASTM A615 #4",
+  "unit": "EA",
+  "unit_price": "25.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Welding wire / gas / discs / galv repair",
+  "spec": "ER70S-6, ASTM A780",
+  "unit": "LS",
+  "unit_price": "450.00",
+  "price_basis": "BUDGET",
+  "source": "Orangegate Park Phase 1 (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "Pierce"
+ },
+ {
+  "item": "Pipe 4\" STD, 21'-0\" (cut 3 @ 6'-2\")",
+  "spec": "ASTM A53 Gr B black, 4.500\" OD x 0.237\" w, 10.79 lb/ft",
+  "unit": "EA",
+  "unit_price": "438.00",
+  "price_basis": "BUDGET",
+  "source": "West Seattle Junction Landbank Park (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Saw cuts, Pipe 4 STD",
+  "spec": "Supplier cut-to-length",
+  "unit": "CUT",
+  "unit_price": "12.00",
+  "price_basis": "BUDGET",
+  "source": "West Seattle Junction Landbank Park (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Pipe 1-1/2\" Sch 40, 21'-0\" (cut 3 @ 4'-2\")",
+  "spec": "ASTM A53 Gr B black, 1.900\" OD, 2.72 lb/ft",
+  "unit": "EA",
+  "unit_price": "116.00",
+  "price_basis": "BUDGET",
+  "source": "West Seattle Junction Landbank Park (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Plate 1/2\" x 6-1/2\" x 6-1/2\" cap/base",
+  "spec": "ASTM A36, sheared",
+  "unit": "EA",
+  "unit_price": "18.00",
+  "price_basis": "BUDGET",
+  "source": "West Seattle Junction Landbank Park (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Hot-dip galvanizing (approx. 252 lb, lot minimum)",
+  "spec": "ASTM A123, incl. vent holes",
+  "unit": "LOT",
+  "unit_price": "375.00",
+  "price_basis": "BUDGET",
+  "source": "West Seattle Junction Landbank Park (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Black finish over galvanizing (post above pile)",
+  "spec": "Galv-compatible primer + black enamel",
+  "unit": "LS",
+  "unit_price": "60.00",
+  "price_basis": "BUDGET",
+  "source": "West Seattle Junction Landbank Park (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Welding wire / gas / grinding consumables",
+  "spec": "ER70S-6, C25, discs",
+  "unit": "LS",
+  "unit_price": "85.00",
+  "price_basis": "BUDGET",
+  "source": "West Seattle Junction Landbank Park (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Delivery of steel to shop (Monroe)",
+  "spec": "Supplier freight",
+  "unit": "EA",
+  "unit_price": "95.00",
+  "price_basis": "BUDGET",
+  "source": "West Seattle Junction Landbank Park (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Fabric 4'-0\" x 50' roll, 2\" mesh",
+  "spec": "9 ga core / 8 ga finished, PVC black, KK, ASTM F668 Cl. 2b",
+  "unit": "ROLL",
+  "unit_price": "310.00",
+  "price_basis": "BUDGET",
+  "source": "West Seattle Junction Landbank Park (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Line post 1-7/8\" OD x 6'-0\"",
+  "spec": "Sch 40 galv + PVC black, ASTM F1043/F1083",
+  "unit": "EA",
+  "unit_price": "62.00",
+  "price_basis": "BUDGET",
+  "source": "West Seattle Junction Landbank Park (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Terminal/corner/pull post 2-3/8\" OD x 6'-6\"",
+  "spec": "Sch 40 galv + PVC black",
+  "unit": "EA",
+  "unit_price": "98.00",
+  "price_basis": "BUDGET",
+  "source": "West Seattle Junction Landbank Park (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Top rail 1-5/8\" OD x 21'-0\" swedged",
+  "spec": "ASTM F1043 galv + PVC black",
+  "unit": "EA",
+  "unit_price": "88.00",
+  "price_basis": "BUDGET",
+  "source": "West Seattle Junction Landbank Park (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Bottom tension wire 7 ga (500 LF roll)",
+  "spec": "ASTM F1664, PVC black",
+  "unit": "ROLL",
+  "unit_price": "95.00",
+  "price_basis": "BUDGET",
+  "source": "West Seattle Junction Landbank Park (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Tension bar 3/16\" x 3/4\" x 3'-10\"",
+  "spec": "Galv + PVC black",
+  "unit": "EA",
+  "unit_price": "11.00",
+  "price_basis": "BUDGET",
+  "source": "West Seattle Junction Landbank Park (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Tension band 2-3/8\" (@ 12\" o.c.)",
+  "spec": "Black",
+  "unit": "EA",
+  "unit_price": "3.25",
+  "price_basis": "BUDGET",
+  "source": "West Seattle Junction Landbank Park (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Brace band 2-3/8\"",
+  "spec": "Black",
+  "unit": "EA",
+  "unit_price": "3.50",
+  "price_basis": "BUDGET",
+  "source": "West Seattle Junction Landbank Park (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Rail end cup 1-5/8\"",
+  "spec": "Black",
+  "unit": "EA",
+  "unit_price": "6.50",
+  "price_basis": "BUDGET",
+  "source": "West Seattle Junction Landbank Park (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Dome cap 2-3/8\"",
+  "spec": "Black",
+  "unit": "EA",
+  "unit_price": "7.50",
+  "price_basis": "BUDGET",
+  "source": "West Seattle Junction Landbank Park (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Loop (eye) cap 1-7/8\" x 1-5/8\"",
+  "spec": "Black",
+  "unit": "EA",
+  "unit_price": "6.00",
+  "price_basis": "BUDGET",
+  "source": "West Seattle Junction Landbank Park (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Top rail sleeve 1-5/8\"",
+  "spec": "Galv/black",
+  "unit": "EA",
+  "unit_price": "5.50",
+  "price_basis": "BUDGET",
+  "source": "West Seattle Junction Landbank Park (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Fabric ties 9 ga aluminum @ 12\" o.c.",
+  "spec": "Bag of 100",
+  "unit": "BAG",
+  "unit_price": "28.00",
+  "price_basis": "BUDGET",
+  "source": "West Seattle Junction Landbank Park (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Hog rings, fabric to tension wire @ 18\" o.c.",
+  "spec": "Galv, bag of 250",
+  "unit": "BAG",
+  "unit_price": "24.00",
+  "price_basis": "BUDGET",
+  "source": "West Seattle Junction Landbank Park (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Carriage bolts 5/16\" x 1-1/4\" w/ nuts",
+  "spec": "Galv/black",
+  "unit": "EA",
+  "unit_price": "0.65",
+  "price_basis": "BUDGET",
+  "source": "West Seattle Junction Landbank Park (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Freight to jobsite, liftgate (alley access)",
+  "spec": "Fence distributor",
+  "unit": "EA",
+  "unit_price": "275.00",
+  "price_basis": "BUDGET",
+  "source": "West Seattle Junction Landbank Park (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Concrete mix, 80 lb bag",
+  "spec": "3,000 psi, Class C equiv.",
+  "unit": "BAG",
+  "unit_price": "7.25",
+  "price_basis": "BUDGET",
+  "source": "West Seattle Junction Landbank Park (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "5/8\" minus crushed rock, 0.5 cf bag",
+  "spec": "Type 1 crushed rock base 4\"",
+  "unit": "BAG",
+  "unit_price": "7.50",
+  "price_basis": "BUDGET",
+  "source": "West Seattle Junction Landbank Park (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ },
+ {
+  "item": "Delivery to jobsite",
+  "spec": "Local supply yard",
+  "unit": "EA",
+  "unit_price": "125.00",
+  "price_basis": "BUDGET",
+  "source": "West Seattle Junction Landbank Park (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+  "date": "2026-11-08",
+  "county": "King"
+ }
+]

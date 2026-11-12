@@ -1,0 +1,12 @@
+{
+  "concepto": "DEMO - rollos de malla",
+  "formula": "longitud",
+  "variables": {
+    "longitud": 230
+  },
+  "unidad": "LF",
+  "fuente": "DEMO - cota sintética",
+  "desperdicio_pct": 5,
+  "tamano_empaque": 50,
+  "unidad_compra": "rollos"
+}

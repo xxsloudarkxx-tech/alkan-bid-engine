@@ -1,0 +1,12 @@
+{
+  "concepto": "DEMO - geometría de prueba",
+  "formula": "largo * ancho * espesor",
+  "variables": {
+    "largo": "2",
+    "ancho": "1",
+    "espesor": "0.1"
+  },
+  "unidad": "m3",
+  "desperdicio_pct": 5,
+  "fuente": "DEMO - valores sintéticos, no plano de obra"
+}

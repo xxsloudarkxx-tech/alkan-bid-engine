@@ -1,0 +1,13 @@
+{
+  "cortes": [
+    {
+      "longitud": "6.2",
+      "cantidad": 5
+    }
+  ],
+  "longitudes_comerciales": [
+    10,
+    21
+  ],
+  "kerf": "0.01"
+}

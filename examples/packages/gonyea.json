@@ -1,0 +1,699 @@
+{
+  "schema": "alkan-package/1",
+  "estimate_id": "SS-EST-2026-GYP-01",
+  "date": "2026-11-09",
+  "relationship": "sub_to_gc",
+  "tier": "competitive",
+  "contractor": {
+    "name": "S & S CUSTOM IRON WORKS LLC",
+    "tag": "METAL FABRICATION · WELDING",
+    "address": "18526 N High Rock Rd, Monroe, WA 98272",
+    "license": "WA Contractor Lic. SSCUSSC781J9 · UBI 604 724 501",
+    "phone": "(425) 443-1691",
+    "email": "info@ss-ironworks.com",
+    "contact": "Shervin Faezi, Member",
+    "logo": "assets/ss_logo.png"
+  },
+  "project": {
+    "key": "GONYEA",
+    "short": "Gonyea Playfield",
+    "title": "Gonyea Playfield — Metal Fabrication & Metal Site Elements (Base Bid)",
+    "owner": "Pierce County Parks & Recreation",
+    "owner_contact": "9850 64th Street West, University Place, WA 98467",
+    "project_no": "Bid No. 2026-MPW-244",
+    "site": "13422 10th Ave S, Parkland, WA 98444 (Pierce County)",
+    "county": "Pierce",
+    "prime_contractor": "A-1 Landscaping and Construction, Inc. — Attn: Naeem Iqbal, President (425) 402-9900 · bid@a1land.com",
+    "bid_date": "November 18, 2026, 1:00 PM (Pierce County OpenGov)",
+    "wage_basis": "Pierce County prevailing wage (W. WA union rates; verify at L&I for bid date)",
+    "scope_label": "metal fabrication scope",
+    "documents": [
+      "Gonyea Playfield Bid Set Plans (144 sheets) and Specifications (656 pp.)",
+      "Addendum No. 1, Addendum No. 2 (drawings, specifications, summary — L1.00 schedule revised) and Addendum No. 3 (bid form)",
+      "Spec sections 05 12 00, 05 31 00, 05 50 00, 12 93 00; sheets A2.2, A3.1.1, A4.1, S2.1, S4.1, S4.2, L1.00, L1.12, L3.22, L3.23, L3.25"
+    ]
+  },
+  "labor_rates": {
+    "IW": {
+      "label": "Ironworker",
+      "kind": "prevailing_wage",
+      "trade": "ironworker",
+      "rate": "94.82",
+      "burden_pct": "15",
+      "source": "L&I journey-level, Pierce Co., eff. 8/31/2026 (Pierce assumed = King, W. WA union rate — verify)"
+    },
+    "FE": {
+      "label": "Fence erector",
+      "kind": "prevailing_wage",
+      "trade": "fence_erector",
+      "rate": "57.66",
+      "burden_pct": "15",
+      "source": "L&I journey-level, Pierce Co., eff. 8/31/2026 (Pierce assumed = King — verify)"
+    },
+    "SHOP": {
+      "label": "Shop fabricator",
+      "kind": "loaded",
+      "rate": "65.00",
+      "source": "S&S in-shop metal fabrication loaded rate"
+    },
+    "ADMIN": {
+      "label": "PM / admin",
+      "kind": "loaded",
+      "rate": "75.00",
+      "source": "Office / submittals / certified payroll"
+    }
+  },
+  "markups": {
+    "contingency_pct": "5",
+    "overhead_pct": "10",
+    "profit_pct": "10",
+    "rounding": "50"
+  },
+  "tax": {
+    "mode": "excluded_resale"
+  },
+  "materials": [
+    {
+      "section": "A. Comfort station — structural steel (05 12 00)",
+      "item": "W12x26 wide flange — 6 columns + 3 moment-frame beams (≈138 LF; buy 160 LF ≈ 4,160 lb)",
+      "spec": "ASTM A992, @ $1.10/lb",
+      "qty": "160",
+      "unit": "LF",
+      "unit_price": "28.60",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "S2.1, 11/S4.1"
+    },
+    {
+      "section": "A. Comfort station — structural steel (05 12 00)",
+      "item": "HSS 5x3x1/4 roof purlins @ 44\" o.c. (12 pcs x 17' + overhangs ≈ 216 LF; buy 240 LF)",
+      "spec": "ASTM A500 Gr C, 12.21 lb/ft",
+      "qty": "240",
+      "unit": "LF",
+      "unit_price": "16.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "S2.1"
+    },
+    {
+      "section": "A. Comfort station — structural steel (05 12 00)",
+      "item": "Base plates 1\" (≈14\" x 14\"), 4 holes",
+      "spec": "ASTM A36, burned & drilled",
+      "qty": "6",
+      "unit": "EA",
+      "unit_price": "65.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "8/S4.1"
+    },
+    {
+      "section": "A. Comfort station — structural steel (05 12 00)",
+      "item": "Moment-connection plates, stiffeners, shear tabs, purlin clips",
+      "spec": "ASTM A36, 3/8\"–1/2\"",
+      "qty": "1",
+      "unit": "LS",
+      "unit_price": "450.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "9-10/S4.1, S4.2"
+    },
+    {
+      "section": "A. Comfort station — structural steel (05 12 00)",
+      "item": "Anchor bolts 3/4\" x 12\" emb., F1554 Gr 36, nuts & washers (galv)",
+      "spec": "Supplied to GC for setting",
+      "qty": "24",
+      "unit": "EA",
+      "unit_price": "14.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "8/S4.1"
+    },
+    {
+      "section": "A. Comfort station — structural steel (05 12 00)",
+      "item": "Hot-dip galvanizing structural steel (≈7,500 lb @ $0.45/lb)",
+      "spec": "ASTM A123 (HPC-1 coated steel)",
+      "qty": "1",
+      "unit": "LOT",
+      "unit_price": "3375.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "05 50 00 2.3"
+    },
+    {
+      "section": "A. Comfort station — structural steel (05 12 00)",
+      "item": "Shop primer over galvanizing for field finish (HPC-1)",
+      "spec": "Tnemec 394/69 per spec, ≈ 640 SF",
+      "qty": "1",
+      "unit": "LS",
+      "unit_price": "1400.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "05 50 00 2.3.C"
+    },
+    {
+      "section": "B. Comfort station — steel roof deck (05 31 00)",
+      "item": "Steel roof deck 1-1/2\" Verco HSB-36, 20 ga, G60 galvanized (≈962 SF + waste)",
+      "spec": "w/ closures & flashing accessories",
+      "qty": "1000",
+      "unit": "SF",
+      "unit_price": "3.25",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "4/S4.1, A2.2"
+    },
+    {
+      "section": "B. Comfort station — steel roof deck (05 31 00)",
+      "item": "#10 self-drilling screws w/ EPDM washers + button-punch",
+      "spec": "Per 4/S4.1",
+      "qty": "1",
+      "unit": "LS",
+      "unit_price": "150.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "4/S4.1"
+    },
+    {
+      "section": "B. Comfort station — steel roof deck (05 31 00)",
+      "item": "Roof-hatch opening reinforcement L3x3x3/16 (≈40 LF)",
+      "spec": "ASTM A36",
+      "qty": "40",
+      "unit": "LF",
+      "unit_price": "4.50",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "2/S4.1"
+    },
+    {
+      "section": "B. Comfort station — steel roof deck (05 31 00)",
+      "item": "Continuous bent PL 1/4\" deck-edge support (≈128 LF, brake-formed)",
+      "spec": "ASTM A36, galv",
+      "qty": "128",
+      "unit": "LF",
+      "unit_price": "9.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "5/S4.2, 10/S4.2"
+    },
+    {
+      "section": "C. Comfort station — bar grating screens & misc. metals (05 50 00)",
+      "item": "19W4 steel bar grating, 1\" x 3/16\" bearing bars, galvanized, banded & cut to fit (≈700 SF)",
+      "spec": "Panels 2'-0\" x 8'-0\" walls; 2'-0\" x 3'-8\" counter",
+      "qty": "700",
+      "unit": "SF",
+      "unit_price": "19.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "Keynotes 5.5/5.6, A3.1.1"
+    },
+    {
+      "section": "C. Comfort station — bar grating screens & misc. metals (05 50 00)",
+      "item": "Continuous L 2-1/2x2x1/8 LLV grating support angles (≈220 LF + waste)",
+      "spec": "ASTM A36, galv",
+      "qty": "240",
+      "unit": "LF",
+      "unit_price": "3.10",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "12/S4.2"
+    },
+    {
+      "section": "C. Comfort station — bar grating screens & misc. metals (05 50 00)",
+      "item": "Grating clip plates PL 1/4\" x 4\" & PL 1/4\" x 3\" w/ A307 1/2\" bolts",
+      "spec": "Galv, ≈ 200 sets",
+      "qty": "200",
+      "unit": "EA",
+      "unit_price": "3.50",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "12/S4.2"
+    },
+    {
+      "section": "C. Comfort station — bar grating screens & misc. metals (05 50 00)",
+      "item": "Galvanizing misc. metals (angles, clips, bent plate ≈1,200 lb)",
+      "spec": "ASTM A123/A153",
+      "qty": "1",
+      "unit": "LOT",
+      "unit_price": "600.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "05 50 00 2.3"
+    },
+    {
+      "section": "D. Site metals & furnishings (12 93 00)",
+      "item": "Bike Rail — Urban Accessories, surface mount",
+      "spec": "Powder coat black semi-gloss",
+      "qty": "6",
+      "unit": "EA",
+      "unit_price": "850.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "L1.00 BR; 12 93 00 2.1"
+    },
+    {
+      "section": "D. Site metals & furnishings (12 93 00)",
+      "item": "Dome trash receptacle — Tournesol PZ-075D-35, 35 gal",
+      "spec": "Powder coat Cardinal, surface mount",
+      "qty": "7",
+      "unit": "EA",
+      "unit_price": "1650.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "L1.00 TR (Add. 2); 2.5"
+    },
+    {
+      "section": "D. Site metals & furnishings (12 93 00)",
+      "item": "Removable bollard w/ in-ground receiver",
+      "spec": "3.5\" OD x 36\", locking",
+      "qty": "2",
+      "unit": "EA",
+      "unit_price": "650.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "L1.00 BL"
+    },
+    {
+      "section": "D. Site metals & furnishings (12 93 00)",
+      "item": "Dog waste station: DOGIPOT 1206A-L + bag dispenser + 2x2x9' galv post + 12x18 sign",
+      "spec": "Per 12 93 00 2.6",
+      "qty": "1",
+      "unit": "EA",
+      "unit_price": "745.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "Sign sched. S4; 2.6"
+    },
+    {
+      "section": "D. Site metals & furnishings (12 93 00)",
+      "item": "Freestanding basketball system — Bison PR87 (BA780 5-9/16\" galv pole, BA472 backboard, goal, chain net)",
+      "spec": "Gooseneck, 72\" extension",
+      "qty": "2",
+      "unit": "EA",
+      "unit_price": "2650.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "4/L3.22; 2.11"
+    },
+    {
+      "section": "D. Site metals & furnishings (12 93 00)",
+      "item": "Plant protection fence end posts 2\" x 1/4\" raw steel pipe x 4'-6\", SS threaded end caps",
+      "spec": "ASTM A53 XS",
+      "qty": "4",
+      "unit": "EA",
+      "unit_price": "48.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "9/L3.23 (Add. 2)"
+    },
+    {
+      "section": "D. Site metals & furnishings (12 93 00)",
+      "item": "1/4\" OD stainless wire rope + SS terminals/turnbuckles (≈110 LF)",
+      "spec": "Type 316",
+      "qty": "110",
+      "unit": "LF",
+      "unit_price": "3.40",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "9/L3.23"
+    },
+    {
+      "section": "D. Site metals & furnishings (12 93 00)",
+      "item": "4\" dia. wood stakes @ 4'-0\" max, 1/2\" hole",
+      "spec": "Treated",
+      "qty": "26",
+      "unit": "EA",
+      "unit_price": "9.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "9/L3.23"
+    },
+    {
+      "section": "D. Site metals & furnishings (12 93 00)",
+      "item": "Stainless anchors 1/2\" tamper-resistant (racks 2, cans 4 each)",
+      "spec": "Type 304",
+      "qty": "40",
+      "unit": "EA",
+      "unit_price": "6.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "12 93 00 2.1/2.5"
+    },
+    {
+      "section": "D. Site metals & furnishings (12 93 00)",
+      "item": "Ready-mix 3,000 psi — basketball footings 36\" dia x 4' (2.1 CY)",
+      "spec": "Incl. waste",
+      "qty": "3",
+      "unit": "CY",
+      "unit_price": "210.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "4/L3.22"
+    },
+    {
+      "section": "D. Site metals & furnishings (12 93 00)",
+      "item": "Short-load fee",
+      "spec": "Ready-mix supplier",
+      "qty": "1",
+      "unit": "EA",
+      "unit_price": "250.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": ""
+    },
+    {
+      "section": "D. Site metals & furnishings (12 93 00)",
+      "item": "Concrete mix 80 lb bag (bollards, fence posts, dog station)",
+      "spec": "3,000 psi",
+      "qty": "18",
+      "unit": "BAG",
+      "unit_price": "7.25",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "L1.12, 9/L3.23"
+    },
+    {
+      "section": "D. Site metals & furnishings (12 93 00)",
+      "item": "Crushed rock base 4\" at footings",
+      "spec": "5/8\" minus",
+      "qty": "1",
+      "unit": "TON",
+      "unit_price": "60.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "4/L3.22"
+    },
+    {
+      "section": "E. Park signage (allowance)",
+      "item": "S1 Park entry sign — vehicle scale (Pierce Co. standard, pre-engineered, fabricated box elements)",
+      "spec": "Design-team estimate L1.00",
+      "qty": "1",
+      "unit": "EA",
+      "unit_price": "20000.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "L1.00, 1-2/L3.25"
+    },
+    {
+      "section": "E. Park signage (allowance)",
+      "item": "S2 Park info & rules — pedestrian scale (3 signs; design estimate ~$20,000 read as total)",
+      "spec": "Design-team estimate L1.00",
+      "qty": "3",
+      "unit": "EA",
+      "unit_price": "6700.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "L1.00, 3-4/L3.25"
+    },
+    {
+      "section": "E. Park signage (allowance)",
+      "item": "S3 Playground info & rules — pedestrian scale",
+      "spec": "Design-team estimate $5,000–7,500",
+      "qty": "1",
+      "unit": "EA",
+      "unit_price": "6250.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "L1.00, L3.26"
+    },
+    {
+      "section": "E. Park signage (allowance)",
+      "item": "S5 Bioretention sign (4 signs; design estimate $5,000–7,500 read as total)",
+      "spec": "Design-team estimate L1.00",
+      "qty": "4",
+      "unit": "EA",
+      "unit_price": "1565.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "L1.00, L3.26"
+    },
+    {
+      "section": "F. Consumables & freight",
+      "item": "Welding wire / gas / discs / galv repair (ASTM A780)",
+      "spec": "ER70S-6, ZRC",
+      "qty": "1",
+      "unit": "LS",
+      "unit_price": "650.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": ""
+    },
+    {
+      "section": "F. Consumables & freight",
+      "item": "Steel delivery to shop (2 loads)",
+      "spec": "Service center",
+      "qty": "2",
+      "unit": "EA",
+      "unit_price": "150.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": ""
+    },
+    {
+      "section": "F. Consumables & freight",
+      "item": "Freight — site furnishings & basketball systems",
+      "spec": "Manufacturers",
+      "qty": "1",
+      "unit": "LS",
+      "unit_price": "1500.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": ""
+    }
+  ],
+  "labor": [
+    {
+      "id": "L001",
+      "task": "Shop: 3 moment frames (6 columns + 3 beams), base plates, CJP welds",
+      "rate": "SHOP",
+      "hours": "60"
+    },
+    {
+      "id": "L002",
+      "task": "Shop: 12 HSS purlins — cope, shear tabs, clips",
+      "rate": "SHOP",
+      "hours": "18"
+    },
+    {
+      "id": "L003",
+      "task": "Shop: bent-plate deck edge, grating angles & clips, hatch angles",
+      "rate": "SHOP",
+      "hours": "22"
+    },
+    {
+      "id": "L004",
+      "task": "Shop: grating field-measure, cut-to-slope & band",
+      "rate": "SHOP",
+      "hours": "16"
+    },
+    {
+      "id": "L005",
+      "task": "Shop: galvanizer prep, load-out, primer coordination",
+      "rate": "SHOP",
+      "hours": "12"
+    },
+    {
+      "id": "L006",
+      "task": "Field: set 3 moment frames, plumb & bolt (crew w/ telehandler)",
+      "rate": "IW",
+      "hours": "18"
+    },
+    {
+      "id": "L007",
+      "task": "Field: install 12 purlins",
+      "rate": "IW",
+      "hours": "18"
+    },
+    {
+      "id": "L008",
+      "task": "Field: roof deck 1,000 SF, screws & button-punch",
+      "rate": "IW",
+      "hours": "25"
+    },
+    {
+      "id": "L009",
+      "task": "Field: bent-plate deck edge 128 LF",
+      "rate": "IW",
+      "hours": "10"
+    },
+    {
+      "id": "L010",
+      "task": "Field: grating support angles + ≈44 screen panels",
+      "rate": "IW",
+      "hours": "55"
+    },
+    {
+      "id": "L011",
+      "task": "Field: touch-up, punch, special-inspection coordination",
+      "rate": "IW",
+      "hours": "14"
+    },
+    {
+      "id": "L012",
+      "task": "Site: install 6 bike rails",
+      "rate": "FE",
+      "hours": "9"
+    },
+    {
+      "id": "L013",
+      "task": "Site: install 7 trash receptacles",
+      "rate": "FE",
+      "hours": "10.5"
+    },
+    {
+      "id": "L014",
+      "task": "Site: 2 removable bollards & receivers",
+      "rate": "FE",
+      "hours": "5"
+    },
+    {
+      "id": "L015",
+      "task": "Site: dog waste station",
+      "rate": "FE",
+      "hours": "2"
+    },
+    {
+      "id": "L016",
+      "task": "Site: 2 basketball systems — footings, set poles, backboards",
+      "rate": "FE",
+      "hours": "16"
+    },
+    {
+      "id": "L017",
+      "task": "Site: plant protection fence (4 posts, 26 stakes, wire rope)",
+      "rate": "FE",
+      "hours": "12.5"
+    },
+    {
+      "id": "L018",
+      "task": "Office: structural shop drawings & erection plan",
+      "rate": "ADMIN",
+      "hours": "20"
+    },
+    {
+      "id": "L019",
+      "task": "Office: submittals (deck, grating, furnishings, signs) & sign-sub coordination",
+      "rate": "ADMIN",
+      "hours": "14"
+    },
+    {
+      "id": "L020",
+      "task": "Office: L&I intents/affidavits, certified payroll, apprenticeship reporting",
+      "rate": "ADMIN",
+      "hours": "12"
+    }
+  ],
+  "other": [
+    {
+      "id": "O001",
+      "item": "Telehandler w/ jib (frame & purlin erection)",
+      "category": "Equipment",
+      "qty": "4",
+      "unit": "DAY",
+      "rate": "425.00"
+    },
+    {
+      "id": "O002",
+      "item": "Scissor lift (deck edge & screens)",
+      "category": "Equipment",
+      "qty": "5",
+      "unit": "DAY",
+      "rate": "200.00"
+    },
+    {
+      "id": "O003",
+      "item": "Welder/generator trailer",
+      "category": "Equipment",
+      "qty": "6",
+      "unit": "DAY",
+      "rate": "150.00"
+    },
+    {
+      "id": "O004",
+      "item": "Mini-excavator w/ auger (basketball, bollard footings)",
+      "category": "Equipment",
+      "qty": "2",
+      "unit": "DAY",
+      "rate": "425.00"
+    },
+    {
+      "id": "O005",
+      "item": "Flatbed delivery of moment frames + round trip to galvanizer",
+      "category": "Mobilization",
+      "qty": "3",
+      "unit": "EA",
+      "rate": "450.00"
+    },
+    {
+      "id": "O006",
+      "item": "Mobilization: trucks, trailer, fuel",
+      "category": "Mobilization",
+      "qty": "10",
+      "unit": "EA",
+      "rate": "150.00"
+    },
+    {
+      "id": "O007",
+      "item": "L&I filing fees (Intent + Affidavit)",
+      "category": "Fees",
+      "qty": "2",
+      "unit": "EA",
+      "rate": "40.00"
+    },
+    {
+      "id": "O008",
+      "item": "Small tools, PPE, fall protection",
+      "category": "Other",
+      "qty": "1",
+      "unit": "LS",
+      "rate": "600.00"
+    }
+  ],
+  "scope": [
+    {
+      "title": "Comfort station structural steel (05 12 00; S2.1, S4.1, S4.2)",
+      "text": "Fabricate, hot-dip galvanize, shop prime and erect the comfort station steel: 3 moment frames on grids 1, 2 and 3 (6 W12x26 columns and 3 W12x26 beams with CJP beam-to-column connections), 1\" base plates with (4) 3/4\" F1554 Gr 36 anchor bolts per column (bolts supplied to GC for setting), and 12 HSS 5x3x1/4 roof purlins at 44\" o.c. with shear tabs and clips. Field finish coats (HPC-1) by painter."
+    },
+    {
+      "title": "Steel roof deck (05 31 00; 4/S4.1)",
+      "text": "Furnish and install approx. 1,000 SF of 1-1/2\" Verco HSB-36, 20 ga, G60 galvanized roof deck with #10 self-drilling screws and button-punched seams, L3x3x3/16 reinforcement at roof-hatch openings, and continuous 1/4\" bent-plate deck-edge support (approx. 128 LF)."
+    },
+    {
+      "title": "Steel bar grating screens (05 50 00; keynotes 5.5/5.6, 12/S4.2)",
+      "text": "Furnish and install approx. 700 SF of 19W4 galvanized steel bar grating screens (2'-0\" x 8'-0\" wall panels cut to roof slope and 2'-0\" x 3'-8\" counter panels) on continuous L 2-1/2x2x1/8 support angles with 1/4\" clip plates and 1/2\" A307 bolts, including cut-outs at meter and outlets."
+    },
+    {
+      "title": "Site metals and furnishings (12 93 00; L1.00 rev. Add. 2)",
+      "text": "Furnish and install 6 Urban Accessories bike rails, 7 Tournesol PZ-075D-35 dome trash receptacles, 2 removable bollards with receivers, 1 dog waste station, and 2 Bison PR87 freestanding basketball systems with 36\" dia x 4' footings; plant protection fence (9/L3.23) with 2\" raw steel end posts, 4\" wood stakes at 4'-0\" max and 1/4\" stainless wire rope."
+    },
+    {
+      "title": "Park signage (allowance; L1.00, L3.25–L3.26)",
+      "text": "Pierce County Parks standard signs S1 (1), S2 (3), S3 (1) and S5 (4), pre-engineered by sign manufacturer, furnished and installed through S&S as an allowance based on the design team's estimated on-site costs; adjusted to the sign manufacturer's quote."
+    },
+    {
+      "title": "Submittals and compliance",
+      "text": "Stamped structural shop drawings and erection plan, deck and grating product data, galvanizing certification, furnishing product data and color samples, L&I Intents/Affidavits, certified payroll and apprenticeship-hour reporting to the prime contractor."
+    }
+  ],
+  "exclusions": [
+    "Bid Alternate No. 1 Picnic Shelter steel (priced separately on request), Alternates 2–5 (skate spot, Roly Poly, site irrigation/trees, right-of-way gates and bollards).",
+    "Benches (11), picnic tables (PT, PT2, PT3), boulders and bronze castings, logs and log steppers, trail counter, play equipment, synthetic turf and surfacing.",
+    "Light-gauge cold-formed framing (05 40 00), sheet-metal awning/gutter and edge flashing (keynotes 5.4/5.7), roof hatch, doors and hardware, field finish painting (09 90 00/09 96 00).",
+    "Concrete footings, grade beams and slabs for the comfort station (anchor bolts supplied only), special inspection and testing (Owner), survey and layout control, permits.",
+    "Performance & payment bond (add 1.5% if required), Washington retail sales tax (collected by prime per WAC 458-20-171).",
+    "Signage carried as a $52,610 allowance; if the design-team figures for S2 and S5 are per sign rather than per type, add approx. $45,000. Basketball count (2), dog waste stations (1), plant protection fence (≈110 LF, 2 runs) and grating area (≈700 SF) scaled from drawings — confirm before award."
+  ],
+  "assumptions": [
+    "Comfort station steel quantities scaled from S2.1 (1/4\"=1'-0\"): 34'-0\" x 22'-0\" grid, columns ≈10.5' avg; W12x26 assumed for columns and beams per roof framing plan labels.",
+    "Steel roof deck installed by S&S per 05 31 00; deck-edge cantilever design by deck supplier (included)."
+  ],
+  "alkan_commission": {
+    "find_estimate_pct": "3",
+    "coordination_pct": "3",
+    "coordination_included": false
+  },
+  "release": {
+    "authorized": false,
+    "allow_budget_prices": true,
+    "note": "Budget pricing accepted for submission to A-1 while supplier RFQs are pending (S&S decision required)."
+  },
+  "validity_days": 30
+}

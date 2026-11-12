@@ -1,0 +1,59 @@
+{
+  "rfq": {
+    "solicitante": {
+      "razon_social": "DEMO ONLY",
+      "direccion": "Demo",
+      "licencia": "Demo",
+      "telefono": "Demo"
+    },
+    "rfq": {
+      "numero": "DEMO-2026-01",
+      "fecha": "2026-11-08"
+    },
+    "proyecto": {
+      "nombre": "DEMO - synthetic quantities / not a bid",
+      "entidad": "Demo",
+      "numero": "DEMO",
+      "direccion": "Demo",
+      "regimen_salarial": "Demo"
+    },
+    "devolver_a": {
+      "nombre": "Demo",
+      "empresa": "DEMO",
+      "telefono": "Demo",
+      "direccion": "Demo"
+    },
+    "dirigido_a": {
+      "tipo_proveedor": "Steel supplier"
+    },
+    "entrega_y_requisitos": [
+      "Confirm freight, access and tax."
+    ],
+    "secciones": [
+      {
+        "id": "A",
+        "titulo": "STEEL",
+        "nota": "Demo destination",
+        "items": [
+          {
+            "n": 1,
+            "item": "Rail",
+            "spec": "Demo specification",
+            "qty": "21",
+            "unit": "LF",
+            "takeoff_id": "T1"
+          }
+        ]
+      }
+    ],
+    "resumen_tecnico": [
+      {
+        "parametro": "Finish",
+        "requisito": "Pending approval"
+      }
+    ]
+  },
+  "ruta_salida": "examples/rfq/DEMO_RFQ.pdf",
+  "borrador": true,
+  "idioma": "en"
+}

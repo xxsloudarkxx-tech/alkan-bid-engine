@@ -1,0 +1,516 @@
+{
+  "schema": "alkan-package/1",
+  "estimate_id": "SS-EST-2026-MER-01",
+  "date": "2026-11-08",
+  "relationship": "sub_to_gc",
+  "tier": "competitive",
+  "contractor": {
+    "name": "S & S CUSTOM IRON WORKS LLC",
+    "tag": "METAL FABRICATION · WELDING",
+    "address": "18526 N High Rock Rd, Monroe, WA 98272",
+    "license": "WA Contractor Lic. SSCUSSC781J9 · UBI 604 724 501",
+    "phone": "(425) 443-1691",
+    "email": "info@ss-ironworks.com",
+    "contact": "Shervin Faezi, Member",
+    "logo": "assets/ss_logo.png"
+  },
+  "project": {
+    "key": "MERIDIAN",
+    "short": "Meridian Play Area Renovation (RE-BID)",
+    "title": "(RE-BID) Meridian Play Area Renovation & ADA Meridian RR — Metal Fabrication",
+    "owner": "City of Seattle — Seattle Parks & Recreation",
+    "owner_contact": "Project Manager: Ray Gontarz (Ray.Gontarz@seattle.gov)",
+    "project_no": "PW 2025-037 (RE-BID)",
+    "site": "4920 Meridian Ave N, Seattle, WA 98103 (King County)",
+    "county": "King",
+    "prime_contractor": "to be confirmed at award",
+    "bid_date": "September 2, 2026, 2:00 PM",
+    "wage_basis": "King County prevailing wage (L&I journey-level rates eff. 8/31/2026)",
+    "scope_label": "metal fabrication scope",
+    "documents": [
+      "PW2025-037 (RE-BID) Meridian PA & RR 100% CD Drawings (26 sheets, 11/26/2025)",
+      "Project Manual / Specifications",
+      "Addendum No. 1"
+    ]
+  },
+  "labor_rates": {
+    "IW": {
+      "label": "Ironworker",
+      "kind": "prevailing_wage",
+      "trade": "ironworker",
+      "rate": "94.82",
+      "burden_pct": "15",
+      "source": "L&I journey-level, King Co., eff. 8/31/2026"
+    },
+    "FE": {
+      "label": "Fence erector",
+      "kind": "prevailing_wage",
+      "trade": "fence_erector",
+      "rate": "57.66",
+      "burden_pct": "15",
+      "source": "L&I journey-level, King Co., eff. 8/31/2026"
+    },
+    "SHOP": {
+      "label": "Shop fabricator",
+      "kind": "loaded",
+      "rate": "65.00",
+      "source": "S&S in-shop metal fabrication loaded rate"
+    },
+    "ADMIN": {
+      "label": "PM / admin",
+      "kind": "loaded",
+      "rate": "75.00",
+      "source": "Office / submittals / certified payroll"
+    }
+  },
+  "markups": {
+    "contingency_pct": "5",
+    "overhead_pct": "10",
+    "profit_pct": "10",
+    "rounding": "50"
+  },
+  "tax": {
+    "mode": "excluded_resale"
+  },
+  "materials": [
+    {
+      "id": "M001",
+      "section": "A. Pipe & steel",
+      "item": "Pipe 1-1/2\" Sch 40 x 21' (handrail 210 LF + guardrail 63 LF)",
+      "spec": "ASTM A53, black (galv after fab), 2.72 lb/ft",
+      "qty": "13",
+      "unit": "EA",
+      "unit_price": "115.50",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "4/L4.2, 3/L4.3"
+    },
+    {
+      "id": "M002",
+      "section": "A. Pipe & steel",
+      "item": "Pipe 3/4\" Sch 40 x 21' (guardrail pickets, 48 pcs)",
+      "spec": "ASTM A53, black, 1.13 lb/ft",
+      "qty": "7",
+      "unit": "EA",
+      "unit_price": "60.90",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "3/L4.3"
+    },
+    {
+      "id": "M003",
+      "section": "A. Pipe & steel",
+      "item": "Pipe 1-1/4\" Sch 40 slip-joint inserts",
+      "spec": "ASTM A53, 12\" pcs (Detail B)",
+      "qty": "6",
+      "unit": "EA",
+      "unit_price": "7.50",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "3/L4.3"
+    },
+    {
+      "id": "M004",
+      "section": "A. Pipe & steel",
+      "item": "Pipe 2\" Sch 40 x 21' (bench supports, 6 frames)",
+      "spec": "ASTM A53, black, 3.65 lb/ft",
+      "qty": "4",
+      "unit": "EA",
+      "unit_price": "152.25",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "5/L4.2"
+    },
+    {
+      "id": "M005",
+      "section": "A. Pipe & steel",
+      "item": "Bench base plates 3/8\" x 6\" x 8\"",
+      "spec": "ASTM A36",
+      "qty": "12",
+      "unit": "EA",
+      "unit_price": "9.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "5/L4.2"
+    },
+    {
+      "id": "M006",
+      "section": "A. Pipe & steel",
+      "item": "Pipe rolling to ramp/wall radius (104 LF) + setup",
+      "spec": "Outside roll shop",
+      "qty": "1",
+      "unit": "LS",
+      "unit_price": "1398.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "L3.1, 2/L4.3"
+    },
+    {
+      "id": "M007",
+      "section": "A. Pipe & steel",
+      "item": "Hot-dip galvanizing approx. 1,133 lb @ $0.60/lb",
+      "spec": "ASTM A123 after fabrication",
+      "qty": "1",
+      "unit": "LOT",
+      "unit_price": "680.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "Notes L4.2/L4.3"
+    },
+    {
+      "id": "M008",
+      "section": "A. Pipe & steel",
+      "item": "Round-trip freight to galvanizer",
+      "spec": "Truck, Monroe-Arlington",
+      "qty": "1",
+      "unit": "EA",
+      "unit_price": "250.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": ""
+    },
+    {
+      "id": "M009",
+      "section": "B. Anchoring & setting",
+      "item": "Non-shrink grout, 50 lb bag",
+      "spec": "ASTM C1107",
+      "qty": "6",
+      "unit": "BAG",
+      "unit_price": "28.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "4/L4.2"
+    },
+    {
+      "id": "M010",
+      "section": "B. Anchoring & setting",
+      "item": "#4 reinforcing U-bar at each post",
+      "spec": "ASTM A615 Gr 60",
+      "qty": "26",
+      "unit": "EA",
+      "unit_price": "4.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "4/L4.2, Det. A"
+    },
+    {
+      "id": "M011",
+      "section": "B. Anchoring & setting",
+      "item": "Stainless wedge anchors 1/2\" x 4-1/4\" (bench supports)",
+      "spec": "Type 304",
+      "qty": "24",
+      "unit": "EA",
+      "unit_price": "6.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "5/L4.2"
+    },
+    {
+      "id": "M012",
+      "section": "B. Anchoring & setting",
+      "item": "Diamond core bits 4\" & 3\" (wear allowance)",
+      "spec": "Wet core",
+      "qty": "1",
+      "unit": "LS",
+      "unit_price": "160.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": ""
+    },
+    {
+      "id": "M013",
+      "section": "C. Bench slats & hardware",
+      "item": "2x4x8' Douglas Fir, select structural",
+      "spec": "Slats, 12 per bench",
+      "qty": "36",
+      "unit": "EA",
+      "unit_price": "9.50",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "5/L4.2"
+    },
+    {
+      "id": "M014",
+      "section": "C. Bench slats & hardware",
+      "item": "Carriage bolt 3/8\" x 3-1/2\" w/ nut & washer",
+      "spec": "Hot-dip galvanized",
+      "qty": "72",
+      "unit": "EA",
+      "unit_price": "1.10",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "5/L4.2"
+    },
+    {
+      "id": "M015",
+      "section": "D. Restroom gate hardware",
+      "item": "Cane bolt / drop rod, heavy duty",
+      "spec": "Steel, weld-on",
+      "qty": "2",
+      "unit": "EA",
+      "unit_price": "65.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "A4/A2.0"
+    },
+    {
+      "id": "M016",
+      "section": "D. Restroom gate hardware",
+      "item": "Slide latch, padlockable",
+      "spec": "Steel, weld-on",
+      "qty": "2",
+      "unit": "EA",
+      "unit_price": "55.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "A4/A2.0"
+    },
+    {
+      "id": "M017",
+      "section": "D. Restroom gate hardware",
+      "item": "Weld-on barrel hinge, heavy duty",
+      "spec": "Steel",
+      "qty": "8",
+      "unit": "EA",
+      "unit_price": "28.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "A4/A2.0"
+    },
+    {
+      "id": "M018",
+      "section": "D. Restroom gate hardware",
+      "item": "Flat bar 1/4\" x 2\" guide brackets & lever pass-thru plate",
+      "spec": "ASTM A36",
+      "qty": "1",
+      "unit": "LS",
+      "unit_price": "125.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "A4/A2.0"
+    },
+    {
+      "id": "M019",
+      "section": "D. Restroom gate hardware",
+      "item": "Fasteners frame-to-wall (SS screw anchors)",
+      "spec": "Type 304",
+      "qty": "1",
+      "unit": "LS",
+      "unit_price": "60.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": "A5/A2.0"
+    },
+    {
+      "id": "M020",
+      "section": "E. Consumables",
+      "item": "Welding wire / gas / discs",
+      "spec": "ER70S-6, C25",
+      "qty": "1",
+      "unit": "LS",
+      "unit_price": "270.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": ""
+    },
+    {
+      "id": "M021",
+      "section": "E. Consumables",
+      "item": "Zinc-rich galvanizing repair (ASTM A780)",
+      "spec": "Spray cans",
+      "qty": "4",
+      "unit": "EA",
+      "unit_price": "15.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": ""
+    },
+    {
+      "id": "M022",
+      "section": "E. Consumables",
+      "item": "Steel delivery to shop",
+      "spec": "Supplier freight",
+      "qty": "1",
+      "unit": "EA",
+      "unit_price": "120.00",
+      "price_basis": "BUDGET",
+      "price_source": "Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
+      "qty_source": ""
+    }
+  ],
+  "labor": [
+    {
+      "id": "L001",
+      "task": "Shop: field-measure / template curved ramp",
+      "rate": "SHOP",
+      "hours": "4"
+    },
+    {
+      "id": "L002",
+      "task": "Shop: handrails 92 LF + 22 posts, returns, vent holes",
+      "rate": "SHOP",
+      "hours": "43"
+    },
+    {
+      "id": "L003",
+      "task": "Shop: picket guardrail 20 LF (48 pickets, 4 posts)",
+      "rate": "SHOP",
+      "hours": "18"
+    },
+    {
+      "id": "L004",
+      "task": "Shop: 6 bench pipe supports + plates; drill 36 slats",
+      "rate": "SHOP",
+      "hours": "23.4"
+    },
+    {
+      "id": "L005",
+      "task": "Shop: gate brackets & plates",
+      "rate": "SHOP",
+      "hours": "4"
+    },
+    {
+      "id": "L006",
+      "task": "Shop: galvanizer handling, load-out, touch-up",
+      "rate": "SHOP",
+      "hours": "9"
+    },
+    {
+      "id": "L007",
+      "task": "Field: layout & mobilization",
+      "rate": "IW",
+      "hours": "6"
+    },
+    {
+      "id": "L008",
+      "task": "Field: core drill 22 handrail post holes",
+      "rate": "IW",
+      "hours": "11"
+    },
+    {
+      "id": "L009",
+      "task": "Field: set posts, grout, install rails 92 LF",
+      "rate": "IW",
+      "hours": "22"
+    },
+    {
+      "id": "L010",
+      "task": "Field: guardrail cores, set & grout 3 panels",
+      "rate": "IW",
+      "hours": "6"
+    },
+    {
+      "id": "L011",
+      "task": "Field: anchor bench supports, install slats (3 benches)",
+      "rate": "IW",
+      "hours": "9"
+    },
+    {
+      "id": "L012",
+      "task": "Field: modify 2 restroom gates (weld/rehang)",
+      "rate": "IW",
+      "hours": "20"
+    },
+    {
+      "id": "L013",
+      "task": "Field: punch list & clean-up",
+      "rate": "IW",
+      "hours": "4"
+    },
+    {
+      "id": "L014",
+      "task": "Office: shop drawings & submittals",
+      "rate": "ADMIN",
+      "hours": "10"
+    },
+    {
+      "id": "L015",
+      "task": "Office: L&I intents/affidavits, certified payroll",
+      "rate": "ADMIN",
+      "hours": "4"
+    }
+  ],
+  "other": [
+    {
+      "id": "O001",
+      "item": "Core drill rig rental",
+      "category": "Equipment",
+      "qty": "2",
+      "unit": "DAY",
+      "rate": "185.00"
+    },
+    {
+      "id": "O002",
+      "item": "Welder/generator trailer",
+      "category": "Equipment",
+      "qty": "3",
+      "unit": "DAY",
+      "rate": "150.00"
+    },
+    {
+      "id": "O003",
+      "item": "Mobilization: truck, trailer, fuel",
+      "category": "Mobilization",
+      "qty": "3",
+      "unit": "EA",
+      "rate": "300.00"
+    },
+    {
+      "id": "O004",
+      "item": "L&I filing fees (Intent + Affidavit)",
+      "category": "Fees",
+      "qty": "2",
+      "unit": "EA",
+      "rate": "40.00"
+    },
+    {
+      "id": "O005",
+      "item": "Small tools, PPE, consumables",
+      "category": "Other",
+      "qty": "1",
+      "unit": "LS",
+      "rate": "250.00"
+    }
+  ],
+  "scope": [
+    {
+      "title": "Handrails at play-area ramp and stairs (Tag ER, 4/L4.2; 2/L4.3)",
+      "text": "Fabricate and install approx. 92 LF of single-rail metal pipe handrail, 1-1/2\" Sch 40 pipe (ASTM A53), both sides of the curved accessible ramp (~64 LF, rails rolled to ramp radius) and at four stair runs (~28 LF), 12\" extensions, 22 posts core-drilled 4\" dia and set in non-shrink grout with #4 U-bar; hot-dip galvanized after fabrication, vent holes per SPR Std. 05 52 13_3; slip joints at 50' max."
+    },
+    {
+      "title": "Metal guardrail at retaining wall (3/L4.3, SPR Std. 05 52 13.29)",
+      "text": "Fabricate and install approx. 20 LF of 3'-6\" picket guardrail along the curved retaining wall: 1-1/2\" Sch 40 posts and top/bottom rails (rolled), 3/4\" Sch 40 pickets at 4\" max clear, posts set in 3\" dia cores with non-shrink grout; hot-dip galvanized after fabrication."
+    },
+    {
+      "title": "Double-backed benches (Tag BB, 5/L4.2, SPR Std. 32 13 73.12)",
+      "text": "Fabricate 3 double-backed benches with hot-dip galvanized steel pipe bench supports (2 per 6' bench) and base plates, 2x4 Douglas Fir select structural slats with galvanized carriage bolts; bolt down to 4\" concrete slab (slab by others)."
+    },
+    {
+      "title": "Restroom gate modifications (A4/A2.0, A5/A2.0)",
+      "text": "Modify 2 existing steel restroom gates to be re-used: door-lever pass-thru, cane bolt/drop rod with welded guide brackets, slide latch, (4) welded steel hinges per gate, fit within steel gate frame; core hole for drop rod. Field painting by SPR paint shop."
+    },
+    {
+      "title": "Submittals and compliance",
+      "text": "Shop drawings (required before fabrication), product data, galvanizing certification, L&I Intents/Affidavits and certified payroll."
+    }
+  ],
+  "exclusions": [
+    "Play equipment and custom swings, play signs, picnic tables, standard waste cans, wear mats, safety surfacing.",
+    "Concrete ramps, retaining walls, slabs, curbs and paving; restroom doors/frames (HM), stainless steel wall panels and countertop (by GC), toilet accessories and grab bars.",
+    "Painting of gates and frames (SPR paint shop), bronze dog statue relocation, landscape add-alternate items.",
+    "Performance & payment bond (add 1.5% if required), Washington retail sales tax (collected by prime per WAC 458-20-171), permits.",
+    "Quantities scaled from L3.1 (1/8\"=1'-0\") and 2/L4.3 (1/4\"=1'-0\"); field-verify lengths before fabrication."
+  ],
+  "assumptions": [],
+  "alkan_commission": {
+    "find_estimate_pct": "3",
+    "coordination_pct": "3",
+    "coordination_included": false
+  },
+  "release": {
+    "authorized": false,
+    "allow_budget_prices": true,
+    "note": "Budget pricing accepted for submission while supplier RFQs are pending (S&S decision required)."
+  },
+  "validity_days": 30
+}

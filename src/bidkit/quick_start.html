@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ALKAN · Nuevo Estimado</title>
+<style>
+:root{font:15px/1.5 system-ui;--ink:#103e43;--accent:#d9ad59;--bg:#f0f3f4;--card:white;--border:#d9e2e4;--muted:#61747c;color:#172d36;background:var(--bg)}
+*{box-sizing:border-box;margin:0}
+body{min-height:100vh;display:flex;flex-direction:column}
+header{background:var(--ink);color:white;padding:20px 5%;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+header h1{font-size:24px;font-weight:700}header h1 span{font-weight:350}
+header small{color:#c6dbd9;font-size:13px}
+main{flex:1;max-width:880px;width:100%;margin:0 auto;padding:32px 16px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:28px;margin-bottom:20px}
+h2{font-size:20px;margin-bottom:4px;color:var(--ink)}
+.subtitle{color:var(--muted);font-size:13px;margin-bottom:20px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:600px){.grid{grid-template-columns:1fr}}
+label{display:flex;flex-direction:column;gap:5px;font-size:13px;color:#35515b;font-weight:500}
+input,select,textarea{font:inherit;border:1px solid #b6c8cd;border-radius:8px;padding:10px 12px;background:white;color:#172d36;transition:border .15s}
+input:focus,select:focus{outline:none;border-color:var(--accent)}
+.file-zone{border:2px dashed #b6c8cd;border-radius:12px;padding:40px 20px;text-align:center;cursor:pointer;transition:border .2s,background .2s;position:relative}
+.file-zone:hover,.file-zone.dragover{border-color:var(--accent);background:#fdf8ee}
+.file-zone input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.file-zone .icon{font-size:36px;margin-bottom:8px}
+.file-zone p{color:var(--muted);font-size:13px}
+.file-zone .selected{color:var(--ink);font-weight:600;font-size:14px}
+.actions{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
+button{font:inherit;border:none;border-radius:8px;padding:12px 28px;cursor:pointer;font-weight:600;transition:opacity .15s}
+button.primary{background:var(--ink);color:white;font-size:15px}
+button.primary:hover{opacity:.9}
+button.primary:disabled{opacity:.5;cursor:wait}
+button.secondary{background:#e5eeed;color:var(--ink)}
+.notice{padding:14px 18px;border-radius:10px;margin-bottom:16px;font-size:14px}
+.notice.error{background:#fff0e9;color:#842b17;border-left:4px solid #b84b31}
+.notice.ok{background:#dfefea;color:#0f5132}
+.notice.info{background:#fff8e6;color:#6d5600;border-left:4px solid var(--accent)}
+.step{display:flex;gap:12px;align-items:center;margin-bottom:24px}
+.step .num{width:32px;height:32px;border-radius:50%;background:var(--ink);color:white;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0}
+.step .label{font-size:15px;font-weight:600;color:var(--ink)}
+.badge{display:inline-block;background:#fff1d4;padding:4px 10px;border-radius:12px;font-size:11px;font-weight:600;color:#8a6d00}
+footer{padding:16px;text-align:center;color:var(--muted);font-size:12px}
+.preview{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.preview .file{background:#eef4f3;padding:6px 12px;border-radius:6px;font-size:12px;display:flex;align-items:center;gap:6px}
+.preview .file .remove{cursor:pointer;color:#b84b31;font-weight:700}
+.hidden{display:none!important}
+.progress{margin-top:20px;display:none}
+.progress.active{display:block}
+.progress-bar{height:6px;background:#e5eeed;border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;background:var(--accent);border-radius:3px;transition:width .4s;width:0}
+.progress-text{font-size:12px;color:var(--muted);margin-top:6px;text-align:center}
+.result{margin-top:20px}
+.result a{color:#18565f;font-weight:600;text-decoration:none}
+.result a:hover{text-decoration:underline}
+</style></head><body>
+<header>
+  <div>
+    <h1>ALKAN <span>Bid Engine</span></h1>
+    <small>Nuevo estimado — suba sus planos y datos del contratista</small>
+  </div>
+  <div style="margin-left:auto">
+    <a href="/expedientes" style="color:#c6dbd9;font-size:13px;text-decoration:none">← Ir al panel de expedientes</a>
+  </div>
+</header>
+<main>
+  <div id="notice" class="hidden"></div>
+
+  <!-- STEP 1: Plans -->
+  <div class="card" id="step1">
+    <div class="step"><div class="num">1</div><div class="label">Planos y documentos del proyecto</div></div>
+    <p class="subtitle">PDF de planos, especificaciones, addenda. También acepta imágenes (.png/.jpg) de evidencia y texto (.txt).</p>
+    <div class="file-zone" id="dropZone">
+      <input type="file" id="planFiles" accept=".pdf,.txt,.png,.jpg,.jpeg" multiple>
+      <div class="icon">📄</div>
+      <p>Arrastre archivos aquí o haga clic para seleccionar</p>
+      <p style="font-size:12px;color:#999">PDF · PNG · JPG · TXT — máx. 25 MB cada uno</p>
+    </div>
+    <div class="preview" id="filePreview"></div>
+  </div>
+
+  <!-- STEP 2: Contractor data -->
+  <div class="card" id="step2">
+    <div class="step"><div class="num">2</div><div class="label">Datos del contratista</div></div>
+    <p class="subtitle">Información que aparecerá en los documentos del estimado, la propuesta y el contrato.</p>
+    <form id="contractorForm">
+      <div class="grid">
+        <label>Nombre del proyecto *<input name="project_name" required placeholder="Ej. Orangegate Park Phase 1"></label>
+        <label>Tipo de obra
+          <select name="work_type">
+            <option value="residential">Residencial</option>
+            <option value="commercial">Comercial</option>
+            <option value="industrial">Industrial</option>
+            <option value="public_works" selected>Obra pública</option>
+            <option value="other">Otro</option>
+          </select>
+        </label>
+        <label>Contratista / Empresa *<input name="contractor" required placeholder="Ej. S & S CUSTOM IRON WORKS LLC"></label>
+        <label>Licencia / Registro WA<input name="contractor_license" placeholder="Ej. SSCUSCI791QE"></label>
+        <label>Dirección de la empresa<input name="contractor_address" placeholder="Ej. Monroe, WA"></label>
+        <label>Teléfono<input name="contractor_phone" placeholder="(206) 000-0000"></label>
+        <label>Relación contractual
+          <select name="contractual_relationship">
+            <option value="subcontractor">Subcontratista → GC</option>
+            <option value="general_contractor">GC → Propietario</option>
+            <option value="direct_homeowner">Directo → Homeowner</option>
+            <option value="commercial_owner">Propietario comercial</option>
+            <option value="public_entity">Entidad pública</option>
+          </select>
+        </label>
+        <label>Especialidad *<input name="trade" required placeholder="Ej. Metal Fabrication, Roofing"></label>
+        <label>Cliente / GC<input name="client" placeholder="Ej. A-1 Landscaping and Construction"></label>
+        <label>Dirección del proyecto<input name="address" placeholder="Dirección de la obra"></label>
+        <label>Jurisdicción (para impuesto)
+          <select name="jurisdiction">
+            <option value="">— Seleccionar —</option>
+            <option value="seattle">Seattle (10.35%)</option>
+            <option value="bellevue">Bellevue (10.20%)</option>
+            <option value="kent">Kent (10.20%)</option>
+            <option value="federal_way">Federal Way (10.20%)</option>
+            <option value="tacoma">Tacoma (10.30%)</option>
+            <option value="lakewood">Lakewood (10.20%)</option>
+            <option value="olympia">Olympia (9.80%)</option>
+            <option value="everett">Everett (9.90%)</option>
+            <option value="monroe">Monroe (9.00%)</option>
+            <option value="bainbridge_island">Bainbridge Island (9.30%)</option>
+            <option value="mountlake_terrace">Mountlake Terrace (10.50%)</option>
+            <option value="king_county_unincorp">King County unincorp. (10.00%)</option>
+            <option value="pierce_county_unincorp">Pierce County unincorp. (8.10%)</option>
+            <option value="snohomish_county_unincorp">Snohomish County unincorp. (8.70%)</option>
+            <option value="kitsap_county_unincorp">Kitsap County unincorp. (9.20%)</option>
+          </select>
+        </label>
+        <label>Condado<input name="county" placeholder="Ej. Pierce, King, Snohomish"></label>
+        <label>Estado<input name="state" value="WA"></label>
+        <label>Responsable del estimado<input name="estimator" placeholder="Ej. Miguel Alcantara"></label>
+        <label>
+          <span style="display:flex;align-items:center;gap:6px">
+            Prevailing Wage <span class="badge">L&I</span>
+          </span>
+          <select name="prevailing_wage">
+            <option value="no">No aplica</option>
+            <option value="yes">Sí — salario prevaleciente</option>
+          </select>
+        </label>
+      </div>
+    </form>
+  </div>
+
+  <!-- CREATE -->
+  <div class="actions">
+    <button class="primary" id="createBtn" disabled>Crear expediente y subir planos</button>
+    <button class="secondary" id="resetBtn">Limpiar todo</button>
+  </div>
+
+  <div class="progress" id="progress">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <p class="progress-text" id="progressText">Preparando...</p>
+  </div>
+
+  <div class="result hidden" id="result">
+    <div class="card">
+      <h2>✓ Expediente creado</h2>
+      <p id="resultSummary"></p>
+      <div class="actions" style="margin-top:16px">
+        <a href="/" id="goToProject"><button class="primary">Abrir en el panel de estimación →</button></a>
+        <button class="secondary" id="newEstimate">Crear otro estimado</button>
+      </div>
+    </div>
+  </div>
+</main>
+<footer>ALKAN Bid Engine · Local · Sin envíos automáticos · Revisión humana y evidencia documental</footer>
+
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+let token='', selectedFiles=[];
+
+// Drag & drop
+const zone=$('dropZone');
+zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('dragover');});
+zone.addEventListener('dragleave',()=>zone.classList.remove('dragover'));
+zone.addEventListener('drop',e=>{e.preventDefault();zone.classList.remove('dragover');addFiles(e.dataTransfer.files);});
+$('planFiles').addEventListener('change',e=>addFiles(e.target.files));
+
+function addFiles(fileList){
+  for(const f of fileList){
+    if(f.size>25*1024*1024){notice('Archivo '+f.name+' excede 25 MB','error');continue;}
+    if(selectedFiles.some(s=>s.name===f.name&&s.size===f.size))continue;
+    selectedFiles.push(f);
+  }
+  renderPreview();
+  checkReady();
+}
+function renderPreview(){
+  $('filePreview').innerHTML=selectedFiles.map((f,i)=>
+    `<div class="file"><span>📄 ${esc(f.name)} (${(f.size/1024).toFixed(0)} KB)</span><span class="remove" data-idx="${i}">✕</span></div>`
+  ).join('');
+  for(const btn of $('filePreview').querySelectorAll('.remove'))
+    btn.onclick=()=>{selectedFiles.splice(+btn.dataset.idx,1);renderPreview();checkReady();};
+}
+function checkReady(){
+  const form=$('contractorForm');
+  const hasFiles=selectedFiles.length>0;
+  const hasName=form.elements.project_name.value.trim()!=='';
+  const hasContractor=form.elements.contractor.value.trim()!=='';
+  const hasTrade=form.elements.trade.value.trim()!=='';
+  $('createBtn').disabled=!(hasFiles&&hasName&&hasContractor&&hasTrade);
+}
+$('contractorForm').addEventListener('input',checkReady);
+
+function notice(text,type='info'){
+  const el=$('notice');el.className='notice '+type;el.textContent=text;el.classList.remove('hidden');
+  if(type!=='error')setTimeout(()=>el.classList.add('hidden'),8000);
+}
+
+async function apiCall(path,data){
+  const r=await fetch(path,data?{method:'POST',headers:{'Content-Type':'application/json','X-ALKAN-Token':token},body:JSON.stringify(data)}:{});
+  const body=await r.json();
+  if(!r.ok)throw new Error(body.error||'Error del servidor');
+  return body;
+}
+function progress(pct,text){
+  $('progress').classList.add('active');
+  $('progressFill').style.width=pct+'%';
+  $('progressText').textContent=text;
+}
+
+$('createBtn').onclick=async()=>{
+  try{
+    $('createBtn').disabled=true;
+    const form=$('contractorForm');
+    const vals={};
+    for(const el of form.elements)if(el.name)vals[el.name]=el.value;
+
+    const actor=vals.estimator||'ALKAN Estimador';
+    const project={
+      name:vals.project_name,
+      work_type:vals.work_type,
+      contractual_relationship:vals.contractual_relationship,
+      address:vals.address,
+      state:vals.state,
+      county:vals.county,
+      jurisdiction:vals.jurisdiction,
+      client:vals.client,
+      contractor:vals.contractor,
+      trade:vals.trade,
+      estimator:vals.estimator,
+    };
+
+    progress(10,'Creando expediente...');
+    const row=await apiCall('/api/workflow/create',{project,actor,request_id:crypto.randomUUID()});
+    const pid=row.project_id;
+
+    // Upload files in batches of 3
+    const batches=[];
+    for(let i=0;i<selectedFiles.length;i+=3) batches.push(selectedFiles.slice(i,i+3));
+    let rev=row.revision;
+    for(let b=0;b<batches.length;b++){
+      progress(10+Math.round((b/batches.length)*60),'Subiendo documentos ('+(b+1)+'/'+batches.length+')...');
+      const batch=batches[b];
+      const data=[];
+      for(const f of batch){
+        const content=await new Promise((resolve,reject)=>{
+          const reader=new FileReader();
+          reader.onerror=reject;
+          reader.onload=()=>resolve(reader.result.split(',')[1]);
+          reader.readAsDataURL(f);
+        });
+        data.push({name:f.name,content});
+      }
+      const result=await apiCall('/api/workflow/upload',{project_id:pid,revision:rev,actor,files:data,request_id:crypto.randomUUID()});
+      rev=result.revision;
+    }
+
+    // Save contractor details
+    progress(80,'Guardando datos del contratista...');
+    const settings={project:{
+      contractor:vals.contractor,
+      trade:vals.trade,
+      address:vals.address,
+      state:vals.state,
+      county:vals.county,
+      jurisdiction:vals.jurisdiction,
+      client:vals.client,
+      estimator:vals.estimator,
+    }};
+    await apiCall('/api/workflow/action',{project_id:pid,revision:rev,actor,action:'settings',payload:settings,request_id:crypto.randomUUID()});
+
+    // Analyze documents
+    progress(90,'Analizando documentos...');
+    await apiCall('/api/workflow/action',{project_id:pid,revision:rev+1,actor,action:'analyze',payload:{},request_id:crypto.randomUUID()});
+
+    progress(100,'¡Listo!');
+
+    // Show result
+    $('step1').classList.add('hidden');
+    $('step2').classList.add('hidden');
+    $('createBtn').parentElement.classList.add('hidden');
+    $('result').classList.remove('hidden');
+    $('resultSummary').innerHTML=`
+      <strong>${esc(vals.project_name)}</strong> para <strong>${esc(vals.contractor)}</strong><br>
+      ${selectedFiles.length} documento(s) subido(s) y analizado(s).<br>
+      <span style="color:var(--muted)">Abra el panel completo para revisar partidas, registrar cotizaciones y aprobar.</span>
+    `;
+    $('goToProject').href='/?mode=contractor&project_id='+encodeURIComponent(pid);
+
+  }catch(err){
+    notice(err.message,'error');
+    $('createBtn').disabled=false;
+    $('progress').classList.remove('active');
+  }
+};
+
+$('resetBtn').onclick=()=>{
+  selectedFiles=[];renderPreview();
+  $('contractorForm').reset();
+  checkReady();
+  $('notice').classList.add('hidden');
+  $('step1').classList.remove('hidden');
+  $('step2').classList.remove('hidden');
+  $('createBtn').parentElement.classList.remove('hidden');
+  $('result').classList.add('hidden');
+  $('progress').classList.remove('active');
+};
+
+$('newEstimate').onclick=()=>$('resetBtn').click();
+
+// Init session
+(async()=>{try{token=(await apiCall('/api/session')).token;}catch(e){notice('No se pudo conectar al servidor local. Ejecute Start-BidEngine.ps1','error');}})();
+</script><script src="/nav.js"></script></body></html>

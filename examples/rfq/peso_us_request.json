@@ -1,0 +1,10 @@
+{
+  "tipo": "tubo",
+  "dimensiones": {
+    "od": 2,
+    "wall": "1/8"
+  },
+  "longitud": 21,
+  "cantidad": 1,
+  "unidades": "us"
+}

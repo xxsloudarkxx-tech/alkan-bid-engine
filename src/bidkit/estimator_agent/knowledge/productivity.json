@@ -1,0 +1,219 @@
+[
+ {
+  "task": "Chain-link fence 4' commercial vinyl, 3 rails (all-in field: layout, holes, posts, rails, fabric, fittings)",
+  "rate": "0.25",
+  "unit": "MH/LF",
+  "trade": "Fence erector",
+  "source": "Orangegate 2,100 LF"
+ },
+ {
+  "task": "Chain-link fence 4' top rail + tension wire, small job (all-in field)",
+  "rate": "0.37",
+  "unit": "MH/LF",
+  "trade": "Fence erector",
+  "source": "WSJ 230 LF"
+ },
+ {
+  "task": "Post hole 8–12\" dia, mini-excavator auger",
+  "rate": "0.25",
+  "unit": "MH/hole",
+  "trade": "Fence erector",
+  "source": "Orangegate"
+ },
+ {
+  "task": "Post hole 12\" dia, hand/2-man auger",
+  "rate": "1.1",
+  "unit": "MH/hole",
+  "trade": "Fence erector",
+  "source": "WSJ"
+ },
+ {
+  "task": "Set fence post and pour footing",
+  "rate": "0.4–0.6",
+  "unit": "MH/post",
+  "trade": "Fence erector",
+  "source": "WSJ/Orangegate"
+ },
+ {
+  "task": "Fence rail install (per rail line)",
+  "rate": "0.02",
+  "unit": "MH/LF",
+  "trade": "Fence erector",
+  "source": "Orangegate"
+ },
+ {
+  "task": "Hang, stretch and tie chain-link fabric",
+  "rate": "0.06–0.08",
+  "unit": "MH/LF",
+  "trade": "Fence erector",
+  "source": "WSJ/Orangegate"
+ },
+ {
+  "task": "Terminal/gate post fittings",
+  "rate": "1.0",
+  "unit": "MH/post",
+  "trade": "Fence erector",
+  "source": "Orangegate"
+ },
+ {
+  "task": "Hang chain-link gate (single / double)",
+  "rate": "4 / 8",
+  "unit": "MH/gate",
+  "trade": "Fence erector",
+  "source": "Orangegate"
+ },
+ {
+  "task": "Pipe handrail 1-1/2\" Sch 40 shop fabrication incl. returns, vent holes",
+  "rate": "0.35 + 0.5/post",
+  "unit": "MH/LF",
+  "trade": "Shop",
+  "source": "Meridian"
+ },
+ {
+  "task": "Handrail post core drill 4\" dia",
+  "rate": "0.5",
+  "unit": "MH/post",
+  "trade": "Ironworker",
+  "source": "Meridian"
+ },
+ {
+  "task": "Handrail set posts, grout, install rails",
+  "rate": "0.5/post + 0.12/LF",
+  "unit": "MH",
+  "trade": "Ironworker",
+  "source": "Meridian"
+ },
+ {
+  "task": "Picket guardrail shop (pickets welded both ends)",
+  "rate": "0.25/picket + 6/20 LF",
+  "unit": "MH",
+  "trade": "Shop",
+  "source": "Meridian"
+ },
+ {
+  "task": "Steel pipe bench support frame, shop",
+  "rate": "3",
+  "unit": "MH/frame",
+  "trade": "Shop",
+  "source": "Meridian"
+ },
+ {
+  "task": "Modify existing steel gate in field (weld hardware, rehang)",
+  "rate": "10",
+  "unit": "MH/gate",
+  "trade": "Ironworker",
+  "source": "Meridian"
+ },
+ {
+  "task": "Custom vehicular swing gate",
+  "rate": "60 shop + 24 field",
+  "unit": "MH/gate",
+  "trade": "Shop/Ironworker",
+  "source": "Orangegate"
+ },
+ {
+  "task": "Pin pile Pipe 4 STD drive in field",
+  "rate": "3",
+  "unit": "MH/pile",
+  "trade": "Ironworker",
+  "source": "WSJ"
+ },
+ {
+  "task": "Pin-pile/post assembly shop fabrication",
+  "rate": "2.5",
+  "unit": "MH/ea",
+  "trade": "Shop",
+  "source": "WSJ"
+ },
+ {
+  "task": "Removable bollard with sleeve footing",
+  "rate": "2.5",
+  "unit": "MH/ea",
+  "trade": "Fence erector",
+  "source": "Orangegate"
+ },
+ {
+  "task": "Bike rack or trash receptacle, surface mount, anchor",
+  "rate": "1.5",
+  "unit": "MH/ea",
+  "trade": "Fence erector",
+  "source": "Orangegate/Gonyea"
+ },
+ {
+  "task": "Post-mounted park sign with footing, install",
+  "rate": "6",
+  "unit": "MH/sign",
+  "trade": "Ironworker",
+  "source": "Orangegate"
+ },
+ {
+  "task": "Sign steel frame/post, shop",
+  "rate": "5",
+  "unit": "MH/sign",
+  "trade": "Shop",
+  "source": "Orangegate"
+ },
+ {
+  "task": "Moment frame (2 W12 columns + beam, CJP), shop",
+  "rate": "20",
+  "unit": "MH/frame",
+  "trade": "Shop",
+  "source": "Gonyea"
+ },
+ {
+  "task": "HSS purlin cope + shear tabs, shop",
+  "rate": "1.5",
+  "unit": "MH/ea",
+  "trade": "Shop",
+  "source": "Gonyea"
+ },
+ {
+  "task": "Set moment frame in field (telehandler crew)",
+  "rate": "6",
+  "unit": "MH/frame",
+  "trade": "Ironworker",
+  "source": "Gonyea"
+ },
+ {
+  "task": "HSS purlin erect",
+  "rate": "1.5",
+  "unit": "MH/ea",
+  "trade": "Ironworker",
+  "source": "Gonyea"
+ },
+ {
+  "task": "Steel roof deck 1-1/2\" install",
+  "rate": "0.025",
+  "unit": "MH/SF",
+  "trade": "Ironworker",
+  "source": "Gonyea"
+ },
+ {
+  "task": "Bar grating screen panel 2'x8' install on angles",
+  "rate": "1.25",
+  "unit": "MH/panel",
+  "trade": "Ironworker",
+  "source": "Gonyea"
+ },
+ {
+  "task": "Freestanding basketball system with footing",
+  "rate": "8",
+  "unit": "MH/ea",
+  "trade": "Fence erector",
+  "source": "Gonyea"
+ },
+ {
+  "task": "Submittals / shop drawings (small to medium misc. metals)",
+  "rate": "6–20",
+  "unit": "H/job",
+  "trade": "PM/admin",
+  "source": "All"
+ },
+ {
+  "task": "L&I intents/affidavits + certified payroll",
+  "rate": "4–12",
+  "unit": "H/job",
+  "trade": "PM/admin",
+  "source": "All"
+ }
+]
