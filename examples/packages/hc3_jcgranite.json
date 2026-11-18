@@ -1,0 +1,212 @@
+{
+  "schema": "alkan-package/1",
+  "estimate_id": "JCG-EST-2026-HC3-01",
+  "date": "2026-11-12",
+  "relationship": "sub_to_gc",
+  "tier": "competitive",
+  "contractor": {
+    "name": "JC GRANITE DESIGN GC LLC",
+    "tag": "COUNTERTOPS \u00b7 STONE FABRICATION",
+    "address": "Tacoma, WA",
+    "license": "WA Contractor Lic. JCGRAGD775Q9",
+    "phone": "(253) 000-0000",
+    "email": "Pending",
+    "contact": "Ricardo Garcia, Owner",
+    "logo": "/mnt/user-data/uploads/e25ccd95-image.jpg"
+  },
+  "project": {
+    "key": "HC3",
+    "short": "Highline College Bldg 3 Renovation",
+    "title": "Highline College Building 3 Renovation \u2014 Countertops",
+    "owner": "Highline College / State of Washington DES",
+    "owner_contact": "Zach Lambert, 206-653-5537",
+    "project_no": "2026-763 G (1-1)",
+    "site": "2400 S. 240th St., Des Moines, WA 98198 (King County)",
+    "county": "King",
+    "prime_contractor": "to be confirmed at award",
+    "bid_date": "November 17, 2026, 1:00 PM",
+    "wage_basis": "King County prevailing wage (WA State public works project)",
+    "scope_label": "countertops scope",
+    "documents": [
+      "Plans - Highline College Bldg 3 Renovation (62 sheets, 10/20/2026)",
+      "Specifications (Section 12 3200 - Manufactured Wood Casework, Sec 2.05 Countertops)",
+      "Addendum No. 1 (10/30/2026)"
+    ]
+  },
+  "labor_rates": {
+    "FAB": {
+      "label": "Countertop fabricator",
+      "kind": "loaded",
+      "rate": "65.00",
+      "source": "JC Granite shop fabrication loaded rate"
+    },
+    "INST": {
+      "label": "Field installer",
+      "kind": "prevailing_wage",
+      "trade": "carpenter",
+      "rate": "87.45",
+      "burden_pct": "15",
+      "source": "L&I journey-level Carpenter, King Co., WA prevailing wage"
+    },
+    "ADMIN": {
+      "label": "PM / admin",
+      "kind": "loaded",
+      "rate": "75.00",
+      "source": "Office / submittals / certified payroll"
+    }
+  },
+  "markups": {
+    "contingency_pct": "5",
+    "overhead_pct": "10",
+    "profit_pct": "10",
+    "rounding": "50"
+  },
+  "tax": {
+    "mode": "excluded_resale"
+  },
+  "materials": [
+    {
+      "id": "M001",
+      "section": "A. P-Lam Countertops (Sec 12 3200)",
+      "item": "HPDL countertops, PLAM-1 color sel. by Architect, 25\" deep - base cabinets and work surfaces",
+      "spec": "AWI Custom Grade, NEMA LD 3 HPDL bonded to 3/4\" plywood substrate, matte/suede finish gloss 5-20, manufacturer std exposed edge config",
+      "qty": "48",
+      "unit": "LF",
+      "unit_price": "72.00",
+      "price_basis": "BUDGET",
+      "price_source": "Budget pricing HPDL countertop material, Puget Sound Nov 2026",
+      "qty_source": "Plans A3.01 casework tags, A9.10 detail 1"
+    },
+    {
+      "id": "M002",
+      "section": "A. P-Lam Countertops (Sec 12 3200)",
+      "item": "4\" PLAM backsplash (PLAM-1), scribed to wall and sealed, with sidesplash where shown",
+      "spec": "Per A9.10 detail 1, HPDL matching countertop, sealant at wall joint",
+      "qty": "48",
+      "unit": "LF",
+      "unit_price": "22.00",
+      "price_basis": "BUDGET",
+      "price_source": "Budget pricing HPDL backsplash/sidesplash, Puget Sound Nov 2026",
+      "qty_source": "Plans A9.10 detail 1 - all base cabinets"
+    },
+    {
+      "id": "M003",
+      "section": "A. P-Lam Countertops (Sec 12 3200)",
+      "item": "Reception counter work surfaces - dual height (35.25\" service / 34\" ADA), P-Lam PLAM-1",
+      "spec": "Custom shapes per A9.01 Reception 101 elevations, HPDL on 3/4\" plywood, manufacturer std edge",
+      "qty": "1",
+      "unit": "LS",
+      "unit_price": "2400.00",
+      "price_basis": "BUDGET",
+      "price_source": "Budget pricing custom reception counter surfaces, Puget Sound Nov 2026",
+      "qty_source": "Plans A9.01 Reception 101"
+    },
+    {
+      "id": "M004",
+      "section": "B. Countertop Brackets & Accessories",
+      "item": "Countertop support brackets - Rakks EH Series aluminum, cable mgmt grommet",
+      "spec": "All-welded 6063-T6 extruded aluminum, pre-drilled, 450 lb/bracket min, max 6\" cantilever, powder-coat finish sel. by Architect",
+      "qty": "24",
+      "unit": "EA",
+      "unit_price": "95.00",
+      "price_basis": "BUDGET",
+      "price_source": "Rakks EH Series distributor pricing, Nov 2026",
+      "qty_source": "Spec 12 3200 Sec 2.06F, est 1 per 2 LF"
+    },
+    {
+      "id": "M005",
+      "section": "B. Countertop Brackets & Accessories",
+      "item": "Metal cable-management grommets, painted to blend",
+      "spec": "Spec 12 3200 Sec 2.08C, painted metal, color match adjacent surface",
+      "qty": "12",
+      "unit": "EA",
+      "unit_price": "18.00",
+      "price_basis": "BUDGET",
+      "price_source": "Standard painted metal desk grommets, Nov 2026",
+      "qty_source": "Estimated 1 per 4 LF countertop"
+    },
+    {
+      "id": "M006",
+      "section": "B. Countertop Brackets & Accessories",
+      "item": "Sealant - clear silicone, ASTM C920, anti-fungus, for countertop-to-wall joints",
+      "spec": "One-component, Type S, Grade NS, Class 25, Use NT",
+      "qty": "6",
+      "unit": "TU",
+      "unit_price": "12.00",
+      "price_basis": "BUDGET",
+      "price_source": "Standard construction silicone, Nov 2026",
+      "qty_source": "Estimated for all countertop perimeter joints"
+    }
+  ],
+  "other": [
+    {
+      "id": "O001",
+      "item": "Delivery to site, protection of finished countertops during transport",
+      "category": "Mobilization",
+      "qty": "1",
+      "unit": "LS",
+      "rate": "650.00"
+    },
+    {
+      "id": "O002",
+      "item": "Template tools, installation supplies, adhesives",
+      "category": "Equipment",
+      "qty": "1",
+      "unit": "LS",
+      "rate": "350.00"
+    }
+  ],
+  "release": {
+    "authorized": true,
+    "disclaimer": "This estimate is based on the bid documents listed above including Addendum No. 1. Sales tax excluded (resale to GC). Prevailing wages apply. Subject to field verification and final template. Valid for 30 days.",
+    "allow_budget_prices": true,
+    "budget_note": "Pre-bid budget estimate based on plan takeoff and prevailing wage rates. Subject to final quantity verification.",
+    "note": "Pre-bid budget estimate. Quantities from plan takeoff; prices from market benchmarks Nov 2026. Subject to field verification."
+  },
+  "labor": [
+    {
+      "id": "L001",
+      "task": "Shop fabrication - template, cut, edge, laminate all HPDL countertops, backsplash, sidesplash, reception surfaces",
+      "rate": "FAB",
+      "hours": "48"
+    },
+    {
+      "id": "L002",
+      "task": "Field installation - countertops, brackets, grommets, sealant, scribing, fitting, leveling",
+      "rate": "INST",
+      "hours": "32"
+    },
+    {
+      "id": "L003",
+      "task": "Submittals, templates, color selections, certified payroll, coordination",
+      "rate": "ADMIN",
+      "hours": "16"
+    }
+  ],
+  "scope": [
+    {
+      "title": "P-Lam Countertops (Sec 12 3200 Sec 2.05)",
+      "text": "Furnish and install HPDL countertops (48 LF) with 4\" backsplash and sidesplash where shown, Rakks EH Series aluminum brackets, and metal cable management grommets over all base cabinets. AWI Custom Grade, HPDL per NEMA LD 3."
+    },
+    {
+      "title": "Reception Counter Surfaces",
+      "text": "Furnish and install countertop surfaces for dual-height reception counter (35.25\" service height / 34\" ADA work surface). HPDL to match base cabinet P-Lam selections."
+    }
+  ],
+  "exclusions": [
+    "Base cabinets, wall cabinets, and all casework boxes (by casework subcontractor).",
+    "Reception counter box/frame construction (by casework subcontractor).",
+    "Finish carpentry and White Oak items.",
+    "Structural steel (DELETED per Addendum No. 1).",
+    "Electrical and data rough-in.",
+    "Silicone sealant at wall junctions (included in this scope per Spec 12 3200 Sec 2.08)."
+  ],
+  "assumptions": [
+    "48 LF of countertop per plan takeoff. Reception surfaces measured as lump sum per plan detail.",
+    "Rakks EH Series brackets at 1 per 2 LF (24 total). Final bracket count subject to structural loading.",
+    "Casework boxes installed and level before countertop installation begins.",
+    "Single mobilization assumed. GC coordinates access and staging.",
+    "All work subject to King County prevailing wages. Certified payroll included."
+  ],
+  "validity_days": 30
+}

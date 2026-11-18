@@ -3,7 +3,14 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 import re
+from typing import Any
 
+from .contractor import (
+    ComplianceRequirement,
+    ContractorIdentity,
+    load_compliance_requirements,
+    load_contractor_identity,
+)
 from .data_store import read_json
 
 
@@ -15,6 +22,8 @@ def project_id(name: str) -> str:
 class ProjectConfig:
     root: Path
     project_name: str | None = None
+    contractor_source: str | Path | dict[str, Any] | None = None
+    compliance_source: str | Path | dict[str, Any] | list[Any] | None = None
 
     def __post_init__(self) -> None:
         object.__setattr__(self, "root", self.root.resolve())
@@ -69,6 +78,32 @@ class ProjectConfig:
         if data.get("id") != self.id or data.get("name") != self.project_name:
             raise ValueError("La configuración pertenece a otro proyecto.")
         return data
+
+    @property
+    def contractor_identity(self) -> ContractorIdentity:
+        """Resolves the contractor identity from explicit source, project.json, or placeholder."""
+        if self.contractor_source is not None:
+            return load_contractor_identity(self.contractor_source)
+        contractor_file = self.project_dir / "contractor.json"
+        if contractor_file.exists():
+            return load_contractor_identity(contractor_file)
+        meta_contractor = self.metadata.get("contractor")
+        if isinstance(meta_contractor, (dict, str)):
+            return load_contractor_identity(meta_contractor)
+        return load_contractor_identity(None)
+
+    @property
+    def compliance_requirements(self) -> list[ComplianceRequirement]:
+        """Resolves compliance requirements from explicit source, project dir, or generic placeholder."""
+        if self.compliance_source is not None:
+            return load_compliance_requirements(self.compliance_source)
+        compliance_file = self.project_dir / "compliance.json"
+        if compliance_file.exists():
+            return load_compliance_requirements(compliance_file)
+        meta_compliance = self.metadata.get("compliance")
+        if meta_compliance is not None:
+            return load_compliance_requirements(meta_compliance)
+        return load_compliance_requirements(None)
 
 
 def find_project_root(start: Path | None = None) -> Path:

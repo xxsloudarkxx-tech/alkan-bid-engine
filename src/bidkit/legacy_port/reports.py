@@ -1,19 +1,22 @@
 from __future__ import annotations
 
-import json
 import csv
 from datetime import UTC, datetime
+import json
 from pathlib import Path
+from typing import Any
 
-from .audit import load_audit, validate_source_integrity
-from .config import ProjectConfig
-from .contractor import (
-    PJ_ROOFING,
-    PORT_TACOMA_COMPLIANCE,
+from ..contractor import (
+    ComplianceRequirement,
+    ContractorIdentity,
     format_compliance_summary,
     get_blocking_requirements,
+    load_compliance_requirements,
+    load_contractor_identity,
 )
-from .records import AMENDMENTS, REQUIREMENTS, RISKS, TAKEOFF
+from ..records import AMENDMENTS, REQUIREMENTS, RISKS, TAKEOFF
+from .audit import load_audit, validate_source_integrity
+from .config import ProjectConfig
 
 
 def _write_json(path: Path, content: object) -> None:
@@ -31,18 +34,60 @@ def _write_csv(path: Path, rows: list[dict]) -> None:
         writer.writerows(rows)
 
 
-def build_data_records(config: ProjectConfig) -> dict:
-    audit = load_audit(config)
+def _resolve_contractor(
+    config: ProjectConfig,
+    contractor_source: str | Path | dict[str, Any] | ContractorIdentity | None = None,
+) -> ContractorIdentity:
+    if contractor_source is not None:
+        return load_contractor_identity(contractor_source)
+    if hasattr(config, "contractor_identity"):
+        return config.contractor_identity
+    if hasattr(config, "contractor") and config.contractor is not None:
+        c = config.contractor
+        if isinstance(c, dict):
+            return load_contractor_identity(c)
+        return load_contractor_identity(
+            {
+                "legal_name": getattr(c, "legal_name", "TO_BE_FILLED"),
+                "location_city": getattr(c, "location_city", "TO_BE_FILLED"),
+                "location_state": getattr(c, "location_state", "TO_BE_FILLED"),
+                "wa_ubi": getattr(c, "wa_ubi", "TO_BE_FILLED"),
+                "contractor_registration": getattr(c, "contractor_registration", "TO_BE_FILLED"),
+                "classification": getattr(c, "classification", "TO_BE_FILLED"),
+                "registration_status": getattr(c, "registration_status", "pending"),
+            }
+        )
+    return load_contractor_identity(None)
 
-    # Include contractor identity and compliance status
+
+def _resolve_compliance(
+    config: ProjectConfig,
+    compliance_source: list[ComplianceRequirement] | str | Path | dict[str, Any] | None = None,
+) -> list[ComplianceRequirement]:
+    if compliance_source is not None:
+        return load_compliance_requirements(compliance_source)
+    if hasattr(config, "compliance_requirements"):
+        return config.compliance_requirements
+    return load_compliance_requirements(None)
+
+
+def build_data_records(
+    config: ProjectConfig,
+    contractor_source: str | Path | dict[str, Any] | ContractorIdentity | None = None,
+    compliance_source: list[ComplianceRequirement] | str | Path | dict[str, Any] | None = None,
+) -> dict:
+    audit = load_audit(config)
+    contractor = _resolve_contractor(config, contractor_source)
+    compliance_reqs = _resolve_compliance(config, compliance_source)
+
     contractor_info = {
         "contractor": {
-            "legal_name": PJ_ROOFING.legal_name,
-            "location": PJ_ROOFING.format_full_location(),
-            "wa_ubi": PJ_ROOFING.wa_ubi,
-            "contractor_registration": PJ_ROOFING.contractor_registration,
-            "classification": PJ_ROOFING.classification,
-            "status": PJ_ROOFING.registration_status,
+            "legal_name": contractor.legal_name,
+            "location": contractor.format_full_location(),
+            "wa_ubi": contractor.wa_ubi,
+            "contractor_registration": contractor.contractor_registration,
+            "classification": contractor.classification,
+            "status": contractor.registration_status,
         },
         "compliance": [
             {
@@ -52,7 +97,7 @@ def build_data_records(config: ProjectConfig) -> dict:
                 "evidence": req.evidence_file,
                 "notes": req.notes,
             }
-            for req in PORT_TACOMA_COMPLIANCE
+            for req in compliance_reqs
         ],
     }
 
@@ -65,8 +110,8 @@ def build_data_records(config: ProjectConfig) -> dict:
         "takeoff": TAKEOFF,
         "source_manifest": audit["documents"],
         "document_issues": [
-            {"status": "PENDING", "issue": "Addendum 03 filename conflicts with its internal header, which says Addendum Number 02.", "source": {"document": "072026-1044_addendum_03.pdf", "page": 1, "confidence": "HIGH"}},
-            {"status": "PENDING", "issue": "Drawings contain field-verification notes for dimensions, penetrations, utilities and conditions; controlled measurement is not supplied.", "source": {"document": "072026-1044_drawings-(1).pdf", "page": "A1-401 / A2-401", "confidence": "HIGH"}},
+            {"status": "PENDING", "issue": "Addendum 03 filename conflicts with its internal header, which says Addendum Number 02.", "source": {"document": "project_addendum_03.pdf", "page": 1, "confidence": "HIGH"}},
+            {"status": "PENDING", "issue": "Drawings contain field-verification notes for dimensions, penetrations, utilities and conditions; controlled measurement is not supplied.", "source": {"document": "project_drawings.pdf", "page": "A1-401 / A2-401", "confidence": "HIGH"}},
             {"status": "PENDING", "issue": "No bidder-specific license, bonding, insurance, workforce, wage, quote or supplier documentation was provided in the local source set.", "source": {"document": "local source inventory", "page": "n/a", "confidence": "HIGH"}},
         ],
     }
@@ -74,18 +119,29 @@ def build_data_records(config: ProjectConfig) -> dict:
     return payload
 
 
-def validation_report(config: ProjectConfig) -> dict:
-    records = build_data_records(config)
+def validation_report(
+    config: ProjectConfig,
+    contractor_source: str | Path | dict[str, Any] | ContractorIdentity | None = None,
+    compliance_source: list[ComplianceRequirement] | str | Path | dict[str, Any] | None = None,
+) -> dict:
+    contractor = _resolve_contractor(config, contractor_source)
+    compliance_reqs = _resolve_compliance(config, compliance_source)
+    records = build_data_records(config, contractor_source=contractor, compliance_source=compliance_reqs)
     integrity = validate_source_integrity(config)
-    blocking_compliance = get_blocking_requirements()
+    blocking_compliance = get_blocking_requirements(compliance_reqs)
+
+    verified_list = [
+        {"item": "Source document integrity", "status": "VERIFICADO", "evidence": f"{sum(1 for row in integrity if row['status'] == 'PASS')} of {len(integrity)} local PDF hashes match the audit manifest."},
+        {"item": "Final bid receipt date and time", "status": "VERIFICADO", "evidence": "Addendum 04 p. 1: October 29, 2026 at 2:00 PM, Owner Administration Office."},
+        {"item": "Bid Form allowance and tax fields", "status": "VERIFICADO", "evidence": "Section 00 41 00 p. 1: $25,000 allowance and 10.5% WSST field."},
+    ]
+    if contractor.registration_status.lower() == "active":
+        verified_list.append(
+            {"item": "WA State Contractor Registration", "status": "VERIFICADO", "evidence": f"{contractor.contractor_registration} - {contractor.registration_status}"}
+        )
 
     statuses = {
-        "VERIFICADO": [
-            {"item": "Source document integrity", "status": "VERIFICADO", "evidence": f"{sum(1 for row in integrity if row['status'] == 'PASS')} of {len(integrity)} local PDF hashes match the audit manifest."},
-            {"item": "Final bid receipt date and time", "status": "VERIFICADO", "evidence": "Addendum 04 p. 1: October 29, 2026 at 2:00 PM, Port Administration Office."},
-            {"item": "Bid Form allowance and tax fields", "status": "VERIFICADO", "evidence": "Section 00 41 00 p. 1: $25,000 allowance and 10.5% WSST field."},
-            {"item": "WA State Contractor Registration", "status": "VERIFICADO", "evidence": f"{PJ_ROOFING.contractor_registration} - Active (verified from screenshot)"},
-        ],
+        "VERIFICADO": verified_list,
         "PENDIENTE": [
             *([r for r in records["requirements"] if r["status"] == "PENDING"]),
             *([r for r in records["risks"] if r["status"] == "PENDING"]),
@@ -103,7 +159,6 @@ def validation_report(config: ProjectConfig) -> dict:
         "BLOQUEANTE": [r for r in records["risks"] if r["status"] == "BLOCKING"],
     }
 
-    # Add compliance summary
     compliance_summary = {
         "verified_count": sum(1 for c in records["contractor_identity"]["compliance"] if c["status"] == "verified"),
         "pending_count": sum(1 for c in records["contractor_identity"]["compliance"] if c["status"] == "pending"),
@@ -162,8 +217,16 @@ def write_working_registers(config: ProjectConfig) -> None:
     _write_csv(config.output_dir / "Construction_Schedule_Preliminary.csv", schedule)
 
 
-def write_compliance_report(config: ProjectConfig) -> None:
+def write_compliance_report(
+    config: ProjectConfig,
+    contractor_source: str | Path | dict[str, Any] | ContractorIdentity | None = None,
+    compliance_source: list[ComplianceRequirement] | str | Path | dict[str, Any] | None = None,
+    project_name: str = "TO_BE_FILLED",
+    procurement_no: str = "TO_BE_FILLED",
+) -> None:
     """Generate a standalone compliance requirements report for bid submission readiness."""
+    contractor = _resolve_contractor(config, contractor_source)
+    compliance_reqs = _resolve_compliance(config, compliance_source)
     output_path = config.output_dir / "Compliance_Requirements_Status.txt"
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -172,20 +235,20 @@ def write_compliance_report(config: ProjectConfig) -> None:
         "COMPLIANCE REQUIREMENTS STATUS REPORT",
         "=" * 80,
         "",
-        "Project: 5301 8th St E Roof Replacement",
-        "Procurement No: 072026-1044",
+        f"Project: {project_name}",
+        f"Procurement No: {procurement_no}",
         f"Generated: {datetime.now(UTC).strftime('%Y-%m-%d %H:%M:%S UTC')}",
         "",
         "=" * 80,
         "CONTRACTOR IDENTITY",
         "=" * 80,
         "",
-        f"Legal Name:             {PJ_ROOFING.legal_name}",
-        f"Location:               {PJ_ROOFING.format_full_location()}",
-        f"WA UBI:                 {PJ_ROOFING.wa_ubi}",
-        f"Contractor Reg:         {PJ_ROOFING.contractor_registration}",
-        f"Classification:         {PJ_ROOFING.classification}",
-        f"Registration Status:    {PJ_ROOFING.registration_status}",
+        f"Legal Name:             {contractor.legal_name}",
+        f"Location:               {contractor.format_full_location()}",
+        f"WA UBI:                 {contractor.wa_ubi}",
+        f"Contractor Reg:         {contractor.contractor_registration}",
+        f"Classification:         {contractor.classification}",
+        f"Registration Status:    {contractor.registration_status}",
         "",
         "=" * 80,
         "COMPLIANCE REQUIREMENTS",
@@ -193,8 +256,8 @@ def write_compliance_report(config: ProjectConfig) -> None:
         "",
     ]
 
-    verified = [r for r in PORT_TACOMA_COMPLIANCE if r.status == "verified"]
-    pending = [r for r in PORT_TACOMA_COMPLIANCE if r.status == "pending"]
+    verified = [r for r in compliance_reqs if r.status == "verified"]
+    pending = [r for r in compliance_reqs if r.status == "pending"]
 
     content.append(f"Summary: {len(verified)} Verified | {len(pending)} Pending")
     content.append("")
@@ -230,7 +293,7 @@ def write_compliance_report(config: ProjectConfig) -> None:
         "IMPORTANT NOTICE",
         "=" * 80,
         "",
-        "This report identifies compliance requirements based on typical Port of Tacoma",
+        "This report identifies compliance requirements based on standard public works",
         "bidding standards. The contractor must:",
         "",
         "1. Review the complete bid documents (specifications and addenda) for exact",

@@ -1,0 +1,570 @@
+{
+  "schema": "alkan-package/1",
+  "estimate_id": "ALKAN-PRE-2026-MES-GYP-01",
+  "date": "2026-11-17",
+  "relationship": "sub_to_gc",
+  "tier": "competitive",
+  "contractor": {
+    "name": "[CONTRACTOR NAME]",
+    "tag": "",
+    "address": "[Contractor address]",
+    "license": "[WA Contractor Lic. # - UBI #]",
+    "phone": "[Phone]",
+    "email": "",
+    "contact": "[Contact name, title]"
+  },
+  "project": {
+    "key": "MES-GYP",
+    "short": "Madison ES Replacement",
+    "title": "Madison ES Replacement - Metal Framing, Gypsum Board & Acoustic Insulation",
+    "owner": "Everett School District No. 2",
+    "owner_contact": "Megan Heiss, Procurement Supervisor - Capital Projects (425) 385-4190",
+    "project_no": "Bid ID No. 13:26/27 - Architect DYKEMAN Inc., Job 24-037",
+    "site": "616 Pecks Drive, Everett, WA 98203 (Snohomish County)",
+    "county": "Snohomish",
+    "prime_contractor": "GC bidders - to be confirmed (sub bid to GC)",
+    "bid_date": "December 9, 2026, 2:00 PM (GC bid to Owner)",
+    "wage_basis": "Snohomish County prevailing wage (WA public works, RCW 39.12), L&I rates eff. 11/2/2026",
+    "scope_label": "non-structural framing, gypsum board & acoustic insulation scope",
+    "public_works": true,
+    "documents": [
+      "Project Manual Vol. 1 - Divisions 00-10, Bid Set issued 11/3/2026 (737 pp)",
+      "Project Manual Vol. 2 - Divisions 11-23, Bid Set issued 11/3/2026 (461 pp)",
+      "Project Manual Appendix - Geotechnical report and survey (497 pp)",
+      "DRAWINGS NOT RECEIVED - all quantities parametric, to be replaced by plan takeoff"
+    ]
+  },
+  "labor_rates": {
+    "DA": {
+      "label": "Drywall applicator / framer (PW)",
+      "kind": "prevailing_wage",
+      "trade": "drywall_applicator",
+      "rate": "84.77",
+      "burden_pct": "15",
+      "source": "L&I journey-level prevailing wage, Snohomish County, eff. 11/2/2026 - Spec 00 8100 Wage Determination (Madison ES Project Manual Vol. 1) - Drywall Applicator, Journey Level $84.77"
+    },
+    "DT": {
+      "label": "Drywall taper (PW)",
+      "kind": "prevailing_wage",
+      "trade": "drywall_taper",
+      "rate": "84.77",
+      "burden_pct": "15",
+      "source": "L&I journey-level prevailing wage, Snohomish County, eff. 11/2/2026 - Spec 00 8100 Wage Determination (Madison ES Project Manual Vol. 1) - Drywall Tapers, Journey Level $84.77"
+    },
+    "LAB": {
+      "label": "Laborer (PW)",
+      "kind": "prevailing_wage",
+      "trade": "laborer",
+      "rate": "71.10",
+      "burden_pct": "15",
+      "source": "L&I journey-level prevailing wage, Snohomish County, eff. 11/2/2026 - Spec 00 8100 Wage Determination (Madison ES Project Manual Vol. 1) - Laborers, General Laborer $71.10"
+    },
+    "ADMIN": {
+      "label": "PM / admin",
+      "kind": "loaded",
+      "rate": "75.00",
+      "source": "Generic office rate - submittals, certified payroll"
+    }
+  },
+  "markups": {
+    "contingency_pct": "5",
+    "overhead_pct": "10",
+    "profit_pct": "10",
+    "rounding": "50"
+  },
+  "tax": {
+    "mode": "excluded_resale"
+  },
+  "materials": [
+    {
+      "id": "M001",
+      "section": "A. Non-Structural Metal Framing (Sec 09 2216)",
+      "item": "6\" steel studs 20 ga EQ (0.031\" / 0.035\") @ 16\" o.c.",
+      "spec": "ASTM C645, SSMA certified, AISI S220",
+      "qty": "97636",
+      "unit": "LF",
+      "unit_price": "1.15",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - L&W Supply / GMS (Gypsum Supply), Nov 2026, pending quote",
+      "qty_source": "ASSUMED - parametric from 75,522 GSF (Spec 01 1000 1.3.A); drawings not received: 8300 LF partitions / 1.333 x 1.12 jambs x 14' framed height"
+    },
+    {
+      "id": "M002",
+      "section": "A. Non-Structural Metal Framing (Sec 09 2216)",
+      "item": "6\" bottom track 20 ga EQ",
+      "spec": "ASTM C645",
+      "qty": "8715",
+      "unit": "LF",
+      "unit_price": "1.10",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - L&W Supply / GMS (Gypsum Supply), Nov 2026, pending quote",
+      "qty_source": "8300 LF partitions + 5% waste"
+    },
+    {
+      "id": "M003",
+      "section": "A. Non-Structural Metal Framing (Sec 09 2216)",
+      "item": "Slotted deflection track (ClarkDietrich BlazeFrame / MaxTrak)",
+      "spec": "Spec 09 2216 2.x.3, rated where required",
+      "qty": "8300",
+      "unit": "LF",
+      "unit_price": "3.40",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - L&W Supply / GMS (Gypsum Supply), Nov 2026, pending quote",
+      "qty_source": "8300 LF partitions"
+    },
+    {
+      "id": "M004",
+      "section": "A. Non-Structural Metal Framing (Sec 09 2216)",
+      "item": "Heavy-duty jamb studs and headers (ClarkDietrich HDS / RedHeader PRO)",
+      "spec": "Spec 09 2216 2.x",
+      "qty": "250",
+      "unit": "EA",
+      "unit_price": "65.00",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - L&W Supply / GMS (Gypsum Supply), Nov 2026, pending quote",
+      "qty_source": "ASSUMED ~1 opening per 300 GSF"
+    },
+    {
+      "id": "M005",
+      "section": "A. Non-Structural Metal Framing (Sec 09 2216)",
+      "item": "Bridging, clips, PAFs, screws, backing plates",
+      "spec": "Spec 09 2216",
+      "qty": "116200",
+      "unit": "SF",
+      "unit_price": "0.08",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - L&W Supply / GMS (Gypsum Supply), Nov 2026, pending quote",
+      "qty_source": "116200 SF framed wall"
+    },
+    {
+      "id": "M006",
+      "section": "A. Non-Structural Metal Framing (Sec 09 2216)",
+      "item": "Drywall suspension grid for gyp ceilings (Armstrong / USG)",
+      "spec": "Spec 09 2116 / 09 5113 2.x",
+      "qty": "9000",
+      "unit": "SF",
+      "unit_price": "1.35",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - L&W Supply / GMS (Gypsum Supply), Nov 2026, pending quote",
+      "qty_source": "ASSUMED - parametric from 75,522 GSF (Spec 01 1000 1.3.A); drawings not received: ~12% of GSF"
+    },
+    {
+      "id": "M007",
+      "section": "B. Gypsum Board Assemblies (Sec 09 2116)",
+      "item": "5/8\" Type X mold-resistant gypsum board, walls",
+      "spec": "ASTM C1396, mold score 10 (D3273); UL/WH listed",
+      "qty": "188496",
+      "unit": "SF",
+      "unit_price": "0.78",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - L&W Supply / GMS (Gypsum Supply), Nov 2026, pending quote",
+      "qty_source": "ASSUMED - parametric from 75,522 GSF (Spec 01 1000 1.3.A); drawings not received: 8300 LF x 13' x 2 faces + 21560 SF ext. wall inner face, less abuse/MR/cement; +10% waste"
+    },
+    {
+      "id": "M008",
+      "section": "B. Gypsum Board Assemblies (Sec 09 2116)",
+      "item": "5/8\" Type X abuse-resistant board (corridors, custodial, gym, cafeteria)",
+      "spec": "ASTM C1629 Level 1 min., mold score 10",
+      "qty": "55000",
+      "unit": "SF",
+      "unit_price": "1.20",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - L&W Supply / GMS (Gypsum Supply), Nov 2026, pending quote",
+      "qty_source": "ASSUMED areas per 09 2116 2.1.C; +10% waste"
+    },
+    {
+      "id": "M009",
+      "section": "B. Gypsum Board Assemblies (Sec 09 2116)",
+      "item": "5/8\" Type X moisture/mold-resistant board",
+      "spec": "Spec 09 2116 2.1.D",
+      "qty": "11000",
+      "unit": "SF",
+      "unit_price": "0.78",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - L&W Supply / GMS (Gypsum Supply), Nov 2026, pending quote",
+      "qty_source": "ASSUMED wet areas; +10% waste"
+    },
+    {
+      "id": "M010",
+      "section": "B. Gypsum Board Assemblies (Sec 09 2116)",
+      "item": "5/8\" cementitious backer board (tile, restrooms, custodial sinks)",
+      "spec": "ANSI A118.9, Durock / PermaBase / Hardiebacker",
+      "qty": "6480",
+      "unit": "SF",
+      "unit_price": "1.55",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - L&W Supply / GMS (Gypsum Supply), Nov 2026, pending quote",
+      "qty_source": "ASSUMED tiled areas; +8% waste"
+    },
+    {
+      "id": "M011",
+      "section": "B. Gypsum Board Assemblies (Sec 09 2116)",
+      "item": "5/8\" sag-resistant ceiling board",
+      "spec": "Spec 09 2116 2.1.F",
+      "qty": "10080",
+      "unit": "SF",
+      "unit_price": "0.70",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - L&W Supply / GMS (Gypsum Supply), Nov 2026, pending quote",
+      "qty_source": "9000 SF gyp ceilings +12% waste"
+    },
+    {
+      "id": "M012",
+      "section": "B. Gypsum Board Assemblies (Sec 09 2116)",
+      "item": "5/8\" Type X glass-mat exterior sheathing (DensGlass / Securock)",
+      "spec": "ASTM C1177, square edge",
+      "qty": "24948",
+      "unit": "SF",
+      "unit_price": "1.15",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - L&W Supply / GMS (Gypsum Supply), Nov 2026, pending quote",
+      "qty_source": "ASSUMED 1100 LF x 30' x 70% solid wall; +8% waste"
+    },
+    {
+      "id": "M013",
+      "section": "B. Gypsum Board Assemblies (Sec 09 2116)",
+      "item": "5/8\" exterior soffit board (protected exterior areas)",
+      "spec": "Spec 09 2116 2.1.I",
+      "qty": "2200",
+      "unit": "SF",
+      "unit_price": "0.85",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - L&W Supply / GMS (Gypsum Supply), Nov 2026, pending quote",
+      "qty_source": "ASSUMED covered entries; +10% waste"
+    },
+    {
+      "id": "M014",
+      "section": "B. Gypsum Board Assemblies (Sec 09 2116)",
+      "item": "GypSorb perforated acoustic gypsum ceiling, NRC 0.70 (allowance)",
+      "spec": "Spec 09 2116 2.1.G, Strata Random 8-15-20",
+      "qty": "2500",
+      "unit": "SF",
+      "unit_price": "13.50",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - GypSorb distributor, Nov 2026, pending quote",
+      "qty_source": "ASSUMED allowance - verify on RCPs"
+    },
+    {
+      "id": "M015",
+      "section": "B. Gypsum Board Assemblies (Sec 09 2116)",
+      "item": "Acoustic insulation 3-1/2\" mineral fiber, unfaced",
+      "spec": "ASTM C665, 80% recycled",
+      "qty": "65000",
+      "unit": "SF",
+      "unit_price": "0.72",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - L&W Supply / GMS (Gypsum Supply), Nov 2026, pending quote",
+      "qty_source": "ASSUMED ~60% of partitions (classroom STC walls)"
+    },
+    {
+      "id": "M016",
+      "section": "C. Joint Treatment & Accessories (Sec 09 2116)",
+      "item": "Joint compound (setting type) and paper / fiberglass tape",
+      "spec": "ASTM C475",
+      "qty": "240360",
+      "unit": "SF",
+      "unit_price": "0.09",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - L&W Supply / GMS (Gypsum Supply), Nov 2026, pending quote",
+      "qty_source": "All finished board SF"
+    },
+    {
+      "id": "M017",
+      "section": "C. Joint Treatment & Accessories (Sec 09 2116)",
+      "item": "Corner beads, L-trim, 1/2\" reveals, rated 093V expansion joints",
+      "spec": "ASTM C1047; Trim-Tex / Phillips / Fry",
+      "qty": "1",
+      "unit": "LS",
+      "unit_price": "14000.00",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - L&W Supply / GMS (Gypsum Supply), Nov 2026, pending quote",
+      "qty_source": "ASSUMED allowance; control joints max 30' o.c. (09 2116 3.5)"
+    },
+    {
+      "id": "M018",
+      "section": "C. Joint Treatment & Accessories (Sec 09 2116)",
+      "item": "Drywall screws",
+      "spec": "ASTM C1002",
+      "qty": "269460",
+      "unit": "SF",
+      "unit_price": "0.025",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - L&W Supply / GMS (Gypsum Supply), Nov 2026, pending quote",
+      "qty_source": "All board SF"
+    },
+    {
+      "id": "M019",
+      "section": "C. Joint Treatment & Accessories (Sec 09 2116)",
+      "item": "Level 5 high-build surfacer (CertainTeed Level V)",
+      "spec": "Spec 09 2116 2.2.F / 3.6.D",
+      "qty": "8000",
+      "unit": "SF",
+      "unit_price": "0.14",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - L&W Supply / GMS (Gypsum Supply), Nov 2026, pending quote",
+      "qty_source": "ASSUMED semi-gloss areas"
+    },
+    {
+      "id": "M020",
+      "section": "C. Joint Treatment & Accessories (Sec 09 2116)",
+      "item": "Acoustic sealant (acrylic latex)",
+      "spec": "Spec 09 2116 2.2.B",
+      "qty": "450",
+      "unit": "EA",
+      "unit_price": "8.50",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - L&W Supply / GMS (Gypsum Supply), Nov 2026, pending quote",
+      "qty_source": "ASSUMED both sides at acoustic walls"
+    }
+  ],
+  "labor": [
+    {
+      "id": "L001",
+      "task": "Layout and frame partitions 116200 SF @ 0.028 MH/SF",
+      "rate": "DA",
+      "hours": "3254"
+    },
+    {
+      "id": "L002",
+      "task": "Deflection / head-of-wall track 8300 LF @ 0.04 MH/LF",
+      "rate": "DA",
+      "hours": "332"
+    },
+    {
+      "id": "L003",
+      "task": "Openings: HD jambs and headers 250 EA @ 1.5 MH/EA",
+      "rate": "DA",
+      "hours": "375"
+    },
+    {
+      "id": "L004",
+      "task": "Ceiling grid 9000 SF @ 0.03 MH/SF",
+      "rate": "DA",
+      "hours": "270"
+    },
+    {
+      "id": "L005",
+      "task": "Hang wall board 231360 SF @ 0.009 MH/SF (rev 2: was 0.012)",
+      "rate": "DA",
+      "hours": "2082"
+    },
+    {
+      "id": "L006",
+      "task": "Abuse-resistant board weight factor 50,000 SF @ 0.003 MH/SF",
+      "rate": "DA",
+      "hours": "150"
+    },
+    {
+      "id": "L007",
+      "task": "Cement backer board 6,000 SF @ 0.02 MH/SF",
+      "rate": "DA",
+      "hours": "120"
+    },
+    {
+      "id": "L008",
+      "task": "Ceiling board 9000 SF @ 0.02 MH/SF",
+      "rate": "DA",
+      "hours": "180"
+    },
+    {
+      "id": "L009",
+      "task": "Exterior sheathing 23100 SF @ 0.011 MH/SF",
+      "rate": "DA",
+      "hours": "254"
+    },
+    {
+      "id": "L010",
+      "task": "Exterior soffit 2,000 SF @ 0.025 MH/SF",
+      "rate": "DA",
+      "hours": "50"
+    },
+    {
+      "id": "L011",
+      "task": "GypSorb ceiling 2,500 SF @ 0.05 MH/SF",
+      "rate": "DA",
+      "hours": "125"
+    },
+    {
+      "id": "L012",
+      "task": "Acoustic insulation 65,000 SF @ 0.006 MH/SF",
+      "rate": "DA",
+      "hours": "390"
+    },
+    {
+      "id": "L013",
+      "task": "Acoustic sealant 16,600 LF @ 0.01 MH/LF",
+      "rate": "DA",
+      "hours": "166"
+    },
+    {
+      "id": "L014",
+      "task": "Tape and finish Level 4 walls 165,000 SF @ 0.010 MH/SF (rev 2: was 0.013)",
+      "rate": "DT",
+      "hours": "1650"
+    },
+    {
+      "id": "L015",
+      "task": "Level 1 fire-tape above ceilings 50,000 SF @ 0.004 MH/SF",
+      "rate": "DT",
+      "hours": "200"
+    },
+    {
+      "id": "L016",
+      "task": "Level 2 behind casework / tile 16,000 SF @ 0.007 MH/SF",
+      "rate": "DT",
+      "hours": "112"
+    },
+    {
+      "id": "L017",
+      "task": "Ceilings Level 4 11,000 SF @ 0.016 MH/SF",
+      "rate": "DT",
+      "hours": "176"
+    },
+    {
+      "id": "L018",
+      "task": "Level 5 surfacer add 8,000 SF @ 0.008 MH/SF",
+      "rate": "DT",
+      "hours": "64"
+    },
+    {
+      "id": "L019",
+      "task": "Beads, trims, reveals, control joints",
+      "rate": "DT",
+      "hours": "200"
+    },
+    {
+      "id": "L020",
+      "task": "Stocking assist, scrap to GC dumpster, daily cleanup",
+      "rate": "LAB",
+      "hours": "400"
+    },
+    {
+      "id": "L021",
+      "task": "Foremen non-working supervision (~24 weeks)",
+      "rate": "DA",
+      "hours": "600"
+    },
+    {
+      "id": "L022",
+      "task": "Submittals, SSMA certs, mock-ups, certified payroll",
+      "rate": "ADMIN",
+      "hours": "200"
+    }
+  ],
+  "other": [
+    {
+      "id": "O001",
+      "item": "Scissor lifts - 3 units x 8 months",
+      "category": "Equipment",
+      "qty": "24",
+      "unit": "MO",
+      "rate": "950.00"
+    },
+    {
+      "id": "O002",
+      "item": "Baker scaffolds, stilts, screw guns, tools",
+      "category": "Equipment",
+      "qty": "1",
+      "unit": "LS",
+      "rate": "6000.00"
+    },
+    {
+      "id": "O003",
+      "item": "Mobilization - 2 mobs (Phase 1 framing/board, finish/punch)",
+      "category": "Mobilization",
+      "qty": "2",
+      "unit": "EA",
+      "rate": "2500.00"
+    },
+    {
+      "id": "O004",
+      "item": "L&I Statement of Intent + Affidavit (verify current fee)",
+      "category": "Fees",
+      "qty": "2",
+      "unit": "EA",
+      "rate": "65.10"
+    }
+  ],
+  "scope": [
+    {
+      "title": "Non-structural metal framing (09 2216)",
+      "text": "Interior partitions (8300 LF, 116200 SF framed) with 20 ga EQ studs, slotted deflection track, HD jambs/headers at openings, bracing and backing; drywall suspension grid for gypsum ceilings."
+    },
+    {
+      "title": "Gypsum board assemblies (09 2116)",
+      "text": "5/8\" Type X mold-resistant board, abuse-resistant board at corridors, custodial, gym and cafeteria, moisture-resistant board, cement backer at tile, sag-resistant ceiling board, glass-mat exterior sheathing, exterior soffit board, GypSorb acoustic ceiling allowance and acoustic insulation."
+    },
+    {
+      "title": "Joint treatment",
+      "text": "Finish levels per 09 2116 3.6 (Level 5 at semi-gloss, Level 4 typical, Level 2 behind casework/tile, Level 1 above ceilings), beads, reveals, rated expansion joints and acoustic sealant."
+    }
+  ],
+  "exclusions": [
+    "Performance and payment bonds (available as an add on request).",
+    "Washington State sales tax (resale to GC per WAC 458-20-171; GC collects).",
+    "Alternate No. 1 - North Parking Lot (no work of this trade).",
+    "Work outside the trade sections listed in the scope.",
+    "Dumpsters, temporary power, lighting, heat, sanitary facilities and hoisting (by GC).",
+    "Premium / overtime time unless directed in writing by GC.",
+    "Cold-formed structural metal framing / exterior load-bearing studs (05 4000, delegated design).",
+    "Thermal insulation and air/weather barriers (07 2100 / 07 2500 / 07 2726).",
+    "Acoustical panel ceilings (09 5113) and sound absorbing panels (09 8433).",
+    "Firestopping of penetrations and head-of-wall joint systems (07 8400) beyond rated deflection track.",
+    "Painting (09 9120) and wall protection (10 2600).",
+    "Fire-retardant wood blocking (06 1053)."
+  ],
+  "assumptions": [
+    "DRAWINGS NOT RECEIVED. Every quantity is parametric from the 75,522 SF school (Spec 01 1000) and must be replaced by a plan takeoff before submission.",
+    "Snohomish County prevailing wage, L&I rates effective 11/2/2026 per Spec 00 8100; rates are fixed at the bid date (12/9/2026) - re-check on L&I if an update is posted.",
+    "Work occurs in Phase 1 (new building, 3/29/2027 - SC 6/16/2028) per Spec 00 5200; Phase 2 is demolition/site work.",
+    "Owner occupies the adjacent existing school during construction; work hours 7:00 AM - 5:00 PM M-F (Spec 01 1000).",
+    "Pricing valid 30 days; material escalation beyond 2027 not included.",
+    "Mold-resistant board is used throughout because board will be installed before the building is enclosed and conditioned (09 2116 2.1.B.2).",
+    "Fire-rated assemblies: Type X per tested design; multi-layer and shaft walls assumed limited (included in waste factor) - verify on life-safety plans.",
+    "Exterior glass-mat sheathing included because it is in 09 2116 1.1.B; confirm with GC whether it goes with the 05 4000 framing package."
+  ],
+  "alkan_commission": {
+    "find_estimate_pct": "3",
+    "coordination_pct": "3",
+    "coordination_included": false
+  },
+  "release": {
+    "authorized": false,
+    "allow_budget_prices": true,
+    "note": "Preliminary budget from the specifications only (drawings not received). Quantities are parametric from the 75,522 SF building area; prices are Nov 2026 Puget Sound budget benchmarks pending supplier quotes. Not for submission until plan takeoff and quotes replace the ASSUMED/BUDGET lines."
+  },
+  "validity_days": 30,
+  "subcontract_package": {
+    "banner": "SUBCONTRACT PACKAGE – BUDGETARY",
+    "header_note": "Quantities are parametric (no drawings received). To be replaced by plan takeoff upon GC award or receipt of drawings.",
+    "basis_lead": [
+      "DRAWINGS NOT RECEIVED. All quantities are parametric from the 75,522 SF building area (Spec 01 1000 1.3.A) and assumed ratios/room program shown in each line's quantity source. This is not a plan takeoff and does not claim takeoff precision; quantities must be replaced by a plan takeoff upon GC award or receipt of drawings.",
+      "Material pricing is BUDGET/CATALOG until supplier quotes are received. All material lines remain open for supplier pricing."
+    ],
+    "summary_note": "This is a subcontract package prepared to support GC bidders. Final numbers subject to plan takeoff and supplier quotes.",
+    "coordination_notes": [
+      "Exterior glass-mat sheathing (09 2116 1.1.B) is CARRIED in this package: about $28,690 material + 254 hr, roughly $67,900 of the sell price. Confirm with the GC whether it stays here or moves to the 05 4000 cold-formed framing package; if it moves, deduct it from this package."
+    ],
+    "review_flags": [
+      "DRAWINGS NOT RECEIVED – all quantities parametric.",
+      "All material lines BUDGET/CATALOG – replace with supplier quotes.",
+      "Confirm with GC whether exterior glass-mat sheathing stays in this package or moves to 05 4000 cold-formed framing.",
+      "Confirm elevator hoistway construction (14 2400): shaft wall not included.",
+      "Re-check L&I prevailing wage rates (Snohomish County) on the bid/award date.",
+      "Pricing valid 30 days (from November 17, 2026 through December 17, 2026); material escalation beyond 2027 not included."
+    ]
+  },
+  "revision": 2,
+  "revision_log": [
+    {
+      "rev": 1,
+      "date": "2026-11-17",
+      "note": "Rev 1 - first budget from specifications"
+    },
+    {
+      "rev": 2,
+      "date": "2026-11-17",
+      "note": "Rev 2 (2026-11-17): hang 0.012 -> 0.009 MH/SF, Level 4 finish 0.013 -> 0.010 MH/SF, mold-resistant wall board 0.62 -> 0.78 $/SF, screws 0.03 -> 0.025 $/SF."
+    }
+  ]
+}

@@ -1,8 +1,7 @@
 """ALKAN Estimator V1: auditable, vendor-quoted construction costing.
 
 Does not call remote services, guess prices, certify quantities or submit bids.
-This module is deliberately separate from the historical Port of Tacoma
-`bidkit.estimate` workflow.
+This module is deliberately separate from the legacy `bidkit.estimate` workflow.
 """
 from __future__ import annotations
 
@@ -276,7 +275,7 @@ def new_template(*, estimate_id: str, project_name: str, client_type: str) -> di
     }
 
 
-def import_bidengine_takeoff(data: dict, records: list[dict], *, source_bid_ref: str = "072026-1044") -> dict:
+def import_bidengine_takeoff(data: dict, records: list[dict], *, source_bid_ref: str = "BID-REF-001") -> dict:
     """References source takeoff but NEVER auto-prices or treats plan areas as final takeoff."""
     if data.get("project", {}).get("bid_engine_ref") != source_bid_ref:
         raise ValueError(

@@ -41,9 +41,62 @@ def _book_match(item: str, unit: str, book: list[dict]) -> dict | None:
     return best if score >= 0.6 else None
 
 
-def sanity_checks(package: dict, totals: dict, price_book: list[dict], deviation_pct: int = 35) -> list[dict]:
-    """Findings as {level: 'warning'|'info', code, text}."""
+# Words that must never reach the client-facing proposal (scope / exclusions / assumptions).
+_INTERNAL = re.compile(r"prior bid|previous bid|past bid|bid anterior|oferta anterior|competitor|competencia|"
+                       r"engineer'?s estimate|estimado del ingeniero|alkan commission|comisi[oó]n|internal note|nota interna",
+                       re.I)
+# Special conditions: once they appear in the agent's notes they must be priced or excluded somewhere.
+_SPECIAL = {"fire watch / hot work": r"fire ?watch|hot ?work",
+            "fireproofing": r"fire ?proof|intumescent|sfrm",
+            "elevator / access limit": r"elevator|elevador",
+            "crane": r"\bcrane\b|gr[uú]a",
+            "HPA / over-water": r"\bhpa\b|over[- ]water|containment",
+            "delegated design (PE)": r"delegated design|\bpe[- ]stamp|engineer of record calcs|stamped calc"}
+_QUOTE_REF = re.compile(r"(#|no\.?|quote|cotiz)\s*[A-Z0-9-]*\d{3,}", re.I)
+
+
+def _package_text(package: dict) -> str:
+    parts = []
+    for key in ("materials", "labor", "other"):
+        for row in package.get(key, []):
+            parts += [str(row.get(k, "")) for k in ("item", "spec", "task", "section")]
+    for s in package.get("scope", []):
+        parts += [str(s.get("title", "")), str(s.get("text", ""))]
+    parts += [str(x) for x in package.get("exclusions", []) + package.get("assumptions", [])]
+    return " ".join(parts).lower()
+
+
+def method_checks(package: dict, notes: list[dict] | None = None) -> list[dict]:
+    """ALKAN method checks learned on the metal-fabrication bids (SEA10, Green Lantern, WSJ)."""
     out: list[dict] = []
+    client_text = [("scope", f"{s.get('title', '')} {s.get('text', '')}") for s in package.get("scope", [])]
+    client_text += [("exclusión", x) for x in package.get("exclusions", [])]
+    client_text += [("supuesto", x) for x in package.get("assumptions", [])]
+    for where, text in client_text:
+        hit = _INTERNAL.search(str(text))
+        if hit:
+            out.append({"level": "warning", "code": "internal_leak",
+                        "text": f"La propuesta ({where}) menciona «{hit.group(0)}»: eso es interno; muévalo a record_note."})
+    for m in package.get("materials", []):
+        if str(m.get("price_basis", "")).upper() == "QUOTE" and not _QUOTE_REF.search(str(m.get("price_source", ""))):
+            out.append({"level": "warning", "code": "quote_no_ref",
+                        "text": f"{m.get('id', '?')} está como QUOTE pero la fuente no trae número de cotización "
+                                f"(«{str(m.get('price_source', ''))[:50]}»)."})
+    if notes:
+        note_text = " ".join(n.get("text", "") for n in notes).lower()
+        body = _package_text(package)
+        for label, pattern in _SPECIAL.items():
+            if re.search(pattern, note_text) and not re.search(pattern, body):
+                out.append({"level": "warning", "code": "special_unpriced",
+                            "text": f"Las notas mencionan {label}, pero el paquete no lo cobra ni lo excluye: "
+                                    "agregue un renglón o una exclusión."})
+    return out
+
+
+def sanity_checks(package: dict, totals: dict, price_book: list[dict], deviation_pct: int = 35,
+                  notes: list[dict] | None = None) -> list[dict]:
+    """Findings as {level: 'warning'|'info', code, text}."""
+    out: list[dict] = method_checks(package, notes)
 
     def add(level, code, text):
         out.append({"level": level, "code": code, "text": text})

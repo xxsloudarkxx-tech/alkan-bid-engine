@@ -4,7 +4,7 @@ CLI commands for project management and migration.
 Provides utilities to:
 - List all projects
 - Initialize new projects from docs/
-- Migrate legacy Port of Tacoma project
+- Migrate legacy single-project workspace
 """
 
 from __future__ import annotations
@@ -110,13 +110,17 @@ def init_project(
     return config
 
 
-def migrate_legacy_port_tacoma(workspace_root: Path | None = None) -> ProjectConfig:
-    """Migrate the legacy Port of Tacoma project to new structure."""
+def migrate_legacy_project(
+    workspace_root: Path | None = None,
+    project_id: str = "legacy-project-001",
+    contractor_source: str | Path | dict | None = None,
+    compliance_source: str | Path | dict | list | None = None,
+) -> ProjectConfig:
+    """Migrate a legacy single-project workspace to the multi-project structure."""
 
     if workspace_root is None:
         workspace_root = find_workspace_root()
 
-    project_id = "port-tacoma-072026-1044"
     projects_dir = workspace_root / "projects"
     project_root = projects_dir / project_id
 
@@ -124,7 +128,7 @@ def migrate_legacy_port_tacoma(workspace_root: Path | None = None) -> ProjectCon
         print(f"Project {project_id} already exists. Skipping migration.")
         return ProjectConfig.load_from_file(project_root)
 
-    print(f"Migrating legacy Port of Tacoma project to {project_root}...")
+    print(f"Migrating legacy project to {project_root}...")
 
     # Create structure
     project_root.mkdir(parents=True, exist_ok=True)
@@ -132,7 +136,7 @@ def migrate_legacy_port_tacoma(workspace_root: Path | None = None) -> ProjectCon
     sources_dir.mkdir(exist_ok=True)
 
     # Copy legacy PDFs from workspace root to sources/
-    legacy_pdfs = list(workspace_root.glob("072026-1044*.pdf"))
+    legacy_pdfs = list(workspace_root.glob("*.pdf"))
 
     if legacy_pdfs:
         print(f"  Copying {len(legacy_pdfs)} source PDFs...")
@@ -142,20 +146,25 @@ def migrate_legacy_port_tacoma(workspace_root: Path | None = None) -> ProjectCon
                 shutil.copy2(pdf, dest)
                 print(f"    ✓ {pdf.name}")
 
+    from ..contractor import load_compliance_requirements, load_contractor_identity
+
+    identity = load_contractor_identity(contractor_source)
+    compliance_reqs = load_compliance_requirements(compliance_source)
+
     # Create project.json
     metadata = ProjectMetadata(
         project_id=project_id,
-        project_name="5301 8th St E Roof Replacement",
-        owner="Port of Tacoma",
-        location="Tacoma, WA",
-        bid_number="072026-1044",
-        project_number="101716.01",
+        project_name="TO_BE_FILLED",
+        owner="TO_BE_FILLED",
+        location="TO_BE_FILLED",
+        bid_number="TO_BE_FILLED",
+        project_number="TO_BE_FILLED",
         disciplines=["roofing", "architectural"],
-        description="Port of Tacoma roof replacement project (Building 1 and Building 2)",
+        description="Migrated project",
         bid_opening_date="2026-10-29",
         bid_opening_time="14:00",
         procurement_status="active",
-        source_files_glob="072026-1044*.pdf",
+        source_files_glob="*.pdf",
         keywords={
             "instructions_to_bidders": ["00 21 00", "INSTRUCTIONS TO BIDDERS"],
             "bid_form": ["00 41 00", "BID FORM"],
@@ -168,27 +177,27 @@ def migrate_legacy_port_tacoma(workspace_root: Path | None = None) -> ProjectCon
             "addendum": ["ADDENDUM", "ADDENDA"],
             "substitution": ["SUBSTITUTION", "APPROVED EQUAL"],
         },
-        specifications_files=["072026-1044_specs.pdf"],
-        drawings_files=["072026-1044_drawings-(1).pdf"],
+        specifications_files=["project_specs.pdf"],
+        drawings_files=["project_drawings.pdf"],
     )
 
     contractor = ContractorInfo(
-        legal_name="P J ROOFING LLC",
-        location_city="Kent",
-        location_state="Washington",
-        wa_ubi="604785233",
-        contractor_registration="PJROOJR747OT",
-        classification="GENERAL",
-        registration_status="Active",
+        legal_name=identity.legal_name,
+        location_city=identity.location_city,
+        location_state=identity.location_state,
+        wa_ubi=identity.wa_ubi,
+        contractor_registration=identity.contractor_registration,
+        classification=identity.classification,
+        registration_status=identity.registration_status,
     )
 
     estimate_config = ProjectEstimateConfig(
         tax_rate=0.105,
         tax_rate_status="VERIFIED BID FORM",
-        tax_rate_source="072026-1044_specs.pdf | 00 41 00 p. 1",
+        tax_rate_source="project_specs.pdf | 00 41 00 p. 1",
         allowance=25000.0,
         allowance_status="VERIFIED BID FORM",
-        allowance_source="072026-1044_specs.pdf | 00 41 00 p. 1",
+        allowance_source="project_specs.pdf | 00 41 00 p. 1",
     )
 
     config = ProjectConfig(
@@ -201,10 +210,8 @@ def migrate_legacy_port_tacoma(workspace_root: Path | None = None) -> ProjectCon
     config.save_to_file()
     print(f"  ✓ Created project.json")
 
-    # Migrate data from legacy records.py
-    # Import legacy constants (they will still exist until we refactor)
     try:
-        from .records import AMENDMENTS, REQUIREMENTS, RISKS, TAKEOFF
+        from ..records import AMENDMENTS, REQUIREMENTS, RISKS, TAKEOFF
 
         store = ProjectDataStore(project_root)
         store.save_requirements(REQUIREMENTS)
@@ -212,9 +219,6 @@ def migrate_legacy_port_tacoma(workspace_root: Path | None = None) -> ProjectCon
         store.save_risks(RISKS)
         store.save_takeoff(TAKEOFF)
         print(f"  ✓ Migrated legacy data records")
-
-        # Migrate compliance from contractor.py
-        from .contractor import PORT_TACOMA_COMPLIANCE
 
         compliance_records = [
             {
@@ -224,7 +228,7 @@ def migrate_legacy_port_tacoma(workspace_root: Path | None = None) -> ProjectCon
                 "evidence_file": req.evidence_file,
                 "notes": req.notes,
             }
-            for req in PORT_TACOMA_COMPLIANCE
+            for req in compliance_reqs
         ]
         store.save_compliance_requirements(compliance_records)
         print(f"  ✓ Migrated compliance requirements")

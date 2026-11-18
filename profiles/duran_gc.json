@@ -1,0 +1,55 @@
+{
+  "profile": "Duran General Contractor LLC",
+  "estimate_prefix": "DURAN-EST-2026",
+  "date": "AUTO",
+  "contractor": {
+    "name": "DURAN GENERAL CONTRACTOR LLC",
+    "tag": "GENERAL CONTRACTOR",
+    "address": "[Address - from L&I lookup]",
+    "license": "[WA Contractor Lic. # · UBI # - from L&I lookup]",
+    "phone": "[Phone]",
+    "email": "",
+    "contact": "[Contact name, title]"
+  },
+  "relationship": "sub_to_gc",
+  "tier": "competitive",
+  "labor_rates": {
+    "SHOP": {
+      "label": "Shop / prefabrication",
+      "kind": "loaded",
+      "rate": "65.00",
+      "source": "Generic loaded shop rate — replace with the contractor's rate"
+    },
+    "ADMIN": {
+      "label": "PM / admin",
+      "kind": "loaded",
+      "rate": "75.00",
+      "source": "Generic office rate — submittals, certified payroll"
+    }
+  },
+  "burden_pct": "15",
+  "markups": {
+    "contingency_pct": "5",
+    "overhead_pct": "10",
+    "profit_pct": "10",
+    "rounding": "50"
+  },
+  "tax": {
+    "mode": "excluded_resale"
+  },
+  "alkan_commission": {
+    "find_estimate_pct": "3",
+    "coordination_pct": "3",
+    "coordination_included": false
+  },
+  "validity_days": 30,
+  "scope_policy": [],
+  "aliases": [
+    "duran",
+    "durán",
+    "duran gc",
+    "duran general contractor"
+  ],
+  "oficio": "General contracting",
+  "incompleto": true
+}

@@ -1,0 +1,87 @@
+{
+  "profile": "JC Granite Design LLC",
+  "estimate_prefix": "JCGD-EST-2026",
+  "date": "AUTO",
+  "contractor": {
+    "name": "JC GRANITE DESIGN LLC",
+    "tag": "COUNTERTOPS · SOLID SURFACES",
+    "address": "Tacoma, WA",
+    "license": "WA Contractor Lic. JCGRAGD775Q9 · UBI 605 354 075",
+    "phone": "(509) 331-3687",
+    "email": "",
+    "contact": "Ricardo Garcia"
+  },
+  "relationship": "sub_to_gc",
+  "tier": "competitive",
+  "labor_rates": {
+    "FAB": {
+      "label": "Shop fabricator",
+      "kind": "loaded",
+      "rate": "65.00",
+      "source": "JC Granite in-shop countertop fabrication loaded rate"
+    },
+    "INST": {
+      "label": "Field installer (prevailing wage)",
+      "kind": "prevailing_wage",
+      "trade": "Carpenters",
+      "rate": "83.21",
+      "source": "L&I journey-level rates, King Co., Carpenters General Carpenter, eff. 8/31/2026 (City of Redmond IFB 10912-26 Att. F) — replace with project county rate via lookup_wage"
+    },
+    "ADMIN": {
+      "label": "PM / admin",
+      "kind": "loaded",
+      "rate": "75.00",
+      "source": "Office / submittals / templates"
+    }
+  },
+  "burden_pct": "15",
+  "markups": {
+    "contingency_pct": "5",
+    "overhead_pct": "10",
+    "profit_pct": "10",
+    "rounding": "50"
+  },
+  "tax": {
+    "mode": "excluded_resale"
+  },
+  "alkan_commission": {
+    "find_estimate_pct": "3",
+    "coordination_pct": "3",
+    "coordination_included": false
+  },
+  "validity_days": 30,
+  "scope_policy": [
+    "Countertop fabrication and installation only; base bid only — alternates excluded (list them).",
+    "Include: HPDL countertops, backsplash, reception surfaces, Rakks wall-mounted brackets, grommets, sealant, countertop edge details.",
+    "Exclude unless asked: casework/cabinets (by millwork sub), plumbing fixtures, electrical, rough carpentry, general conditions, bonds, sales tax."
+  ],
+  "spec_sections": [
+    "12 3600",
+    "12 3200"
+  ],
+  "aliases": [
+    "jc",
+    "jc granite",
+    "juan carlos",
+    "ricardo",
+    "granite",
+    "cubiertas",
+    "countertops"
+  ],
+  "oficio": "Countertops and solid surfaces",
+  "exclusiones_base": [
+    "Casework, cabinets and millwork (by millwork subcontractor).",
+    "Plumbing fixtures, faucets and sink installation; electrical.",
+    "Rough carpentry and in-wall blocking (by GC/framer).",
+    "Performance and payment bonds; Washington State sales tax (resale to GC)."
+  ],
+  "supuestos_base": [
+    "Pricing is for the base bid only; alternates are excluded unless listed."
+  ],
+  "scope_excluir": [
+    {
+      "patron": "(?i)\\b(base|wall|tall) cabinets?\\b|\\bcasework\\b(?!.*countertop)",
+      "motivo": "JC Granite no hace casework: va con el sub de millwork (p.ej. Díaz)."
+    }
+  ]
+}

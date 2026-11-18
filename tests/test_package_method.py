@@ -121,7 +121,7 @@ def test_build_renders_three_documents_and_qa_passes(tmp_path, name):
 def test_cli_multiple_inputs(tmp_path, capsys):
     rc = package_main([str(EX / "*.json"), "--out", str(tmp_path)])
     assert rc == 0
-    assert {p.name for p in tmp_path.iterdir()} == {"WSJ", "MERIDIAN", "ORANGEGATE", "GONYEA"}
+    assert {"WSJ", "MERIDIAN", "ORANGEGATE", "GONYEA"} <= {p.name for p in tmp_path.iterdir()}
 
 
 def test_qa_detects_tampered_document(tmp_path):

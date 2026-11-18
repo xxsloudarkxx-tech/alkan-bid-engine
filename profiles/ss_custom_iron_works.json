@@ -48,5 +48,23 @@
     "Metal fabrication and metal site elements only; base bid only — alternates excluded (list them).",
     "Include: structural & misc. steel, steel deck, grating, handrails/guardrails, chain-link & ornamental fences and gates, bollards, bike racks, trash receptacles, basketball systems, sign structures (signs as allowance if pre-engineered by sign manufacturer).",
     "Exclude unless asked: benches, picnic tables, boulders/bronze, logs, play equipment, light-gauge framing, sheet-metal flashing/gutters, wood fences, field finish painting, concrete foundations other than post/bollard footings, special inspection, bonds, sales tax."
+  ],
+  "aliases": [
+    "ss",
+    "s&s",
+    "s & s",
+    "shervin",
+    "iron works",
+    "ironworks",
+    "herreria"
+  ],
+  "oficio": "Metal fabrication and welding",
+  "exclusiones_base": [
+    "Structural steel (05 1200) unless listed in the scope.",
+    "Field painting beyond shop primer unless listed; galvanizing only where listed.",
+    "Performance and payment bonds; Washington State sales tax (resale to GC)."
+  ],
+  "supuestos_base": [
+    "Pricing is for the base bid only; alternates are excluded unless listed."
   ]
 }

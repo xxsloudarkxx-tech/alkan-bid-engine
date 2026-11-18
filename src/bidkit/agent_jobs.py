@@ -18,10 +18,14 @@ from pathlib import Path
 
 from . import delivery
 from .app_settings import AppSettings
+from .deliverables_v4 import generate_all_deliverables
+from .domain import AuditLedger, normalize_state
 from .estimator_agent.agent import Cancelled, EstimatorAgent, write_report
 from .estimator_agent.anthropic_client import AnthropicClient, APIError
 from .estimator_agent.docindex import DocIndex
 from .estimator_agent.tools import ToolBox
+from .package_method import load_package
+from .security import SelfApprovalError
 
 KEY_RE = re.compile(r"^[A-Z0-9][A-Z0-9_-]{1,23}$")
 ACTIVE = ("en cola", "indexando", "estimando")
@@ -124,7 +128,27 @@ class RunManager:
                             dst.write(chunk)
 
     # ───────────────────────────── state
+    @staticmethod
+    def _canonical_for(status: str) -> str:
+        mapping = {
+            "en cola": "Processing",
+            "indexando": "Processing",
+            "estimando": "Processing",
+            "lista": "Review Required",
+            "incompleta": "Review Required",
+            "autorizada": "Approved",
+            "rechazada": "Rejected",
+            "exportada": "Exported",
+            "cancelada": "Error",
+            "interrumpida": "Error",
+            "error": "Error",
+            "no-go": "Rejected",
+        }
+        return mapping.get((status or "").lower(), normalize_state("Draft"))
+
     def _write(self, run_dir: Path, state: dict) -> None:
+        state["canonical_state"] = self._canonical_for(state.get("status", ""))
+        state.setdefault("org_id", "default")
         with self._lock:
             tmp = json.dumps(state, indent=1, ensure_ascii=False)
             (run_dir / "run.json").write_text(tmp, encoding="utf-8")
@@ -134,6 +158,8 @@ class RunManager:
             state = json.loads((run_dir / "run.json").read_text(encoding="utf-8"))
         if state["status"] in ACTIVE and state["id"] not in self._threads:
             state["status"], state["error"] = "interrumpida", "El motor se cerró mientras esta corrida trabajaba."
+        state["canonical_state"] = self._canonical_for(state.get("status", ""))
+        state.setdefault("org_id", "default")
         return state
 
     def active(self) -> str | None:
@@ -353,18 +379,86 @@ class RunManager:
             raise ValueError("Esta corrida no tiene paquete")
         return path
 
-    def authorize(self, run_id: str, actor: str, note: str = "") -> dict:
+    def authorize(self, run_id: str, actor: str, note: str = "", *, strict_separation: bool = False) -> dict:
         run_dir = self.run_dir(run_id)
         state = self._read(run_dir)
         if state["status"] != "lista":
             raise ValueError("Solo se autoriza una entrega lista y verificada")
-        manifest = delivery.authorize(self._package(run_dir, state), run_dir, actor, note)
+        manifest = delivery.authorize(
+            self._package(run_dir, state),
+            run_dir,
+            actor,
+            note,
+            prepared_by=state.get("actor", ""),
+            org_id=state.get("org_id", "default"),
+            strict_separation=strict_separation,
+        )
         deliv = self.settings.load()["delivery"]
-        state.update(proposal=manifest["proposal_release"]["label"], authorized_by=actor, authorized_at=_now(),
-                     status="autorizada", stage=f"Propuesta autorizada por {actor}")
+        state.update(
+            proposal=manifest["proposal_release"]["label"],
+            authorized_by=actor,
+            authorized_at=_now(),
+            version=manifest.get("version", 1),
+            independent_reviewer_verified=manifest.get("independent_reviewer_verified", False),
+            status="autorizada",
+            stage=f"Propuesta autorizada por {actor}",
+        )
         delivery.make_zip(run_dir, state["key"], package_json=deliv["zip_include_package_json"], log=deliv["zip_include_log"])
         self._write(run_dir, state)
         return self.get(run_id)
+
+    def reject(self, run_id: str, actor: str, reason: str = "") -> dict:
+        run_dir = self.run_dir(run_id)
+        state = self._read(run_dir)
+        actor_clean = (actor or "").strip()
+        if not actor_clean:
+            raise ValueError("Indique responsable de rechazo")
+        prev = state.get("canonical_state", "Review Required")
+        state.update(status="rechazada", rejected_by=actor_clean, rejected_at=_now(), rejection_reason=reason.strip(), stage=f"Rechazada por {actor_clean}")
+        self._write(run_dir, state)
+        AuditLedger(self.root / "data" / "orgs" / state.get("org_id", "default") / "audit_ledger.jsonl").record(
+            org_id=state.get("org_id", "default"),
+            project_id=state["key"],
+            actor=actor_clean,
+            role="reviewer",
+            action="PROPOSAL_REJECTED",
+            state_from=prev,
+            state_to="Rejected",
+            resource_type="run",
+            resource_id=run_id,
+            detail={"reason": reason.strip()},
+        )
+        return self.get(run_id)
+
+    def export_v4(self, run_id: str, actor: str) -> dict:
+        run_dir = self.run_dir(run_id)
+        state = self._read(run_dir)
+        pkg = load_package(self._package(run_dir, state))
+        version = int(state.get("version") or 1)
+        bundle = generate_all_deliverables(
+            pkg,
+            run_dir / "deliverables_v4",
+            version=version,
+            status=state.get("canonical_state") or "Review Required",
+            reviewer=state.get("authorized_by") or "",
+        )
+        prev = state.get("canonical_state", "Approved")
+        if prev == "Approved":
+            state.update(status="exportada", stage=f"Paquete de 6 entregables exportado (v{version})")
+            self._write(run_dir, state)
+        AuditLedger(self.root / "data" / "orgs" / state.get("org_id", "default") / "audit_ledger.jsonl").record(
+            org_id=state.get("org_id", "default"),
+            project_id=state["key"],
+            actor=actor,
+            role="operator",
+            action="DELIVERABLES_EXPORTED",
+            state_from=prev,
+            state_to="Exported" if prev == "Approved" else prev,
+            resource_type="run",
+            resource_id=run_id,
+            detail={"version": version},
+        )
+        return bundle
 
     def rebrand(self, run_id: str, profile_name: str, actor: str) -> dict:
         """Apply a contractor to a package made without brand (or for someone else)."""

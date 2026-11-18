@@ -1,4 +1,6 @@
-# ALKAN Bid Engine 3.6
+# ALKAN Bid Engine 3.8
+
+**Nuevo en 3.8 — Proveedores y cambio de precios:** directorio de proveedores (Administrador → Proveedores) y `.\Start-Reprice.ps1` para cambiar precios o proveedores de un estimado ya hecho y volver a generar el paquete, con registro de antes y después. Ver [guía](docs/PROVEEDORES_Y_CAMBIOS_V3_8.md).
 
 **Nuevo en 3.6 — App unificada y administrador:** `.\Start-BidEngine.ps1` abre una sola pantalla con Inicio, Nuevo estimado (subir PDF/ZIP → paquete de 3 documentos con avance en vivo), Entregas y Administrador (clave de API, modelo, método, entrega, contratistas, tarifas L&I, libro de precios, productividad). El agente usa Claude Fable 5.2 por defecto, decide GO/NO-GO antes de estimar, pasa una revisión independiente y controles automáticos. Ver [guía 3.6](docs/APP_V3_6.md).
 

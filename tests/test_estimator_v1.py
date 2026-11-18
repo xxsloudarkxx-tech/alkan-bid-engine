@@ -70,8 +70,8 @@ class EstimatorV1Tests(unittest.TestCase):
         self.assertEqual(calculate(d, as_of=AS_OF)["status"], "BLOCKED_INPUTS")
 
     def test_takeoff_import_never_auto_prices(self):
-        d = new_template(estimate_id="PORT-TACOMA", project_name="Roof", client_type="public_works")
-        d["project"]["bid_engine_ref"] = "072026-1044"
+        d = new_template(estimate_id="PROJ-ROOF-001", project_name="Roof", client_type="public_works")
+        d["project"]["bid_engine_ref"] = "BID-REF-001"
         import_bidengine_takeoff(d, TAKEOFF)
         self.assertEqual(len(d["takeoff_references"]), len(TAKEOFF))
         self.assertEqual(d["takeoff_references"][0]["reference_quantity"], TAKEOFF[0]["quantity"])

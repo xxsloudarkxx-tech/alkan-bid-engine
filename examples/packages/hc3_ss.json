@@ -1,0 +1,253 @@
+{
+  "schema": "alkan-package/1",
+  "estimate_id": "SS-EST-2026-HC3-01",
+  "date": "2026-11-12",
+  "relationship": "sub_to_gc",
+  "tier": "competitive",
+  "contractor": {
+    "name": "S & S CUSTOM IRON WORKS LLC",
+    "tag": "METAL FABRICATION \u00b7 WELDING",
+    "address": "18526 N High Rock Rd, Monroe, WA 98272",
+    "license": "WA Contractor Lic. SSCUSSC781J9 \u00b7 UBI 604 724 501",
+    "phone": "(425) 443-1691",
+    "email": "info@ss-ironworks.com",
+    "contact": "Shervin Faezi, Member",
+    "logo": "assets/ss_logo.png"
+  },
+  "project": {
+    "key": "HC3",
+    "short": "Highline College Bldg 3 Renovation",
+    "title": "Highline College Building 3 Renovation \u2014 Exterior Metal Screens & Miscellaneous Metals",
+    "owner": "Highline College / State of Washington DES",
+    "owner_contact": "Zach Lambert, 206-653-5537",
+    "project_no": "2026-763 G (1-1)",
+    "site": "2400 S. 240th St., Des Moines, WA 98198 (King County)",
+    "county": "King",
+    "prime_contractor": "to be confirmed at award",
+    "bid_date": "November 17, 2026, 1:00 PM",
+    "wage_basis": "King County prevailing wage (WA State public works project)",
+    "scope_label": "exterior metal screens and miscellaneous metals scope",
+    "documents": [
+      "Plans - Highline College Bldg 3 Renovation (62 sheets, 10/20/2026)",
+      "Specifications (Section 10 8213 - Exterior Grilles and Screens)",
+      "Addendum No. 1 (10/30/2026) - Note: Section 05 1200 Structural Steel DELETED per Addendum"
+    ]
+  },
+  "labor_rates": {
+    "IW": {
+      "label": "Ironworker",
+      "kind": "prevailing_wage",
+      "trade": "ironworker",
+      "rate": "94.82",
+      "burden_pct": "15",
+      "source": "L&I journey-level Ironworker, King Co., WA prevailing wage"
+    },
+    "SHOP": {
+      "label": "Shop fabricator",
+      "kind": "loaded",
+      "rate": "65.00",
+      "source": "S & S in-shop metal fabrication loaded rate"
+    },
+    "ADMIN": {
+      "label": "PM / admin",
+      "kind": "loaded",
+      "rate": "75.00",
+      "source": "Office / submittals / certified payroll"
+    }
+  },
+  "markups": {
+    "contingency_pct": "5",
+    "overhead_pct": "10",
+    "profit_pct": "10",
+    "rounding": "50"
+  },
+  "tax": {
+    "mode": "excluded_resale"
+  },
+  "materials": [
+    {
+      "id": "M001",
+      "section": "A. Mechanical Roof Screen System (Sec 10 8213)",
+      "item": "Round post supports - 12\" tall galvanized steel weldments with base plate for roof structure attachment",
+      "spec": "Galvanized steel, height-adjustable with telescope tube sleeve, self-drilling/self-tapping screws",
+      "qty": "16",
+      "unit": "EA",
+      "unit_price": "185.00",
+      "price_basis": "BUDGET",
+      "price_source": "Budget pricing galv steel post weldments, Puget Sound Nov 2026",
+      "qty_source": "Plans A4.01, A5.01 roof screen layout - 2 screen areas, est. 8 posts each"
+    },
+    {
+      "id": "M002",
+      "section": "A. Mechanical Roof Screen System (Sec 10 8213)",
+      "item": "Round post caps - AISI Type 304 stainless steel, mill finish, slip-over 2-1/2\" sleeve",
+      "spec": "304 SS weldments, adjustable height with sleeve tube",
+      "qty": "16",
+      "unit": "EA",
+      "unit_price": "95.00",
+      "price_basis": "BUDGET",
+      "price_source": "Budget pricing 304 SS post cap weldments, Nov 2026",
+      "qty_source": "One per post support"
+    },
+    {
+      "id": "M003",
+      "section": "A. Mechanical Roof Screen System (Sec 10 8213)",
+      "item": "Framing - carbon/galvanized steel structural tubing per ASTM A500/A787, mfr std galv coating ASTM A1057",
+      "spec": "Wall thickness per structural calculations, ASCE 7 wind/snow/seismic loads for Des Moines WA at bldg height",
+      "qty": "240",
+      "unit": "LF",
+      "unit_price": "28.00",
+      "price_basis": "BUDGET",
+      "price_source": "Budget pricing galvanized structural tube framing, Nov 2026",
+      "qty_source": "Plans A4.01/A5.01 elevations - 2 screen areas approx 52' and 72' runs x ~1.5x for verticals"
+    },
+    {
+      "id": "M004",
+      "section": "A. Mechanical Roof Screen System (Sec 10 8213)",
+      "item": "7.2 Rib panels - 24 ga min Galvalume AZ50 ASTM A792, PVDF 2-coat 70% fluoropolymer, color sel. by Architect",
+      "spec": "Solid panel type, off-white primer reverse, No.12 self-tap screws color-matched heads",
+      "qty": "480",
+      "unit": "SF",
+      "unit_price": "12.50",
+      "price_basis": "BUDGET",
+      "price_source": "Budget pricing PVDF rib panel on Galvalume, Nov 2026",
+      "qty_source": "Plans elevations - 2 screen areas est. 124 LF x ~4' avg ht"
+    },
+    {
+      "id": "M005",
+      "section": "A. Mechanical Roof Screen System (Sec 10 8213)",
+      "item": "Connector fittings - AISI 304 SS mill finish, hardware bolts/nuts/washers 18-8 SS",
+      "spec": "Per manufacturer spec, stainless steel hardware throughout",
+      "qty": "1",
+      "unit": "LS",
+      "unit_price": "1400.00",
+      "price_basis": "BUDGET",
+      "price_source": "Allowance for SS connectors and hardware, Nov 2026",
+      "qty_source": "Spec 10 8213 Sec 2.02"
+    },
+    {
+      "id": "M006",
+      "section": "A. Mechanical Roof Screen System (Sec 10 8213)",
+      "item": "Panel trim - matching Galvalume/PVDF material and finish per drawings configuration",
+      "spec": "Same material as panels, config per drawings",
+      "qty": "1",
+      "unit": "LS",
+      "unit_price": "850.00",
+      "price_basis": "BUDGET",
+      "price_source": "Allowance for panel trim, Nov 2026",
+      "qty_source": "Spec 10 8213 Sec 2.02A.3k"
+    },
+    {
+      "id": "M007",
+      "section": "A. Mechanical Roof Screen System (Sec 10 8213)",
+      "item": "Round TPO roof flashing - 60 mil white TPO per ASTM D6878, 5\" min flange extension, hot-weld seams",
+      "spec": "Integral flashing for each post penetration, water-tight",
+      "qty": "16",
+      "unit": "EA",
+      "unit_price": "65.00",
+      "price_basis": "BUDGET",
+      "price_source": "Budget pricing TPO post flashings, Nov 2026",
+      "qty_source": "One per post support"
+    },
+    {
+      "id": "M008",
+      "section": "B. Miscellaneous Metals",
+      "item": "Countertop support brackets - Rakks EH Series 6063-T6 aluminum (if furnished by metals sub)",
+      "spec": "Per Spec 12 3200 Sec 2.06F, 450 lb/bracket min, powder-coat, cable mgmt grommet",
+      "qty": "24",
+      "unit": "EA",
+      "unit_price": "95.00",
+      "price_basis": "BUDGET",
+      "price_source": "Rakks EH Series distributor pricing, Nov 2026",
+      "qty_source": "Est 1 per 2 LF countertop (may be by casework sub)"
+    }
+  ],
+  "other": [
+    {
+      "id": "O001",
+      "item": "Mobilization, crane/lift for roof access, delivery of screen assemblies",
+      "category": "Mobilization",
+      "qty": "1",
+      "unit": "LS",
+      "rate": "3200.00"
+    },
+    {
+      "id": "O002",
+      "item": "Crane rental, welding equipment, concrete scanning, fall protection",
+      "category": "Equipment",
+      "qty": "1",
+      "unit": "LS",
+      "rate": "2800.00"
+    },
+    {
+      "id": "O003",
+      "item": "Touch-up paint, sealants, protection during construction",
+      "category": "Fees",
+      "qty": "1",
+      "unit": "LS",
+      "rate": "650.00"
+    },
+    {
+      "id": "O004",
+      "item": "Deferred submittal - structural design calculations by WA-licensed PE for screen framing, attachments, base reactions",
+      "category": "Fees",
+      "qty": "1",
+      "unit": "LS",
+      "rate": "4500.00"
+    }
+  ],
+  "release": {
+    "authorized": true,
+    "disclaimer": "This estimate is based on the bid documents listed above including Addendum No. 1. Section 05 1200 Structural Steel has been DELETED per Addendum No. 1 and is EXCLUDED from this scope. Mechanical roof screen system is a deferred submittal - final layout and quantities per manufacturer calculations. Sales tax excluded (resale to GC). Prevailing wages apply. Valid for 30 days.",
+    "allow_budget_prices": true,
+    "budget_note": "Pre-bid budget estimate based on plan takeoff and prevailing wage rates. Subject to final quantity verification.",
+    "note": "Pre-bid budget estimate. Quantities from plan takeoff; prices from market benchmarks Nov 2026. Subject to field verification."
+  },
+  "labor": [
+    {
+      "id": "L001",
+      "task": "Shop fabrication - post supports, framing, panel assembly, connections, all AWS certified welding",
+      "rate": "SHOP",
+      "hours": "120"
+    },
+    {
+      "id": "L003",
+      "task": "Field erection - roof screens, posts, panels, trim, concrete scanning for anchors per Sec 01 7000",
+      "rate": "IW",
+      "hours": "80"
+    },
+    {
+      "id": "L004",
+      "task": "Submittals, shop drawings, PE deferred submittal coordination, certified payroll, punch list",
+      "rate": "ADMIN",
+      "hours": "32"
+    }
+  ],
+  "scope": [
+    {
+      "title": "Exterior Grilles and Screens (Sec 10 8213)",
+      "text": "Furnish and install mechanical roof screen system: galvanized steel post supports (16), 304 SS post caps, structural steel tube framing (240 LF), 7.2 Rib Galvalume/PVDF panels (480 SF), 304 SS connectors and hardware, panel trim, and TPO roof flashings. BOD: RoofScreen Mfg SC3R Cantilevered Three-Member Frame or CityScapes Envisor."
+    },
+    {
+      "title": "Deferred Structural Submittal",
+      "text": "Provide structural design calculations by WA-licensed PE for screen framing, base reactions, and attachment to existing roof structure per ASCE 7 loads for Des Moines WA site."
+    }
+  ],
+  "exclusions": [
+    "Structural steel framing (Section 05 1200 DELETED per Addendum No. 1 - confirmed no structural steel on this project).",
+    "Miscellaneous metals not shown on drawings for screen system.",
+    "Roofing repair or modification beyond TPO post flashings.",
+    "Electrical connections to mechanical equipment behind screens.",
+    "Painting of concealed structural members (shop primer only).",
+    "Countertop brackets (Rakks EH Series - listed as alternate if furnished by metals sub; by countertop sub unless directed otherwise)."
+  ],
+  "assumptions": [
+    "Roof screen quantities are BUDGET estimates based on plan elevations A4.01/A4.02 and building section A5.01. This is a deferred submittal item - final quantities per manufacturer layout and PE calculations.",
+    "Two screen areas assumed per elevations: approx 52' and 72' runs at approx 4' average height.",
+    "Post count (16) estimated at 8 per screen area. Final count per structural calculations.",
+    "Crane access available from grade. Single mobilization with crane assumed.",
+    "All field work subject to King County prevailing wages (Ironworker rate). Certified payroll included.",
+    "AWS certified welder(s) per specification. Shop and field welding per AWS D1.1."
+  ],
+  "validity_days": 30
+}

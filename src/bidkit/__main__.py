@@ -26,6 +26,10 @@ def main(argv: list[str] | None = None) -> int:
         # Paquete ALKAN de 3 documentos: no depende de un expediente en docs/.
         from .package_build import main as package_main
         return package_main(argv[1:])
+    if argv and argv[0] == "reprice":
+        # Cambiar precios o proveedores de un estimado (archivo de cambios o listas de precios).
+        from .reprice import main as reprice_main
+        return reprice_main(argv[1:])
     parser = argparse.ArgumentParser(prog="bidkit")
     parser.add_argument("command", choices=["audit", "takeoff", "estimate", "build", "validate", "list-projects", "inventory", "cost-init", "cost-import", "estimate-ui", "package", "estimate-agent"])
     parser.add_argument("--root", type=Path)

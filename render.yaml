@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: alkan-bid-engine-api
+    runtime: python
+    buildCommand: pip install --no-cache-dir -e ".[api]"
+    startCommand: uvicorn bidkit.mobile_api:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/mobile/health
+    autoDeploy: true
+    envVars:
+      - key: BIDKIT_ROOT
+        value: .
+      - key: ALKAN_ALLOW_BOOTSTRAP
+        value: "true"
+      - key: ALKAN_CORS_ORIGINS
+        value: "*"
+      - key: ANTHROPIC_API_KEY
+        sync: false

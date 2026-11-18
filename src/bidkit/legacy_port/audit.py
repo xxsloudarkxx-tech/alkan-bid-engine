@@ -75,7 +75,7 @@ def evidence_for_document(path: Path) -> tuple[dict[str, list[dict[str, Any]]], 
 
 def audit(config: ProjectConfig) -> dict[str, Any]:
     if not config.source_files:
-        raise FileNotFoundError("No se encontraron PDFs oficiales 072026-1044_*.pdf")
+        raise FileNotFoundError("No se encontraron PDFs oficiales del proyecto")
     documents = []
     all_evidence: dict[str, list[dict[str, Any]]] = {key: [] for key in KEYWORDS}
     for source in config.source_files:
@@ -98,11 +98,11 @@ def audit(config: ProjectConfig) -> dict[str, Any]:
         )
     payload = {
         "project": {
-            "project_name": "5301 8th St E Roof Replacement",
-            "project_no": "101716.01",
-            "procurement_no": "072026-1044",
-            "owner": "Port of Tacoma",
-            "stated_bid_time": "2026-10-29 14:00 America/Los_Angeles - pending source confirmation",
+            "project_name": getattr(config, "project_name", None) or "TO_BE_FILLED",
+            "project_no": "TO_BE_FILLED",
+            "procurement_no": "TO_BE_FILLED",
+            "owner": "TO_BE_FILLED",
+            "stated_bid_time": "pending source confirmation",
         },
         "generated_utc": datetime.now(UTC).isoformat(),
         "documents": documents,

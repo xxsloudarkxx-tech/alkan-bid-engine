@@ -18,7 +18,7 @@ from .sanity import sanity_checks
 KB_DIR = Path(__file__).with_name("knowledge")
 
 
-KB_TABLES = ("wages", "price_book", "productivity")
+KB_TABLES = ("wages", "price_book", "productivity", "suppliers")
 
 
 def _load_kb(name: str, override_dir: Path | None = None):
@@ -32,7 +32,7 @@ def _load_kb(name: str, override_dir: Path | None = None):
 STAGES = {"list_documents": "Inventario de documentos", "search_documents": "Fechas, requisitos y alcance",
           "read_page_text": "Lectura de specs, addenda y bid form", "view_page": "Takeoff en planos",
           "measure_on_view": "Takeoff en planos", "lookup_price": "Precios", "web_search": "Precios y tarifas (web)",
-          "lookup_wage": "Mano de obra", "lookup_productivity": "Mano de obra", "record_note": "Notas para el reporte",
+          "list_suppliers": "Precios", "lookup_wage": "Mano de obra", "lookup_productivity": "Mano de obra", "record_note": "Notas para el reporte",
           "save_package": "Paquete: cálculo", "build_package": "Paquete: PDFs y verificación cruzada",
           "finish": "Reporte final"}
 
@@ -48,7 +48,10 @@ def merge_profile(draft: dict, profile: dict, base_dir: Path | None = None) -> d
     p = profile
     rates = deepcopy(draft["labor_rates"])
     for key, r in p.get("labor_rates", {}).items():   # profile rates (SHOP, ADMIN) are authoritative
-        rates[key] = r
+        mine = rates.get(key)
+        if (mine and mine.get("kind") == "prevailing_wage" and r.get("kind") == "prevailing_wage"):
+            continue  # prevailing wage depends on the project county: the estimate's rate wins over the profile's
+        rates[key] = deepcopy(r)
     for r in rates.values():
         if r.get("kind") == "prevailing_wage":
             r["burden_pct"] = p["burden_pct"]
@@ -85,15 +88,17 @@ TOOLS = [
      "input_schema": {"type": "object", "properties": {"county": {"type": "string"}, "trade": {"type": "string"}}, "required": ["county"]}},
     {"name": "lookup_price", "description": "Search Alkan's price book (past estimates and supplier quotes) by keywords. Returns unit price, unit, basis (QUOTE/CATALOG/BUDGET), source and date. Prefer QUOTE rows; otherwise use web_search and mark the line BUDGET.",
      "input_schema": {"type": "object", "properties": {"keywords": {"type": "string"}}, "required": ["keywords"]}},
+    {"name": "list_suppliers", "description": "Alkan's supplier directory: id, name and what each one supplies. Put the id in the material line's `supplier` field when a line is priced from that supplier's quote or list, or when the documents name the manufacturer. Leave `supplier` out when none fits — never guess one.",
+     "input_schema": {"type": "object", "properties": {}}},
     {"name": "lookup_productivity", "description": "Alkan labor productivity norms (hours per unit by task) used in past estimates.",
      "input_schema": {"type": "object", "properties": {"keywords": {"type": "string"}}}},
-    {"name": "record_note", "description": "Record a fact for the final report: a key date (bid due, questions, substitutions — check every addendum for extensions), a requirement to be able to bid (mandatory pre-bid meeting or site visit, bid bond, registration, forms, licenses), a risk, an assumption, an open question, a scope note or a contact (owner, prime/GC).",
-     "input_schema": {"type": "object", "properties": {"kind": {"type": "string", "enum": ["date", "requirement", "risk", "assumption", "question", "scope", "contact"]}, "text": {"type": "string"}, "source": {"type": "string"}}, "required": ["kind", "text", "source"]}},
+    {"name": "record_note", "description": "Record a fact for the final report: a key date (bid due, questions, substitutions — check every addendum for extensions), a requirement to be able to bid (mandatory pre-bid meeting or site visit, bid bond, registration, forms, licenses), a risk, an assumption, an open question, a scope note, a contact (owner, prime/GC) or a benchmark (engineer's estimate or another reference price: reported, never used to set the price).",
+     "input_schema": {"type": "object", "properties": {"kind": {"type": "string", "enum": ["date", "requirement", "risk", "assumption", "question", "scope", "contact", "benchmark"]}, "text": {"type": "string"}, "source": {"type": "string"}}, "required": ["kind", "text", "source"]}},
     {"name": "save_package", "description": "Save the estimate as an alkan-package/1 draft. Provide project, labor_rate_keys, materials, labor, other, scope, exclusions, assumptions. Contractor data, markups, burden, tax, commission and release are filled from the contractor profile and cannot be set here. Numbers must be strings. Returns totals and validation (blockers/warnings).",
      "input_schema": {"type": "object", "properties": {
          "project": {"type": "object", "description": "key, short, title, owner, owner_contact, project_no, site, county, prime_contractor, bid_date, wage_basis, scope_label, documents[]"},
          "labor_rates": {"type": "object", "description": "Map KEY -> {label, kind:'prevailing_wage'|'loaded', trade, rate, source}. Use lookup_wage for prevailing wage; use profile keys SHOP/ADMIN as given."},
-         "materials": {"type": "array", "items": {"type": "object"}, "description": "{section, item, spec, qty, unit, unit_price, price_basis, price_source, qty_source}"},
+         "materials": {"type": "array", "items": {"type": "object"}, "description": "{section, item, spec, qty, unit, unit_price, price_basis, price_source, qty_source, supplier (optional id from list_suppliers), quote_ref (quote number, for QUOTE lines)}"},
          "labor": {"type": "array", "items": {"type": "object"}, "description": "{task, rate (key), hours}"},
          "other": {"type": "array", "items": {"type": "object"}, "description": "{item, category: Equipment|Mobilization|Fees|Other|Subcontract, qty, unit, rate}"},
          "scope": {"type": "array", "items": {"type": "object"}, "description": "{title, text}"},
@@ -103,7 +108,7 @@ TOOLS = [
     {"name": "build_package", "description": "Render the 3 PDFs (01 cost analysis, 02 material list, 03 proposal) from the saved package and run the cross-document QA. Fix and re-save if QA fails.",
      "input_schema": {"type": "object", "properties": {}}},
     {"name": "finish", "description": "End the run with the final report for the estimator (Spanish): summary, sell price, key dates, top risks and what a human must verify before sending. decision: GO (package built and QA PASS), GO_WITH_CONDITIONS (package built, but something must happen before bidding — say what), or NO_GO (a mandatory requirement can no longer be met, e.g. a mandatory pre-bid meeting already held; no package needed, but record_note kind=requirement with the source first).",
-     "input_schema": {"type": "object", "properties": {"decision": {"type": "string", "enum": ["GO", "GO_WITH_CONDITIONS", "NO_GO"]}, "summary": {"type": "string"}, "must_verify": {"type": "array", "items": {"type": "string"}}}, "required": ["summary", "must_verify"]}},
+     "input_schema": {"type": "object", "properties": {"decision": {"type": "string", "enum": ["GO", "GO_WITH_CONDITIONS", "NO_GO"]}, "summary": {"type": "string"}, "must_verify": {"type": "array", "items": {"type": "string"}}, "target_price": {"type": "string", "description": "Only if the run instructions asked for a specific total: that total. The package is NOT adjusted to it; the report shows the gap and the margin it leaves."}}, "required": ["summary", "must_verify"]}},
 ]
 
 
@@ -126,6 +131,7 @@ class ToolBox:
         self.wages = _load_kb("wages.json", knowledge_dir)
         self.prices = _load_kb("price_book.json", knowledge_dir)
         self.productivity = _load_kb("productivity.json", knowledge_dir)
+        self.suppliers = _load_kb("suppliers.json", knowledge_dir)
         extra = profile.get("price_book")
         if extra and Path(extra).exists():
             self.prices += json.loads(Path(extra).read_text(encoding="utf-8"))
@@ -183,6 +189,11 @@ class ToolBox:
         scored.sort(key=lambda x: (-x[0], {"QUOTE": 0, "CATALOG": 1, "BUDGET": 2}.get(x[1].get("price_basis"), 3)))
         return json.dumps({"rows": [p for _, p in scored[:12]]}, ensure_ascii=False)
 
+    def t_list_suppliers(self):
+        return json.dumps({"rows": [{"id": s["id"], "name": s["name"], "type": s.get("type", ""),
+                                     "supplies": s.get("categories", ""), "notes": s.get("notes", "")}
+                                    for s in self.suppliers]}, ensure_ascii=False)
+
     def t_lookup_productivity(self, keywords=""):
         words = [w for w in re.split(r"\W+", keywords.lower()) if len(w) > 2]
         rows = [r for r in self.productivity if not words or any(w in r["task"].lower() for w in words)]
@@ -216,11 +227,11 @@ class ToolBox:
         self.last_build = m
         fails = [c for c in m["qa"]["checks"] if c["result"] != "PASS"]
         pkg = json.loads(self.package_path.read_text(encoding="utf-8"))
-        self.last_sanity = sanity_checks(pkg, m["computation"]["totals"], self.prices, self.price_deviation_pct)
+        self.last_sanity = sanity_checks(pkg, m["computation"]["totals"], self.prices, self.price_deviation_pct, notes=self.notes)
         return json.dumps({"qa": m["qa"]["status"], "failures": fails, "files": {k: v["path"] for k, v in m["files"].items()},
                            "proposal": m["proposal_release"], "sanity": self.last_sanity,
                            "sanity_note": "Corrija lo que sea un error real y vuelva a guardar y construir; lo que sea correcto, "
                                           "déjelo y explíquelo en must_verify."}, ensure_ascii=False)
 
-    def t_finish(self, summary, must_verify, decision="GO"):
+    def t_finish(self, summary, must_verify, decision="GO", target_price=None):
         return "FINISHED"

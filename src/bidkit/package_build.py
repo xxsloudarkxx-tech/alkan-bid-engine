@@ -82,12 +82,20 @@ def build(input_path: str | Path, out_dir: str | Path) -> dict:
     out_dir = Path(out_dir)
     rendered = render_all(pkg, r, out_dir)
     report = qa(pkg, r, rendered["files"])
+    from .suppliers import load_directory, purchasing_csv
+    raw = json.loads(Path(input_path).read_text(encoding="utf-8"))
+    extras = {}
+    if any(m.get("supplier") for m in raw["materials"]):
+        path = out_dir / f"{pkg.project['key']}_04_COMPRAS_POR_PROVEEDOR.csv"
+        path.write_text(purchasing_csv(raw, load_directory()), encoding="utf-8-sig")
+        extras["purchasing_by_supplier"] = path
     manifest = {
         "input": str(input_path),
         "computation": result_json(pkg, r),
         "proposal_release": rendered["release"],
         "qa": report,
         "files": {k: {"path": str(v), "sha256": _sha(v)} for k, v in rendered["files"].items()},
+        "extras": {k: {"path": str(v), "sha256": _sha(v)} for k, v in extras.items()},
     }
     (out_dir / f"{pkg.project['key']}_package_manifest.json").write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -106,9 +114,12 @@ def main(argv: list[str] | None = None) -> int:
             ap.error(f"Sin archivos para: {pattern}")
         inputs += matches
     rc = 0
-    for inp in inputs:
-        pkg_key = json.loads(Path(inp).read_text(encoding="utf-8"))["project"]["key"]
-        out = Path(args.out) / pkg_key if len(inputs) > 1 else Path(args.out)
+    keys = [json.loads(Path(i).read_text(encoding="utf-8"))["project"]["key"] for i in inputs]
+    for inp, pkg_key in zip(inputs, keys):
+        # Several estimates can share a project key (one project, three contractors): each gets its own
+        # folder so one package never overwrites another.
+        folder = pkg_key if keys.count(pkg_key) == 1 else f"{pkg_key}_{Path(inp).stem}"
+        out = Path(args.out) / folder if len(inputs) > 1 else Path(args.out)
         try:
             m = build(inp, out)
         except ValueError as exc:

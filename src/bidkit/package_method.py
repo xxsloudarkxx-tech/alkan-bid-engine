@@ -87,6 +87,10 @@ class MaterialLine:
     price_basis: str
     price_source: str = ""
     qty_source: str = ""
+    supplier: str = ""             # id in the supplier directory (knowledge table "suppliers")
+    quote_ref: str = ""            # supplier quote number (required for QUOTE lines set by re-pricing)
+    quote_date: str = ""
+    supplier_source: str = ""      # "auto" = suggested from directory keywords, not confirmed
 
     @property
     def extended(self) -> Decimal:
@@ -141,6 +145,7 @@ class Package:
     commission: dict | None = None
     validity_days: int = 30
     base_dir: Path | None = None
+    subcontract: dict = field(default_factory=dict)   # optional "subcontract_package" block (texts and flags)
 
 
 # ───────────────────────────────────────────────────────────── loading
@@ -170,7 +175,9 @@ def package_from_dict(data: dict) -> Package:
                          qty=_d(m["qty"], f"materials[{i}].qty", allow_zero=False), unit=m["unit"],
                          unit_price=_d(m["unit_price"], f"materials[{i}].unit_price"),
                          price_basis=m.get("price_basis", "BUDGET").upper(), price_source=m.get("price_source", ""),
-                         qty_source=m.get("qty_source", ""))
+                         qty_source=m.get("qty_source", ""), supplier=str(m.get("supplier", "") or ""),
+                         quote_ref=str(m.get("quote_ref", "") or ""), quote_date=str(m.get("quote_date", "") or ""),
+                         supplier_source=str(m.get("supplier_source", "") or ""))
             for i, m in enumerate(data["materials"], 1)]
     labor = [LaborLine(id=l.get("id") or f"L{i:03d}", task=l["task"], rate_key=l["rate"],
                        hours=_d(l["hours"], f"labor[{i}].hours", allow_zero=False))
@@ -190,6 +197,7 @@ def package_from_dict(data: dict) -> Package:
         scope=data["scope"], exclusions=data.get("exclusions", []), assumptions=data.get("assumptions", []),
         terms=data.get("terms", {}), release=data.get("release", {}), commission=data.get("alkan_commission"),
         validity_days=int(data.get("validity_days", 30)),
+        subcontract=data.get("subcontract_package") or {},
     )
 
 
@@ -225,6 +233,25 @@ def validate(pkg: Package) -> dict:
             blockers.append(f"{m.id}: price_basis debe ser {PRICE_BASES}")
         if not m.qty_source:
             warnings.append(f"{m.id}: sin referencia de cantidad (hoja/detalle/spec)")
+    for name, rows in (("materials", pkg.materials), ("labor", pkg.labor), ("other", pkg.other)):
+        ids = [x.id for x in rows]
+        dup = sorted({i for i in ids if ids.count(i) > 1})
+        if dup:
+            blockers.append(f"{name}: id repetido {', '.join(dup)} — cada renglón necesita un id único "
+                            f"(los cambios de precio y proveedor se aplican por id)")
+    used = sorted({m.supplier for m in pkg.materials if m.supplier})
+    if used:
+        from .suppliers import load_directory
+        known = {s["id"] for s in load_directory()}
+        for sid in used:
+            if sid not in known:
+                warnings.append(f"Proveedor «{sid}» no está en el directorio de proveedores")
+        for m in pkg.materials:
+            if m.price_basis == "QUOTE" and m.supplier and not m.quote_ref and "#" not in m.price_source:
+                warnings.append(f"{m.id}: QUOTE de {m.supplier} sin número de cotización")
+        auto = [m.id for m in pkg.materials if m.supplier_source == "auto"]
+        if auto:
+            warnings.append(f"{len(auto)} renglones con proveedor sugerido automáticamente — confirmar antes de comprar")
     for l in pkg.labor:
         if l.rate_key not in pkg.rates:
             blockers.append(f"{l.id}: tarifa '{l.rate_key}' no definida en labor_rates")
@@ -272,6 +299,12 @@ def compute(pkg: Package) -> dict:
     sections: dict[str, Decimal] = {}
     for m in pkg.materials:
         sections[m.section] = sections.get(m.section, Decimal(0)) + m.extended
+    by_supplier: dict[str, dict] = {}
+    for m in pkg.materials:
+        g = by_supplier.setdefault(m.supplier, {"lines": 0, "unquoted": 0, "total": Decimal(0)})
+        g["lines"] += 1
+        g["unquoted"] += m.price_basis != "QUOTE"
+        g["total"] += m.extended
     commission = None
     if pkg.commission:
         c = AlkanCommission(gross_sale=price,
@@ -285,7 +318,7 @@ def compute(pkg: Package) -> dict:
     return {
         "materials": M, "labor": L, "other": O, "direct": D, "contingency": cont, "overhead": oh, "profit": prof,
         "total": total, "price": price, "labor_rows": labor_rows, "hours": hours, "sections": sections,
-        "commission": commission, "validation": v, "status": status,
+        "by_supplier": by_supplier, "commission": commission, "validation": v, "status": status,
         "break_even": _cash(D + cont + oh), "gross_margin": _cash(price - D),
     }
 
@@ -325,9 +358,12 @@ def result_json(pkg: Package, r: dict) -> dict:
                       "loaded": _fmt(x.loaded), "source": x.source} for k, x in pkg.rates.items()},
         "hours_by_trade": {k: str(v) for k, v in r["hours"].items()},
         "sections": {k: _fmt(v) for k, v in r["sections"].items()},
+        "by_supplier": {(k or "(sin proveedor)"): {"lines": g["lines"], "unquoted": g["unquoted"], "total": _fmt(g["total"])}
+                        for k, g in r["by_supplier"].items()},
         "materials": [{"id": m.id, "section": m.section, "item": m.item, "qty": str(m.qty), "unit": m.unit,
                        "unit_price": _fmt(m.unit_price), "extended": _fmt(m.extended), "price_basis": m.price_basis,
-                       "price_source": m.price_source, "qty_source": m.qty_source} for m in pkg.materials],
+                       "price_source": m.price_source, "qty_source": m.qty_source, "supplier": m.supplier,
+                       "quote_ref": m.quote_ref} for m in pkg.materials],
         "labor": [{"id": x["id"], "task": x["task"], "trade": x["trade"], "hours": str(x["hours"]),
                    "rate": _fmt(x["rate"]), "cost": _fmt(x["cost"])} for x in r["labor_rows"]],
         "other": [{"id": o.id, "item": o.item, "category": o.category, "qty": str(o.qty), "unit": o.unit,

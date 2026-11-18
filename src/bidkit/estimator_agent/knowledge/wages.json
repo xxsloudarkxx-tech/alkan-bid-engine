@@ -32,7 +32,7 @@
   "classification": "Journeyman",
   "rate": "94.82",
   "effective": "2026-08-31",
-  "source": "ASSUMED equal to King (W. WA union rate) \u2014 verify on secure.lni.wa.gov/wagelookup",
+  "source": "ASSUMED equal to King (W. WA union rate) — verify on secure.lni.wa.gov/wagelookup",
   "verified": false
  },
  {
@@ -41,7 +41,259 @@
   "classification": "Fence Erector",
   "rate": "57.66",
   "effective": "2026-08-31",
-  "source": "ASSUMED equal to King/Clallam 3/4/2026 ($57.66) \u2014 verify on L&I",
+  "source": "ASSUMED equal to King/Clallam 3/4/2026 ($57.66) — verify on L&I",
   "verified": false
+ },
+ {
+  "county": "King",
+  "trade": "Carpenters",
+  "classification": "Journeyman",
+  "rate": "87.45",
+  "effective": "2026-08-31",
+  "source": "L&I journey-level rates, King Co. — used for HC3 Highline College Bldg 3 Renovation (finish carpentry & countertop install)",
+  "verified": true
+ },
+ {
+  "county": "Pierce",
+  "trade": "Carpenters",
+  "classification": "Journeyman",
+  "rate": "87.45",
+  "effective": "2026-08-31",
+  "source": "ASSUMED equal to King (W. WA union rate) — verify on secure.lni.wa.gov/wagelookup",
+  "verified": false
+ },
+ {
+  "county": "King",
+  "trade": "Roofers",
+  "classification": "Journey Level",
+  "rate": "70.70",
+  "effective": "2026-08-31",
+  "source": "L&I journey-level rates, King Co., eff. 8/31/2026 (City of Redmond IFB 10912-26 Att. F)",
+  "verified": true
+ },
+ {
+  "county": "King",
+  "trade": "Roofers",
+  "classification": "Using Irritable Bituminous Materials",
+  "rate": "74.15",
+  "effective": "2026-08-31",
+  "source": "L&I journey-level rates, King Co., eff. 8/31/2026 (City of Redmond IFB 10912-26 Att. F)",
+  "verified": true
+ },
+ {
+  "county": "King",
+  "trade": "Carpenters",
+  "classification": "General Carpenter",
+  "rate": "83.21",
+  "effective": "2026-08-31",
+  "source": "L&I journey-level rates, King Co., eff. 8/31/2026 (City of Redmond IFB 10912-26 Att. F)",
+  "verified": true
+ },
+ {
+  "county": "King",
+  "trade": "Residential Carpenters",
+  "classification": "Journey Level",
+  "rate": "65.88",
+  "effective": "2026-08-31",
+  "source": "L&I journey-level rates, King Co., eff. 8/31/2026 (City of Redmond IFB 10912-26 Att. F)",
+  "verified": true
+ },
+ {
+  "county": "King",
+  "trade": "Cabinet Makers (In Shop)",
+  "classification": "Journey Level",
+  "rate": "22.74",
+  "effective": "2026-08-31",
+  "source": "L&I journey-level rates, King Co., eff. 8/31/2026 (City of Redmond IFB 10912-26 Att. F)",
+  "verified": true
+ },
+ {
+  "county": "King",
+  "trade": "Stone Masons",
+  "classification": "Journey Level",
+  "rate": "76.07",
+  "effective": "2026-08-31",
+  "source": "L&I journey-level rates, King Co., eff. 8/31/2026 (City of Redmond IFB 10912-26 Att. F)",
+  "verified": true
+ },
+ {
+  "county": "King",
+  "trade": "Marble Setters",
+  "classification": "Journey Level",
+  "rate": "76.07",
+  "effective": "2026-08-31",
+  "source": "L&I journey-level rates, King Co., eff. 8/31/2026 (City of Redmond IFB 10912-26 Att. F)",
+  "verified": true
+ },
+ {
+  "county": "King",
+  "trade": "Residential Stone Masons",
+  "classification": "Journey Level",
+  "rate": "76.07",
+  "effective": "2026-08-31",
+  "source": "L&I journey-level rates, King Co., eff. 8/31/2026 (City of Redmond IFB 10912-26 Att. F)",
+  "verified": true
+ },
+ {
+  "county": "King",
+  "trade": "Residential Marble Setters",
+  "classification": "Journey Level",
+  "rate": "27.38",
+  "effective": "2026-08-31",
+  "source": "L&I journey-level rates, King Co., eff. 8/31/2026 (City of Redmond IFB 10912-26 Att. F)",
+  "verified": true
+ },
+ {
+  "county": "King",
+  "trade": "Insulation Applicators",
+  "classification": "Journey Level",
+  "rate": "83.21",
+  "effective": "2026-08-31",
+  "source": "L&I journey-level rates, King Co., eff. 8/31/2026 (City of Redmond IFB 10912-26 Att. F)",
+  "verified": true
+ },
+ {
+  "county": "King",
+  "trade": "Residential Insulation Applicators",
+  "classification": "Journey Level",
+  "rate": "70.54",
+  "effective": "2026-08-31",
+  "source": "L&I journey-level rates, King Co., eff. 8/31/2026 (City of Redmond IFB 10912-26 Att. F)",
+  "verified": true
+ },
+ {
+  "county": "King",
+  "trade": "Heat & Frost Insulators And Asbestos Workers",
+  "classification": "Journey Level",
+  "rate": "96.42",
+  "effective": "2026-08-31",
+  "source": "L&I journey-level rates, King Co., eff. 8/31/2026 (City of Redmond IFB 10912-26 Att. F)",
+  "verified": true
+ },
+ {
+  "county": "King",
+  "trade": "Laborers",
+  "classification": "General Laborer",
+  "rate": "67.39",
+  "effective": "2026-08-31",
+  "source": "L&I journey-level rates, King Co., eff. 8/31/2026 (City of Redmond IFB 10912-26 Att. F)",
+  "verified": true
+ },
+ {
+  "county": "King",
+  "trade": "Cement Masons",
+  "classification": "Journey Level",
+  "rate": "81.36",
+  "effective": "2026-08-31",
+  "source": "L&I journey-level rates, King Co., eff. 8/31/2026 (City of Redmond IFB 10912-26 Att. F)",
+  "verified": true
+ },
+ {
+  "county": "King",
+  "trade": "Drywall Applicator",
+  "classification": "Journey Level",
+  "rate": "81.71",
+  "effective": "2026-08-31",
+  "source": "L&I journey-level rates, King Co., eff. 8/31/2026 (City of Redmond IFB 10912-26 Att. F)",
+  "verified": true
+ },
+ {
+  "county": "King",
+  "trade": "Drywall Tapers",
+  "classification": "Journey Level",
+  "rate": "81.71",
+  "effective": "2026-08-31",
+  "source": "L&I journey-level rates, King Co., eff. 8/31/2026 (City of Redmond IFB 10912-26 Att. F)",
+  "verified": true
+ },
+ {
+  "county": "King",
+  "trade": "Painters",
+  "classification": "Journey Level",
+  "rate": "57.46",
+  "effective": "2026-08-31",
+  "source": "L&I journey-level rates, King Co., eff. 8/31/2026 (City of Redmond IFB 10912-26 Att. F)",
+  "verified": true
+ },
+ {
+  "county": "King",
+  "trade": "Metal Fabrication (In Shop)",
+  "classification": "Fitter/Certified Welder",
+  "rate": "42.17",
+  "effective": "2026-08-31",
+  "source": "L&I journey-level rates, King Co., eff. 8/31/2026 (City of Redmond IFB 10912-26 Att. F)",
+  "verified": true
+ },
+ {
+  "county": "King",
+  "trade": "Metal Fabrication (In Shop)",
+  "classification": "Welder/Burner",
+  "rate": "39.28",
+  "effective": "2026-08-31",
+  "source": "L&I journey-level rates, King Co., eff. 8/31/2026 (City of Redmond IFB 10912-26 Att. F)",
+  "verified": true
+ },
+ {
+  "county": "King",
+  "trade": "Metal Fabrication (In Shop)",
+  "classification": "General Laborer",
+  "rate": "30.07",
+  "effective": "2026-08-31",
+  "source": "L&I journey-level rates, King Co., eff. 8/31/2026 (City of Redmond IFB 10912-26 Att. F)",
+  "verified": true
+ },
+ {
+  "county": "King",
+  "trade": "Sheet Metal Workers",
+  "classification": "Journey Level (Field or Shop)",
+  "rate": "107.92",
+  "effective": "2026-08-31",
+  "source": "L&I journey-level rates, King Co., eff. 8/31/2026 (City of Redmond IFB 10912-26 Att. F)",
+  "verified": true
+ },
+ {
+  "county": "Snohomish",
+  "trade": "Carpenters",
+  "classification": "General Carpenter",
+  "rate": "87.71",
+  "effective": "2026-11-02",
+  "source": "L&I journey-level rates, Snohomish Co., eff. 11/2/2026 (Everett SD Madison ES Replacement, Spec 00 8100 Wage Determination)",
+  "verified": true
+ },
+ {
+  "county": "Snohomish",
+  "trade": "Drywall Applicators",
+  "classification": "Journey Level",
+  "rate": "84.77",
+  "effective": "2026-11-02",
+  "source": "L&I journey-level rates, Snohomish Co., eff. 11/2/2026 (Everett SD Madison ES Replacement, Spec 00 8100 Wage Determination)",
+  "verified": true
+ },
+ {
+  "county": "Snohomish",
+  "trade": "Drywall Tapers",
+  "classification": "Journey Level",
+  "rate": "84.77",
+  "effective": "2026-11-02",
+  "source": "L&I journey-level rates, Snohomish Co., eff. 11/2/2026 (Everett SD Madison ES Replacement, Spec 00 8100 Wage Determination)",
+  "verified": true
+ },
+ {
+  "county": "Snohomish",
+  "trade": "Painters",
+  "classification": "Journey Level",
+  "rate": "58.84",
+  "effective": "2026-11-02",
+  "source": "L&I journey-level rates, Snohomish Co., eff. 11/2/2026 (Everett SD Madison ES Replacement, Spec 00 8100 Wage Determination)",
+  "verified": true
+ },
+ {
+  "county": "Snohomish",
+  "trade": "Laborers",
+  "classification": "General Laborer",
+  "rate": "71.10",
+  "effective": "2026-11-02",
+  "source": "L&I journey-level rates, Snohomish Co., eff. 11/2/2026 (Everett SD Madison ES Replacement, Spec 00 8100 Wage Determination)",
+  "verified": true
  }
 ]

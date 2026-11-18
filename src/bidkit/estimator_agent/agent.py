@@ -15,6 +15,7 @@ import argparse
 import json
 import time
 from datetime import date
+from decimal import Decimal, InvalidOperation
 from pathlib import Path
 
 from .anthropic_client import AnthropicClient, APIError, equivalent_tokens
@@ -35,19 +36,33 @@ METHOD = """You are the senior estimator of ALKAN Construction Assistant, prepar
    extensions ("extended", "revised bid date") — an addendum overrides the specs (Orangegate was extended from
    Nov 4 to Nov 10 by Addendum 3). record_note(kind="date") each one, with the Pacific time and the {tz_label} time
    (Pacific {tz_offset:+d} h). record_note(kind="contact") the owner and prime/GC contacts if present.
+   ENGINEER'S ESTIMATE: if the advertisement or bid form states one, record_note(kind="benchmark") with the amount,
+   what it covers (whole project or only this trade) and the source. It is a reference, never an anchor: do NOT
+   move quantities or prices toward it. Engineer's estimates on marine, diving and specialty work often run
+   30-50 % low. If this trade alone takes more than half of a whole-project figure, say so as a risk.
 3. BID FORM & ALTERNATES. Read the bid form and the alternates schedule. Price BASE BID only; list every
    alternate in exclusions (offer to price separately if it contains work of this trade).
 4. SCOPE. The contractor's trade and limits: {policy}
    Search schedules (material / furnishing / sign / door / finish schedules, keynotes), the spec sections of the
    trade{sections} and the details they reference. Addenda revisions to schedules govern over the original sheets.
    record_note(kind="scope") anything of the trade you decide NOT to carry, and why.
+   An addendum may DELETE a spec section or sheet. If the run instructions (the GC or the office) still ask you to
+   carry that work, carry it, label the scope item and its assumption "per GC direction" (naming who directed it),
+   and record_note(kind="scope") the addendum that deleted it. Never carry deleted work silently.
+   If an RFQ splits the material into supplier packages, keep each package as its own material section so it can
+   be quoted and issued separately; a separate estimate per package only when the run instructions ask for it.
 5. TAKEOFF. view_page and zoom (crop) on plans and details. Count from schedules when given; otherwise measure:
    measure_on_view with the scale bar (ref_p1/ref_p2/ref_feet) or the sheet scale, and cross-check one measured
    length against a written dimension on the same sheet. Every material line needs qty_source (sheet/detail/spec/
    RFQ line). List each assembly down to the last component: posts, rails, fittings, caps, bands, ties, anchors,
    grout, concrete, rock, finish (galvanizing / powder coat / paint), consumables, freight. Add a waste factor
    where stock lengths or rolls apply and say so in the spec column.
-6. PRICING. lookup_price first (QUOTE > CATALOG > BUDGET). If missing, web_search Puget Sound commercial-grade
+6. PRICING. SUPPLIER QUOTES FIRST: if the documents include a supplier quote (Farwest Steel, Pacific Metals,
+   Fastenal, a galvanizer...), copy every line exactly as quoted (qty, description, unit price, no rounding) with
+   price_basis QUOTE and price_source "<supplier> quote #<number> <date>"; then re-read the quote and check line by
+   line that nothing is missing or doubled. Add on top only what the quote does not include (freight if FOB yard,
+   cutting, galvanizing, tax) and say so in the spec column. If the quote is issued to another company, record a
+   question to re-request it in {contractor}'s name. Then lookup_price (QUOTE > CATALOG > BUDGET). If missing, web_search Puget Sound commercial-grade
    pricing and mark price_basis BUDGET with the source. Never present a budget price as a quote. Pre-engineered or
    owner-selected items without a price: allowance, clearly labeled. Galvanizing ≈ $0.45/lb structural,
    $0.60/lb light members, lot minimum ≈ $375.
@@ -57,6 +72,17 @@ METHOD = """You are the senior estimator of ALKAN Construction Assistant, prepar
    ({profile_rates}) for shop and office.
 8. EQUIPMENT & OTHER. Augers, telehandler, lifts, welder, core drill, mobilization trips, L&I filing fees
    (Intent + Affidavit $40 each), small tools.
+8b. SITE CONDITIONS & SPECIAL REQUIREMENTS. Search the specs, general notes and run instructions for conditions
+   that cost money, and turn EACH one into a priced line or an explicit exclusion — never leave one silent:
+   - access limits (elevator, stair, door or weight limits): size pieces to the limit, add field splices with their
+     field bolting/welding hours, extra handling and trips;
+   - hot work: permit and fire watch hours for every hour of field welding/cutting;
+   - fireproofing (intumescent / spray): allowance from member surface area, and a question asking for the UL
+     design and required rating; galvanizing, primer, paint or powder coat as specified;
+   - crane / rigging, delegated design (PE-stamped calcs and shop drawings), special inspection, testing;
+   - over-water or environmental work (HPA containment, spill kit, debris capture), occupied building, night or
+     weekend work, security escort.
+   record_note(kind="risk") the ones priced as allowances.
 9. SAVE & BUILD. save_package (markups, burden, tax, commission and release are fixed by the profile), then
    build_package. Fix and rebuild until QA = PASS. Read the "sanity" findings returned by build_package: fix the
    real errors and rebuild; keep the ones that are correct and explain them in must_verify. Sanity-check the sell
@@ -65,10 +91,17 @@ METHOD = """You are the senior estimator of ALKAN Construction Assistant, prepar
    of things a human must verify before sending (assumed counts, scaled quantities, allowances, unverified wages,
    budget prices). An independent reviewer checks the package after you call finish; if it returns blockers, fix
    them, rebuild and call finish again.
+   Before finishing, record_note(kind="question") every open question for the GC that must be answered before
+   material is released (UL design, field verification, delivery access, by-others interfaces).
+   TARGET PRICE: if the run instructions ask for a specific total, do NOT change quantities, prices or hours to
+   reach it. Price the job honestly, pass the requested total as finish(target_price=...) and explain in the
+   summary what it would take (lower margin, scope cut, alternate supplier). The report computes the gap.
 
 How ALKAN delivers (do not deviate): three documents from ONE computation — 01 Cost Analysis (internal), 02 Material
 List & Price List, 03 Estimate/Proposal — with the same sell price in all three; the proposal stays DRAFT until a
-person authorizes it; nothing is sent to anyone by you.
+person authorizes it; nothing is sent to anyone by you. Scope, exclusions and assumptions are printed in the
+client-facing proposal: never mention prior bids, competitors' prices, the engineer's estimate, Alkan's commission
+or internal notes there — those go in record_note only.
 
 Rules: never invent a quantity without a source or a stated assumption (record_note kind=assumption); numbers as
 strings in save_package; be economical — search text before viewing, zoom on the details you need instead of
@@ -256,6 +289,27 @@ DECISIONS = {"GO": "GO — paquete listo para revisión humana", "GO_WITH_CONDIT
              "NO_GO": "NO-GO — no se estimó: hay un requisito que ya no se puede cumplir"}
 
 
+def target_price_lines(totals: dict, target) -> list[str]:
+    """Gap between the honest price and a requested total, and the margin that total leaves over direct cost."""
+    try:
+        price = Decimal(str(totals["price"]).replace(",", ""))
+        direct = Decimal(str(totals["direct"]).replace(",", ""))
+        goal = Decimal(str(target).replace(",", "").replace("$", "").strip())
+    except (KeyError, InvalidOperation):
+        return ["## Precio objetivo", f"- Pedido: {target} (no se pudo comparar con los totales)", ""]
+    gap = goal - price
+    out = ["## Precio objetivo", f"- Pedido: ${goal:,.2f} · calculado: ${price:,.2f} · diferencia: ${gap:+,.2f}"]
+    if direct > 0:
+        margin = (goal - direct) / goal * 100 if goal > 0 else Decimal(0)
+        out.append(f"- Con el precio pedido, lo que queda sobre el costo directo (${direct:,.2f}) es {margin:.1f}% del precio.")
+        if goal < direct:
+            out.append("- **ALERTA: el precio pedido está por debajo del costo directo; se perdería dinero.**")
+        elif margin < 8:
+            out.append("- **Ojo: margen menor a 8%; no alcanza para imprevistos ni overhead real.**")
+    out.append("- Los números del paquete NO se ajustaron al precio pedido; decidirlo es del contratista.")
+    return out + [""]
+
+
 def write_report(out_dir: Path, key: str, result: dict) -> Path:
     b = result.get("build") or {}
     t = (b.get("computation") or {}).get("totals", {})
@@ -270,7 +324,10 @@ def write_report(out_dir: Path, key: str, result: dict) -> Path:
     if t:
         lines += ["## Totales", f"- Precio de venta: ${t['price']}", f"- Costo directo: ${t['direct']}",
                   f"- QA: {b['qa']['status']}", f"- Propuesta: {b['proposal_release']['label']}", ""]
+    if t and rep and rep.get("target_price"):
+        lines += target_price_lines(t, rep["target_price"])
     for kind, title in (("requirement", "Requisitos para poder ofertar"), ("date", "Fechas clave"), ("contact", "Contactos"),
+                        ("benchmark", "Referencias de precio (no se usaron para fijar el precio)"),
                         ("risk", "Riesgos"), ("assumption", "Supuestos"), ("question", "Preguntas abiertas"), ("scope", "Notas de alcance")):
         rows = [n for n in result["notes"] if n["kind"] == kind]
         if rows:

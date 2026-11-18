@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "bidkit"
-version = "3.6.0"
+version = "3.9.0"
 description = "Auditable public-construction bid analysis toolkit"
 requires-python = ">=3.11"
 dependencies = [
@@ -19,6 +19,7 @@ dependencies = [
 
 [project.optional-dependencies]
 test = ["pytest>=8.0"]
+api = ["fastapi>=0.110", "uvicorn[standard]>=0.29"]
 
 [project.scripts]
 bidkit = "bidkit.__main__:main"
@@ -26,6 +27,9 @@ bidkit-rfq = "bidkit.rfq_cli:main"
 bidkit-agent = "bidkit.rfq_agent:main"
 bidkit-package = "bidkit.package_build:main"
 bidkit-estimator = "bidkit.estimator_agent.agent:main"
+bidkit-reprice = "bidkit.reprice:main"
+bidkit-criterio = "bidkit.criterio:main"
+bidkit-mobile-api = "bidkit.mobile_api:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}

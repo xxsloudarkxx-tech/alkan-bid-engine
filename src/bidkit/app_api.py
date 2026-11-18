@@ -18,6 +18,7 @@ from .app_settings import DEFAULTS, EFFORTS, MODELS, AppSettings
 from .estimator_agent.anthropic_client import AnthropicClient, APIError
 from .estimator_agent.tools import KB_DIR, KB_TABLES, _load_kb
 from .package_method import _d
+from .v4_api import V4API
 
 VERSION = "3.6.0"
 KNOWLEDGE_FIELDS = {
@@ -27,6 +28,9 @@ KNOWLEDGE_FIELDS = {
                    "fields": ("item", "spec", "unit", "unit_price", "price_basis", "source", "date", "county")},
     "productivity": {"required": ("task", "rate", "unit"), "decimal": ("rate",),
                      "fields": ("task", "rate", "unit", "trade", "source")},
+    "suppliers": {"required": ("id", "name"), "decimal": (),
+                  "fields": ("id", "name", "type", "categories", "keywords", "contact", "phone", "email", "city",
+                             "notes", "verified")},
 }
 FILE_TYPES = {".pdf": "application/pdf", ".md": "text/markdown; charset=utf-8", ".zip": "application/zip",
               ".json": "application/json; charset=utf-8"}
@@ -43,10 +47,13 @@ class AppAPI:
         self.root = Path(root).resolve()
         self.settings = settings or AppSettings(self.root)
         self.runs = RunManager(self.root, self.settings, client_factory)
+        self.v4 = V4API(self.root, self.runs)
         self.last_test: dict | None = None
 
     # ───────────────────────────── routing
-    def get(self, path: str, q: dict):
+    def get(self, path: str, q: dict, headers: dict | None = None):
+        if path.startswith("/api/v4/"):
+            return self.v4.get(path, q, headers)
         one = lambda k: (q.get(k) or [""])[0]  # noqa: E731
         if path == "/api/app/status": return self.status()
         if path == "/api/app/settings": return self.settings_view()
@@ -58,7 +65,9 @@ class AppAPI:
         if path == "/api/app/run/file": return Download(self.runs.file(one("id"), one("name")))
         return None
 
-    def post(self, path: str, req: dict, actor: str):
+    def post(self, path: str, req: dict, actor: str, headers: dict | None = None):
+        if path.startswith("/api/v4/"):
+            return self.v4.post(path, req, actor, headers)
         if path == "/api/app/settings": self.settings.save(req.get("settings") or {}); return self.settings_view()
         if path == "/api/app/key": self.settings.set_secret(req.get("name", "anthropic"), req.get("key", ""), bool(req.get("remember"))); return self.status()
         if path == "/api/app/key/clear": self.settings.clear_secret(req.get("name", "anthropic")); return self.status()
@@ -231,6 +240,13 @@ class AppAPI:
                 if item["price_basis"] not in ("QUOTE", "CATALOG", "BUDGET"):
                     raise ValueError(f"Fila {i}: base de precio debe ser QUOTE, CATALOG o BUDGET")
             clean.append(item)
+        if table == "suppliers":
+            ids = [r["id"] for r in clean]
+            for i, sid in enumerate(ids, 1):
+                if not re.fullmatch(r"[a-z0-9_]+", sid):
+                    raise ValueError(f"Fila {i}: el id «{sid}» solo admite minúsculas, números y guion bajo (ej. farwest_steel)")
+                if ids.count(sid) > 1:
+                    raise ValueError(f"Fila {i}: id repetido «{sid}»")
         if not clean:
             raise ValueError("La tabla no puede quedar vacía")
         folder = self.root / "data" / "knowledge"

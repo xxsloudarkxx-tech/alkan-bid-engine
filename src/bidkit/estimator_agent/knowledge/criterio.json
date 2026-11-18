@@ -1,0 +1,174 @@
+{
+ "version": "1",
+ "fuente": "Entrevista a Don Miguel (nov 2026). Los valores en null estan PENDIENTES de que el los confirme.",
+ "cotizacion": {
+  "diferencia_max_pct": 50,
+  "detener_si_sin_cotizar_pct": 50,
+  "tope_ajuste_pct": 50
+ },
+ "vigencia": {
+  "aviso_dias": 15,
+  "vencido_dias": 30
+ },
+ "markup": {
+  "objetivo_pct": 20,
+  "tolerancia_pct": 2,
+  "objetivo_por_relacion": {
+   "sub_to_gc": null,
+   "sub_to_sub": null,
+   "prime_to_owner": null,
+   "gc_to_owner": null,
+   "direct_homeowner": null
+  }
+ },
+ "condados": {
+  "base": "King",
+  "factor": {
+   "King": 1.0,
+   "Pierce": null,
+   "Snohomish": null,
+   "Skagit": null,
+   "Kitsap": null
+  }
+ },
+ "proveedores_base": {
+  "techado": [
+   "abc_supply",
+   "conway"
+  ],
+  "madera": [
+   "home_depot"
+  ],
+  "metal": [
+   "farwest_steel"
+  ],
+  "pintura": [
+   "sherwin_williams",
+   "rodda_paint"
+  ],
+  "tablaroca": [
+   "lw_supply",
+   "gms_supply"
+  ],
+  "molduras": [
+   "dunn_lumber",
+   "home_depot"
+  ]
+ },
+ "familias": {
+  "tablaroca": [
+   "gypsum",
+   "drywall",
+   "type x",
+   "densglass",
+   "glass mat",
+   "mold resistant",
+   "abuse resistant",
+   "moisture resistant",
+   "cement board",
+   "backer",
+   "durock",
+   "joint compound",
+   "corner bead",
+   "steel stud",
+   "metal stud",
+   "deflection track",
+   "furring",
+   "suspension grid",
+   "acoustic insulation",
+   "mineral fiber",
+   "level 5",
+   "reveal"
+  ],
+  "molduras": [
+   "maple",
+   "hardwood",
+   "chair rail",
+   "casing",
+   "baseboard",
+   "mdf",
+   "richlite",
+   "frl",
+   "wainscot",
+   "window sill",
+   "casework",
+   "cabinet",
+   "millwork",
+   "laminate panel",
+   "wall panel"
+  ],
+  "cubiertas": [
+   "countertop",
+   "solid surface",
+   "quartz",
+   "granite",
+   "stone top",
+   "backsplash"
+  ],
+  "techado": [
+   "tpo",
+   "membrane",
+   "roofing",
+   "roof flashing",
+   "polyiso",
+   "shingle",
+   "underlayment",
+   "cover board",
+   "epdm"
+  ],
+  "pintura": [
+   "paint",
+   "primer",
+   "pva",
+   "eggshell",
+   "semi gloss",
+   "semigloss",
+   "flat latex",
+   "dryfall",
+   "dtm",
+   "epoxy",
+   "urethane",
+   "block filler",
+   "stain",
+   "transparent finish",
+   "coating",
+   "hpc",
+   "sundries",
+   "masking",
+   "caulk"
+  ],
+  "metal": [
+   "steel",
+   "hss",
+   "tube",
+   "tubing",
+   "plate",
+   "angle",
+   "channel",
+   "galvan",
+   "stainless",
+   "weld",
+   "pipe",
+   "rebar",
+   "wide flange",
+   "flat bar"
+  ],
+  "madera": [
+   "lumber",
+   "plywood",
+   "osb",
+   "douglas fir",
+   "wood stud",
+   "lvl",
+   "glulam",
+   "blocking",
+   "sheathing",
+   "trim",
+   "fir "
+  ]
+ },
+ "horas": {
+  "mano_obra_min_pct_directo": 20,
+  "vueltas_max": 2
+ }
+}

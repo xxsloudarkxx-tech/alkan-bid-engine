@@ -49,3 +49,10 @@ setup-aerolink.ps1
 *.jpeg
 *.png
 *.webp
+!profiles/assets/*.png
+!profiles/assets/*.jpg
+
+# Flutter / Android build artifacts
+mobile_app/build/
+mobile_app/.dart_tool/
+*.apk

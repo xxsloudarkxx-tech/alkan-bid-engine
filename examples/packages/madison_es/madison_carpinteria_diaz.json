@@ -1,0 +1,475 @@
+{
+  "schema": "alkan-package/1",
+  "estimate_id": "DIAZ-EST-2026-MES-01",
+  "date": "2026-11-17",
+  "relationship": "sub_to_gc",
+  "tier": "competitive",
+  "contractor": {
+    "name": "DIAZ FINISH CARPENTER",
+    "tag": "FINISH CARPENTRY - MILLWORK - CASEWORK",
+    "address": "Federal Way, WA",
+    "license": "WA Contractor Lic. Pending - UBI Pending",
+    "phone": "(253) 797-2766",
+    "email": "luisdiaz7870@gmail.com",
+    "contact": "Luis Daniel Diaz Lopez"
+  },
+  "project": {
+    "key": "MES-CARP",
+    "short": "Madison ES Replacement",
+    "title": "Madison ES Replacement - Finish Carpentry & Casework",
+    "owner": "Everett School District No. 2",
+    "owner_contact": "Megan Heiss, Procurement Supervisor - Capital Projects (425) 385-4190",
+    "project_no": "Bid ID No. 13:26/27 - Architect DYKEMAN Inc., Job 24-037",
+    "site": "616 Pecks Drive, Everett, WA 98203 (Snohomish County)",
+    "county": "Snohomish",
+    "prime_contractor": "GC bidders - to be confirmed (sub bid to GC)",
+    "bid_date": "December 9, 2026, 2:00 PM (GC bid to Owner)",
+    "wage_basis": "Snohomish County prevailing wage (WA public works, RCW 39.12), L&I rates eff. 11/2/2026",
+    "scope_label": "finish carpentry, casework & FRP scope",
+    "public_works": true,
+    "documents": [
+      "Project Manual Vol. 1 - Divisions 00-10, Bid Set issued 11/3/2026 (737 pp)",
+      "Project Manual Vol. 2 - Divisions 11-23, Bid Set issued 11/3/2026 (461 pp)",
+      "Project Manual Appendix - Geotechnical report and survey (497 pp)",
+      "DRAWINGS NOT RECEIVED - all quantities parametric, to be replaced by plan takeoff"
+    ],
+    "distance_miles": "52"
+  },
+  "labor_rates": {
+    "FC": {
+      "label": "Carpenter (prevailing wage)",
+      "kind": "prevailing_wage",
+      "trade": "carpenter",
+      "rate": "87.71",
+      "burden_pct": "15",
+      "source": "L&I journey-level prevailing wage, Snohomish County, eff. 11/2/2026 - Spec 00 8100 Wage Determination (Madison ES Project Manual Vol. 1) - Carpenters, General Carpenter $87.71"
+    },
+    "ADMIN": {
+      "label": "PM / admin",
+      "kind": "loaded",
+      "rate": "75.00",
+      "source": "Office / submittals / certified payroll"
+    }
+  },
+  "markups": {
+    "contingency_pct": "5",
+    "overhead_pct": "10",
+    "profit_pct": "10",
+    "rounding": "50"
+  },
+  "tax": {
+    "mode": "excluded_resale"
+  },
+  "materials": [
+    {
+      "id": "M001",
+      "section": "A. Manufactured Wood Casework (Sec 12 3200 / 06 4100)",
+      "item": "P-lam base cabinets, premium grade AWI QCP, delivered",
+      "spec": "HPDL PL1 Formica Woodline / PL2 Laminart, 1\" MDF MR10 core, square edge thick band, BHMA A156.9 hardware",
+      "qty": "636",
+      "unit": "LF",
+      "unit_price": "360.00",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - AWI QCP manufacturer furnish (Pacific Cabinets / Genothen named in 06 4100), Nov 2026, pending quote",
+      "qty_source": "ASSUMED program: 26 classrooms/learning spaces + admin/support; Spec 12 3200 / 06 4100: 26 x 16 LF + 220 LF admin/support"
+    },
+    {
+      "id": "M002",
+      "section": "A. Manufactured Wood Casework (Sec 12 3200 / 06 4100)",
+      "item": "P-lam wall cabinets, premium grade AWI QCP, delivered",
+      "spec": "Same construction; adj. shelves Knape & Vogt 346NP pins",
+      "qty": "472",
+      "unit": "LF",
+      "unit_price": "290.00",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - AWI QCP manufacturer furnish (Pacific Cabinets / Genothen named in 06 4100), Nov 2026, pending quote",
+      "qty_source": "ASSUMED program: 26 classrooms/learning spaces + admin/support; Spec 12 3200 / 06 4100: 26 x 12 LF + 160 LF"
+    },
+    {
+      "id": "M003",
+      "section": "A. Manufactured Wood Casework (Sec 12 3200 / 06 4100)",
+      "item": "P-lam tall storage / wardrobe cabinets, delivered",
+      "spec": "Same construction; keyed locks",
+      "qty": "216",
+      "unit": "LF",
+      "unit_price": "520.00",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - AWI QCP manufacturer furnish (Pacific Cabinets / Genothen named in 06 4100), Nov 2026, pending quote",
+      "qty_source": "ASSUMED program: 26 classrooms/learning spaces + admin/support; Spec 12 3200 / 06 4100: 26 x 6 LF + 60 LF"
+    },
+    {
+      "id": "M004",
+      "section": "A. Manufactured Wood Casework (Sec 12 3200 / 06 4100)",
+      "item": "Student cubbies / open storage units (allowance)",
+      "spec": "P-lam open units - VERIFY vs. 10 5113 metal lockers",
+      "qty": "312",
+      "unit": "LF",
+      "unit_price": "275.00",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - AWI QCP manufacturer furnish (Pacific Cabinets / Genothen named in 06 4100), Nov 2026, pending quote",
+      "qty_source": "ASSUMED 26 x 12 LF - verify on drawings"
+    },
+    {
+      "id": "M005",
+      "section": "A. Manufactured Wood Casework (Sec 12 3200 / 06 4100)",
+      "item": "Custom benches (Sec 06 4100 1.1.B)",
+      "spec": "P-lam / maple per drawings",
+      "qty": "120",
+      "unit": "LF",
+      "unit_price": "210.00",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - AWI QCP manufacturer furnish (Pacific Cabinets / Genothen named in 06 4100), Nov 2026, pending quote",
+      "qty_source": "ASSUMED allowance - verify on drawings"
+    },
+    {
+      "id": "M006",
+      "section": "A. Manufactured Wood Casework (Sec 12 3200 / 06 4100)",
+      "item": "Keyed cabinet locks, master keyed, 2 keys each",
+      "spec": "Spec 06 4100 2.9.I, steel w/ chrome",
+      "qty": "400",
+      "unit": "EA",
+      "unit_price": "28.00",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - hardware distributor, Nov 2026",
+      "qty_source": "ASSUMED ~1 lock per 3 LF casework"
+    },
+    {
+      "id": "M007",
+      "section": "A. Manufactured Wood Casework (Sec 12 3200 / 06 4100)",
+      "item": "Shelf standards & cantilever brackets K&V 87/187",
+      "spec": "Spec 06 4100 2.9.D, satin chrome",
+      "qty": "1",
+      "unit": "LS",
+      "unit_price": "3500.00",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - hardware distributor, Nov 2026",
+      "qty_source": "ASSUMED allowance"
+    },
+    {
+      "id": "M008",
+      "section": "A. Manufactured Wood Casework (Sec 12 3200 / 06 4100)",
+      "item": "Furring, blocking, shims, hanging strips for casework",
+      "spec": "Spec 12 3200 1.1.D",
+      "qty": "1",
+      "unit": "LS",
+      "unit_price": "2500.00",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - Home Depot / lumber yard, Nov 2026",
+      "qty_source": "Spec 12 3200 1.1.D"
+    },
+    {
+      "id": "M009",
+      "section": "B. Finish Carpentry (Sec 06 2000)",
+      "item": "Clear maple chair rail WD2, stain grade",
+      "spec": "Spec 06 2000 2.1.C.1, 6% MC, Custom Grade",
+      "qty": "1800",
+      "unit": "LF",
+      "unit_price": "8.50",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - hardwood supplier (maple), Nov 2026",
+      "qty_source": "ASSUMED corridors / classrooms"
+    },
+    {
+      "id": "M010",
+      "section": "B. Finish Carpentry (Sec 06 2000)",
+      "item": "Maple casings and miscellaneous trim WD2",
+      "spec": "Spec 06 2000 2.1.C.1",
+      "qty": "1200",
+      "unit": "LF",
+      "unit_price": "6.50",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - hardwood supplier, Nov 2026",
+      "qty_source": "ASSUMED allowance"
+    },
+    {
+      "id": "M011",
+      "section": "B. Finish Carpentry (Sec 06 2000)",
+      "item": "Maple benches WD2 with colored stain",
+      "spec": "Spec 06 2000 2.1.C.2",
+      "qty": "80",
+      "unit": "LF",
+      "unit_price": "165.00",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - millwork shop, Nov 2026",
+      "qty_source": "ASSUMED - extent per drawings"
+    },
+    {
+      "id": "M012",
+      "section": "B. Finish Carpentry (Sec 06 2000)",
+      "item": "Solid surface window sills SSM1",
+      "spec": "Spec 06 2000 2.7; thickness per drawings",
+      "qty": "700",
+      "unit": "LF",
+      "unit_price": "42.00",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - solid surface fabricator, Nov 2026",
+      "qty_source": "ASSUMED ~140 windows x 5 LF"
+    },
+    {
+      "id": "M013",
+      "section": "B. Finish Carpentry (Sec 06 2000)",
+      "item": "Richlite W8A 1/4\" wainscot, Browns Point, leather finish",
+      "spec": "Spec 06 2000 2.9.A",
+      "qty": "2000",
+      "unit": "SF",
+      "unit_price": "30.00",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - Richlite distributor, Nov 2026, pending quote",
+      "qty_source": "ASSUMED - extent per drawings"
+    },
+    {
+      "id": "M014",
+      "section": "B. Finish Carpentry (Sec 06 2000)",
+      "item": "Richlite W8B 1/2\" panels",
+      "spec": "Spec 06 2000 2.9.B",
+      "qty": "400",
+      "unit": "SF",
+      "unit_price": "42.00",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - Richlite distributor, Nov 2026, pending quote",
+      "qty_source": "ASSUMED - extent per drawings"
+    },
+    {
+      "id": "M015",
+      "section": "B. Finish Carpentry (Sec 06 2000)",
+      "item": "Fiber reinforced laminate panels W1A / W1B",
+      "spec": "Spec 06 2000 2.8 with accessories",
+      "qty": "1500",
+      "unit": "SF",
+      "unit_price": "11.00",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - panel distributor, Nov 2026",
+      "qty_source": "ASSUMED - extent per drawings"
+    },
+    {
+      "id": "M016",
+      "section": "B. Finish Carpentry (Sec 06 2000)",
+      "item": "MDF paneling W10 and P-lam faced panels",
+      "spec": "Spec 06 2000 2.5 / 2.6",
+      "qty": "800",
+      "unit": "SF",
+      "unit_price": "14.00",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - Nov 2026",
+      "qty_source": "ASSUMED allowance"
+    },
+    {
+      "id": "M017",
+      "section": "B. Finish Carpentry (Sec 06 2000)",
+      "item": "Adhesives, fasteners, plastic/aluminum edge trims",
+      "spec": "Spec 06 2000 2.10-2.11",
+      "qty": "1",
+      "unit": "LS",
+      "unit_price": "4000.00",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - Nov 2026",
+      "qty_source": "ASSUMED allowance"
+    },
+    {
+      "id": "M018",
+      "section": "C. FRP Paneling (Sec 06 8316)",
+      "item": "FRP panels Class A with trims and adhesive",
+      "spec": "Spec 06 8316, ASTM D5319, FDA food code at kitchen",
+      "qty": "3000",
+      "unit": "SF",
+      "unit_price": "3.10",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - FRP distributor, Nov 2026",
+      "qty_source": "ASSUMED kitchen, custodial, service rooms"
+    }
+  ],
+  "labor": [
+    {
+      "id": "L001",
+      "task": "Receive, unload, distribute casework to 2 floors",
+      "rate": "FC",
+      "hours": "120"
+    },
+    {
+      "id": "L002",
+      "task": "Install factory-built base/wall/tall casework 1324 LF @ 0.6 MH/LF (rev 2: was 1.2)",
+      "rate": "FC",
+      "hours": "794"
+    },
+    {
+      "id": "L003",
+      "task": "Install student cubbies 312 LF @ 0.8 MH/LF",
+      "rate": "FC",
+      "hours": "250"
+    },
+    {
+      "id": "L004",
+      "task": "Install benches 200 LF @ 0.6 MH/LF",
+      "rate": "FC",
+      "hours": "120"
+    },
+    {
+      "id": "L005",
+      "task": "Scribes, fillers, adjustment, hardware 1324 LF @ 0.2 MH/LF (rev 2: was 0.3)",
+      "rate": "FC",
+      "hours": "265"
+    },
+    {
+      "id": "L006",
+      "task": "Chair rail and trim 3,000 LF @ 0.06 MH/LF",
+      "rate": "FC",
+      "hours": "180"
+    },
+    {
+      "id": "L007",
+      "task": "Solid surface sills 140 EA @ 0.75 MH/EA",
+      "rate": "FC",
+      "hours": "105"
+    },
+    {
+      "id": "L008",
+      "task": "Richlite wainscot/panels 2,400 SF @ 0.12 MH/SF",
+      "rate": "FC",
+      "hours": "288"
+    },
+    {
+      "id": "L009",
+      "task": "FRL / MDF / P-lam panels 2,300 SF @ 0.08 MH/SF",
+      "rate": "FC",
+      "hours": "184"
+    },
+    {
+      "id": "L010",
+      "task": "FRP panels 3,000 SF @ 0.035 MH/SF",
+      "rate": "FC",
+      "hours": "105"
+    },
+    {
+      "id": "L011",
+      "task": "Lead carpenter non-working supervision (~20 weeks)",
+      "rate": "FC",
+      "hours": "200"
+    },
+    {
+      "id": "L012",
+      "task": "Submittals, AWI coordination, samples, mock-up, certified payroll, closeout",
+      "rate": "ADMIN",
+      "hours": "180"
+    }
+  ],
+  "other": [
+    {
+      "id": "O001",
+      "item": "Mobilization / travel Federal Way - Everett (~52 mi), 4 mobs",
+      "category": "Mobilization",
+      "qty": "4",
+      "unit": "EA",
+      "rate": "1500.00"
+    },
+    {
+      "id": "O002",
+      "item": "Installation tools, carts, panel lift, seismic anchors",
+      "category": "Equipment",
+      "qty": "1",
+      "unit": "LS",
+      "rate": "4500.00"
+    },
+    {
+      "id": "O003",
+      "item": "Protection of finished casework until turnover",
+      "category": "Other",
+      "qty": "1",
+      "unit": "LS",
+      "rate": "2500.00"
+    },
+    {
+      "id": "O004",
+      "item": "L&I Statement of Intent + Affidavit (verify current fee)",
+      "category": "Fees",
+      "qty": "2",
+      "unit": "EA",
+      "rate": "65.10"
+    }
+  ],
+  "scope": [
+    {
+      "title": "Manufactured & Architectural Casework (12 3200 / 06 4100)",
+      "text": "Furnish (through an AWI QCP manufacturer) and install P-lam base (636 LF), wall (472 LF) and tall (216 LF) cabinets, student cubbies (312 LF allowance), custom benches, keyed locks, shelf standards, scribes and fillers, blocking and hanging strips per 12 3200 1.1.D."
+    },
+    {
+      "title": "Finish Carpentry (06 2000)",
+      "text": "Clear maple chair rail, casings and trim (stain grade), maple benches, solid surface window sills, Richlite W8A/W8B wainscot and panels, FRL W1A/W1B, MDF and P-lam panels, shop finishing per 06 2000 2.13."
+    },
+    {
+      "title": "FRP Paneling (06 8316)",
+      "text": "Class A FRP panels with trims and adhesive at kitchen, custodial and service rooms (3,000 SF allowance)."
+    }
+  ],
+  "exclusions": [
+    "Alternate No. 1 - North Parking Lot (no work of this trade).",
+    "Work outside the trade sections listed in the scope.",
+    "Dumpsters, temporary power, lighting, heat, sanitary facilities and hoisting (by GC).",
+    "Premium / overtime time unless directed in writing by GC.",
+    "Countertop support brackets and grommets - furnished with the countertops (12 3600).",
+    "Field painting and staining of trim (09 9120 / 09 9300) beyond shop finishing in 06 2000.",
+    "Metal lockers (10 5113), toilet accessories (FOIC), appliances (11 3013)."
+  ],
+  "assumptions": [
+    "DRAWINGS NOT RECEIVED. Every quantity is parametric from the 75,522 SF school (Spec 01 1000) and must be replaced by a plan takeoff before submission.",
+    "Snohomish County prevailing wage, L&I rates effective 11/2/2026 per Spec 00 8100; rates are fixed at the bid date (12/9/2026) - re-check on L&I if an update is posted.",
+    "Work occurs in Phase 1 (new building, 3/29/2027 - SC 6/16/2028) per Spec 00 5200; Phase 2 is demolition/site work.",
+    "Owner occupies the adjacent existing school during construction; work hours 7:00 AM - 5:00 PM M-F (Spec 01 1000).",
+    "Pricing valid 30 days; material escalation beyond 2027 not included.",
+    "12 3200 requires an AWI QCP-certified manufacturer AND an AWI Certified installer approved by the manufacturer; 06 4100 requires 5 years experience and a past project within 20% of this casework value. Casework is priced as furnished by Pacific Cabinets / Genothen (named in 06 4100) and installed by Diaz - Diaz must confirm AWI installer status before bidding.",
+    "Diaz WA contractor registration and UBI are shown as pending: a public works bid requires active registration (RCW 18.27 / 39.04.350). GO/NO-GO item.",
+    "Room program assumed: 26 classrooms/learning spaces plus admin, library, health, staff and specialty rooms."
+  ],
+  "alkan_commission": {
+    "find_estimate_pct": "3",
+    "coordination_pct": "3",
+    "coordination_included": false
+  },
+  "release": {
+    "authorized": false,
+    "allow_budget_prices": true,
+    "note": "Preliminary budget from the specifications only (drawings not received). Quantities are parametric from the 75,522 SF building area; prices are Nov 2026 Puget Sound budget benchmarks pending supplier quotes. Not for submission until plan takeoff and quotes replace the ASSUMED/BUDGET lines."
+  },
+  "validity_days": 30,
+  "subcontract_package": {
+    "banner": "SUBCONTRACT PACKAGE – BUDGETARY",
+    "header_note": "Quantities are parametric (no drawings received). To be replaced by plan takeoff upon GC award or receipt of drawings.",
+    "basis_lead": [
+      "DRAWINGS NOT RECEIVED. All quantities are parametric from the 75,522 SF building area (Spec 01 1000 1.3.A) and assumed ratios/room program shown in each line's quantity source. This is not a plan takeoff and does not claim takeoff precision; quantities must be replaced by a plan takeoff upon GC award or receipt of drawings.",
+      "Material pricing is BUDGET/CATALOG until supplier quotes are received. All material lines remain open for supplier pricing."
+    ],
+    "summary_note": "This is a subcontract package prepared to support GC bidders. Final numbers subject to plan takeoff and supplier quotes.",
+    "go_no_go": [
+      "GO/NO-GO: WA Contractor License and UBI are PENDING. Public works bid requires active registration (RCW 18.27 / 39.04.350)."
+    ],
+    "basis_requirements": [
+      "AWI QCP requirement: casework must be manufactured by an AWI Quality Certification Program (QCP) manufacturer and installed by an AWI Certified installer approved by that manufacturer (Spec 12 3200 1.8). Priced as furnished by an AWI QCP manufacturer (Pacific Cabinets / Genothen named in 06 4100) and installed by Diaz.",
+      "Experience requirement: fabricator/installer firm with minimum 5 years of documented experience and at least one project in the past 5 years with casework value within 20% of this project's casework cost (Spec 06 4100 1.7.A)."
+    ],
+    "coordination_notes": [
+      "Countertop surfaces, brackets and grommets (12 3600) are excluded and assumed by the countertop subcontractor."
+    ],
+    "review_flags": [
+      "GO/NO-GO: WA Contractor License + UBI Pending (RCW 18.27 / 39.04.350).",
+      "DRAWINGS NOT RECEIVED – all quantities parametric.",
+      "All material lines BUDGET/CATALOG – replace with supplier quotes.",
+      "Confirm AWI Certified installer status of Diaz, approved by the AWI QCP manufacturer (12 3200 1.8).",
+      "Confirm 5-year experience and a past project within 20% of this casework value (06 4100 1.7.A).",
+      "Confirm student cubbies (312 LF allowance) vs. metal lockers 10 5113 on drawings.",
+      "Re-check L&I prevailing wage rates (Snohomish County) on the bid/award date.",
+      "Pricing valid 30 days (from November 17, 2026 through December 17, 2026); material escalation beyond 2027 not included."
+    ]
+  },
+  "revision": 2,
+  "revision_log": [
+    {
+      "rev": 1,
+      "date": "2026-11-17",
+      "note": "Rev 1 - first budget from specifications"
+    },
+    {
+      "rev": 2,
+      "date": "2026-11-17",
+      "note": "Rev 2 (2026-11-17): casework install 1.2+0.3 -> 0.6+0.2 MH/LF (factory-built); countertops, brackets and grommets moved to the countertop sub (Diaz profile excludes them)."
+    }
+  ]
+}

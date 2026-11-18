@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Any
 
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
@@ -8,8 +9,8 @@ from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import inch
 from reportlab.platypus import PageBreak, Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
 
-from .contractor import PJ_ROOFING
-from .records import AMENDMENTS, REQUIREMENTS, RISKS, TAKEOFF
+from ..contractor import ContractorIdentity, load_contractor_identity
+from ..records import AMENDMENTS, REQUIREMENTS, RISKS, TAKEOFF
 
 
 def _source(row: dict) -> str:
@@ -50,20 +51,24 @@ def _document(path: Path, title: str):
     return doc, styles
 
 
-def executive_summary(path: Path) -> None:
+def executive_summary(
+    path: Path,
+    contractor_source: str | Path | dict[str, Any] | ContractorIdentity | None = None,
+    project_header: str = "Project Roof Replacement | Procurement BID-REF-001 | Owner TO_BE_FILLED",
+) -> None:
+    contractor = load_contractor_identity(contractor_source)
     doc, styles = _document(path, "Executive Project Summary")
     story = [Paragraph("Executive Project Summary", styles["Title"]), Spacer(1, 8)]
-    story += [Paragraph("5301 8th St E Roof Replacement | Project 101716.01 | Procurement 072026-1044 | Port of Tacoma", styles["BodyText"]), Spacer(1, 8)]
+    story += [Paragraph(project_header, styles["BodyText"]), Spacer(1, 8)]
 
-    # Contractor identity
-    story += [Paragraph(f"<b>Prepared for:</b> {PJ_ROOFING.legal_name}, {PJ_ROOFING.format_full_location()}", styles["BodyText"]), Spacer(1, 4)]
-    story += [Paragraph(f"<b>WA Contractor Registration:</b> {PJ_ROOFING.contractor_registration} (Active)", styles["BodyText"]), Spacer(1, 8)]
+    story += [Paragraph(f"<b>Prepared for:</b> {contractor.legal_name}, {contractor.format_full_location()}", styles["BodyText"]), Spacer(1, 4)]
+    story += [Paragraph(f"<b>WA Contractor Registration:</b> {contractor.contractor_registration} ({contractor.registration_status})", styles["BodyText"]), Spacer(1, 8)]
 
-    story += [Paragraph("Status: NOT READY FOR BID. This is a source-backed internal review draft prepared by ALKAN (estimation tool). It does not constitute a bid submission and does not replace any Port form. All pending compliance requirements must be satisfied by the contractor before bid submission.", styles["BodyText"]), Spacer(1, 8)]
+    story += [Paragraph("Status: NOT READY FOR BID. This is a source-backed internal review draft prepared by ALKAN (estimation tool). It does not constitute a bid submission and does not replace any official owner form. All pending compliance requirements must be satisfied by the contractor before bid submission.", styles["BodyText"]), Spacer(1, 8)]
     story += [Paragraph("Verified procurement controls", styles["Heading2"])]
     controls = [
         ["Control", "Finding", "Source"],
-        ["Bid receipt", "Addendum 04 sets sealed bid receipt for 29 Oct 2026, 2:00 PM, Front Reception Desk, Port Administration Office, One Sitcum Plaza, Tacoma WA 98421.", "Addendum 04 p. 1"],
+        ["Bid receipt", "Addendum 04 sets sealed bid receipt for 29 Oct 2026, 2:00 PM at Owner Administration Office.", "Addendum 04 p. 1"],
         ["Bid security", "At least 5% of Base Bid Subtotal; compliant check or bond.", "Specs 00 21 00 p. 5"],
         ["Allowance", "Unforeseen Conditions Allowance is shown as $25,000.", "Specs 00 41 00 p. 1"],
         ["Sales tax", "Bid Form shows 10.5% Washington State Sales Tax on Base Bid Subtotal.", "Specs 00 41 00 p. 1"],
@@ -79,10 +84,15 @@ def executive_summary(path: Path) -> None:
     doc.build(story)
 
 
-def scope_of_work(path: Path) -> None:
+def scope_of_work(
+    path: Path,
+    contractor_source: str | Path | dict[str, Any] | ContractorIdentity | None = None,
+    project_label: str = "BID-REF-001",
+) -> None:
+    contractor = load_contractor_identity(contractor_source)
     doc, styles = _document(path, "Scope of Work by Building")
     story = [Paragraph("Scope of Work by Building", styles["Title"]), Spacer(1, 8)]
-    story += [Paragraph(f"<b>Contractor:</b> {PJ_ROOFING.legal_name} | <b>Project:</b> Port of Tacoma 072026-1044", styles["BodyText"]), Spacer(1, 8)]
+    story += [Paragraph(f"<b>Contractor:</b> {contractor.legal_name} | <b>Project:</b> {project_label}", styles["BodyText"]), Spacer(1, 8)]
     story += [Paragraph("Draft scope derived from current drawing symbols, dimensions, notes and Section 07 41 00. Quantities identified as pending must be field measured; none are inferred from image scale.", styles["BodyText"]), Spacer(1, 8)]
     rows = [["Building", "Work item", "Unit", "Quantity", "Status", "Plan / source"]]
     for r in TAKEOFF:
@@ -94,12 +104,16 @@ def scope_of_work(path: Path) -> None:
     doc.build(story)
 
 
-def bid_review_report(path: Path) -> None:
+def bid_review_report(
+    path: Path,
+    contractor_source: str | Path | dict[str, Any] | ContractorIdentity | None = None,
+) -> None:
+    contractor = load_contractor_identity(contractor_source)
     doc, styles = _document(path, "Bid Review Report")
     story = [Paragraph("Bid Review Report", styles["Title"]), Spacer(1, 8)]
-    story += [Paragraph(f"<b>Contractor:</b> {PJ_ROOFING.legal_name}, {PJ_ROOFING.format_full_location()}", styles["BodyText"]), Spacer(1, 4)]
-    story += [Paragraph(f"<b>Registration:</b> {PJ_ROOFING.contractor_registration} | <b>Classification:</b> {PJ_ROOFING.classification}", styles["BodyText"]), Spacer(1, 8)]
-    story += [Paragraph("Outcome: BLOCKED. A valid bid cannot be prepared or presented until all blocking items are verified by an eligible bidder and the official Port forms are completed by authorized parties. See Compliance_Requirements_Status.txt for detailed compliance tracking.", styles["BodyText"]), Spacer(1, 8)]
+    story += [Paragraph(f"<b>Contractor:</b> {contractor.legal_name}, {contractor.format_full_location()}", styles["BodyText"]), Spacer(1, 4)]
+    story += [Paragraph(f"<b>Registration:</b> {contractor.contractor_registration} | <b>Classification:</b> {contractor.classification}", styles["BodyText"]), Spacer(1, 8)]
+    story += [Paragraph("Outcome: BLOCKED. A valid bid cannot be prepared or presented until all blocking items are verified by an eligible bidder and the official Bid Forms are completed by authorized parties. See Compliance_Requirements_Status.txt for detailed compliance tracking.", styles["BodyText"]), Spacer(1, 8)]
     for status in ("BLOCKING", "PENDING"):
         story.append(Paragraph("Blockers" if status == "BLOCKING" else "Pending clarifications", styles["Heading2"]))
         rows = [["ID", "Issue", "Action", "Source"]] + [[r["id"], r["risk"], r["action"], _source(r)] for r in RISKS if r["status"] == status]

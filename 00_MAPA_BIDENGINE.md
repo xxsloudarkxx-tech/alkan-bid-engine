@@ -7,6 +7,8 @@
 - `tools/`: scripts de informes, verificaciones, generación de PDF y auditorías.
 - `tests/`: pruebas automáticas.
 - `run_bidkit.py`, `Start-BidEngine.ps1`, `pyproject.toml`: entradas y dependencias del proyecto.
+- `Start-Contrato.ps1` / `Import-Logos.ps1` (`src/bidkit/contrato.py`): contrato con alcance preconfigurado por cliente y pack de logos; ver `docs/CONTRATO_POR_CLIENTE.md`.
+- Especialidades (metal, techado, tablaroca, pintura, carpintería/molduras, cubiertas) en el knowledge base; ver `docs/ESPECIALIDADES.md`.
 - `templates/`: plantillas. `.git/`: historial y preparación local de Git.
 
 ## 2. Insumos documentales y expedientes

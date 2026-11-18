@@ -44,5 +44,12 @@
     "coordination_included": false
   },
   "validity_days": 30,
-  "scope_policy": []
+  "scope_policy": [],
+  "aliases": [
+    "generico",
+    "genérico",
+    "sin marca",
+    "generic",
+    "alkan"
+  ]
 }

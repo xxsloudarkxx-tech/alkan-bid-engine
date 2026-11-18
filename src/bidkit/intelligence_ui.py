@@ -19,6 +19,12 @@ from .supplier_exports import artifact as supplier_artifact, export_supplier_cen
 from . import material_import
 from .estimation_ui import measurement_upload, measurement_tool, agent_status, run_agent
 from .app_api import AppAPI, Download
+from .deliverables_v4 import ImmutableVersionError
+from .domain import InvalidStateTransitionError
+from .integrations.quickbooks_sync import QuickBooksSyncError
+from .pricebook import PriceGovernanceError
+from .rfi_rfq import UnAuthorizedOutboundError
+from .security import RateLimitError, SecurityError
 
 MAX_BODY = 38 * 1024 * 1024
 
@@ -52,9 +58,9 @@ def make_handler(root, app=None):
                 # "/" is the unified app; the dossier panel keeps its old deep links ("/?mode=…&project_id=…").
                 if url.path == "/" and not url.query: return self.send(200, Path(__file__).with_name("app.html").read_bytes(), "text/html; charset=utf-8")
                 if url.path in ("/", "/expedientes"): return self.send(200, Path(__file__).with_name("intelligence_ui.html").read_bytes(), "text/html; charset=utf-8")
-                if url.path in ("/app.js", "/nav.js"): return self.send(200, Path(__file__).with_name(url.path[1:]).read_bytes(), "text/javascript; charset=utf-8")
-                if url.path.startswith("/api/app/"):
-                    result = app.get(url.path, query)
+                if url.path in ("/app.js", "/nav.js", "/v4_workspace.js"): return self.send(200, Path(__file__).with_name(url.path[1:]).read_bytes(), "text/javascript; charset=utf-8")
+                if url.path.startswith("/api/app/") or url.path.startswith("/api/v4/"):
+                    result = app.get(url.path, query, dict(self.headers))
                     if isinstance(result, Download):
                         return self.send(200, result.path.read_bytes(), result.kind, download=result.path.name if query.get("download") else None)
                     if result is not None: return self.send(200, result)
@@ -102,11 +108,18 @@ def make_handler(root, app=None):
                     kind = {".pdf":"application/pdf", ".png":"image/png", ".jpg":"image/jpeg", ".jpeg":"image/jpeg", ".txt":"text/plain; charset=utf-8"}.get(path.suffix.lower(),"application/octet-stream")
                     return self.send(200, path.read_bytes(), kind)
                 return self.send(404, {"error": "Ruta no encontrada"})
-            except (ValueError, FileNotFoundError, StopIteration) as exc:
+            except SecurityError as exc:
+                return self.send(403, {"error": str(exc)})
+            except RateLimitError as exc:
+                return self.send(429, {"error": str(exc)})
+            except (ValueError, FileNotFoundError, StopIteration, KeyError) as exc:
                 return self.send(400, {"error": str(exc) or "Registro no encontrado"})
 
         def do_POST(self):
-            if not self.trusted() or self.headers.get("X-ALKAN-Token") != token: return self.send(403, {"error": "Sesión local inválida"})
+            path = urlsplit(self.path).path
+            has_svc_auth = path.startswith("/api/v4/") and bool(self.headers.get("Authorization") or self.headers.get("X-ALKAN-API-Key"))
+            if not has_svc_auth and (not self.trusted() or self.headers.get("X-ALKAN-Token") != token):
+                return self.send(403, {"error": "Sesión local inválida"})
             try:
                 length = int(self.headers.get("Content-Length", "0"))
                 if not 0 < length <= MAX_BODY: raise ValueError("Solicitud excede límite de 38 MB; cargue por lotes")
@@ -114,10 +127,11 @@ def make_handler(root, app=None):
                 req = json.loads(self.rfile.read(length), parse_constant=lambda x: (_ for _ in ()).throw(ValueError("Número no finito")))
                 if not isinstance(req,dict):raise ValueError("La solicitud debe ser un objeto JSON")
                 actor = str(req.get("actor", "")).strip()
-                if not actor: raise ValueError("Indique responsable")
-                path = urlsplit(self.path).path; pid = req.get("project_id")
-                if path.startswith("/api/app/"):
-                    result = app.post(path, req, actor)
+                if not actor and path != "/api/v4/auth/login" and not has_svc_auth:
+                    raise ValueError("Indique responsable")
+                pid = req.get("project_id")
+                if path.startswith("/api/app/") or path.startswith("/api/v4/"):
+                    result = app.post(path, req, actor, dict(self.headers))
                     return self.send(200, result) if result is not None else self.send(404, {"error": "Ruta no encontrada"})
                 if path == "/api/measurement/upload": result=measurement_upload(root,req["content"])
                 elif path == "/api/measurement/tool": result=measurement_tool(root,req["name"],req["arguments"])
@@ -146,8 +160,11 @@ def make_handler(root, app=None):
                     result = {"url": f"/api/export-file?project_id={pid}&name={artifact.name}"}
                 else: return self.send(404, {"error": "Ruta no encontrada"})
                 return self.send(200, result)
-            except RevisionConflict as exc: return self.send(409, {"error": str(exc)})
-            except (ValueError, KeyError, TypeError, StopIteration, FileNotFoundError) as exc:
+            except SecurityError as exc: return self.send(403, {"error": str(exc)})
+            except UnAuthorizedOutboundError as exc: return self.send(403, {"error": str(exc)})
+            except RateLimitError as exc: return self.send(429, {"error": str(exc)})
+            except (RevisionConflict, ImmutableVersionError) as exc: return self.send(409, {"error": str(exc)})
+            except (ValueError, KeyError, TypeError, StopIteration, FileNotFoundError, InvalidStateTransitionError, PriceGovernanceError, QuickBooksSyncError) as exc:
                 return self.send(400, {"error": str(exc) or "Registro no encontrado"})
 
     return Handler

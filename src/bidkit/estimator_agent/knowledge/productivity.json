@@ -215,5 +215,320 @@
   "unit": "H/job",
   "trade": "PM/admin",
   "source": "All"
+ },
+ {
+  "task": "P-lam base cabinet shop fabrication (box, face frame, door/drawer, hardware)",
+  "rate": "0.75",
+  "unit": "MH/LF",
+  "trade": "Shop",
+  "source": "HC3 Díaz – 48 LF base cabinets"
+ },
+ {
+  "task": "P-lam wall cabinet shop fabrication (box, face frame, door, hardware)",
+  "rate": "0.65",
+  "unit": "MH/LF",
+  "trade": "Shop",
+  "source": "HC3 Díaz – 36 LF wall cabinets"
+ },
+ {
+  "task": "Reception counter / transaction counter shop fabrication (dual-height, ADA)",
+  "rate": "24",
+  "unit": "MH/LS",
+  "trade": "Shop",
+  "source": "HC3 Díaz – 1 LS reception counter assembly"
+ },
+ {
+  "task": "Mailbox unit shop fabrication (multi-slot built-in)",
+  "rate": "20",
+  "unit": "MH/LS",
+  "trade": "Shop",
+  "source": "HC3 Díaz – 1 LS mailbox unit"
+ },
+ {
+  "task": "White Oak trim / sill, shop mill and finish",
+  "rate": "0.5",
+  "unit": "MH/EA",
+  "trade": "Shop",
+  "source": "HC3 Díaz – 18 EA quarter-sawn White Oak sills"
+ },
+ {
+  "task": "Casework field installation (base + wall cabinets, level, shim, fasten)",
+  "rate": "1.4",
+  "unit": "MH/LF",
+  "trade": "Finish carpenter",
+  "source": "HC3 Díaz – 84 LF total casework install"
+ },
+ {
+  "task": "Reception / specialty casework field install",
+  "rate": "16",
+  "unit": "MH/LS",
+  "trade": "Finish carpenter",
+  "source": "HC3 Díaz – 1 LS reception + mailbox field install"
+ },
+ {
+  "task": "Casework finish carpentry / trim / adjustment",
+  "rate": "0.3",
+  "unit": "MH/LF",
+  "trade": "Finish carpenter",
+  "source": "HC3 Díaz – scribe fillers, edge trim, grommets"
+ },
+ {
+  "task": "HPDL countertop shop fabrication (cut, laminate, edge, cutouts)",
+  "rate": "0.6",
+  "unit": "MH/LF",
+  "trade": "Shop/Fab",
+  "source": "HC3 JC Granite – 48 LF HPDL countertops"
+ },
+ {
+  "task": "Countertop backsplash fabrication",
+  "rate": "0.15",
+  "unit": "MH/LF",
+  "trade": "Shop/Fab",
+  "source": "HC3 JC Granite – 48 LF backsplash"
+ },
+ {
+  "task": "Reception surface fabrication (solid surface or HPDL, multi-level)",
+  "rate": "12",
+  "unit": "MH/LS",
+  "trade": "Shop/Fab",
+  "source": "HC3 JC Granite – 1 LS reception countertop surfaces"
+ },
+ {
+  "task": "Countertop field installation (set, level, fasten, seal)",
+  "rate": "0.4",
+  "unit": "MH/LF",
+  "trade": "Installer/Carpenter",
+  "source": "HC3 JC Granite – 48 LF countertop install"
+ },
+ {
+  "task": "Rakks wall-mounted bracket install (drill, anchor, set)",
+  "rate": "0.25",
+  "unit": "MH/EA",
+  "trade": "Installer/Carpenter",
+  "source": "HC3 JC Granite – 24 EA Rakks brackets"
+ },
+ {
+  "task": "RoofScreen / mechanical screen system shop assembly (post supports, framing, panels)",
+  "rate": "0.5",
+  "unit": "MH/LF equiv.",
+  "trade": "Shop",
+  "source": "HC3 S&S – exterior grilles/screens, RoofScreen SC3R system"
+ },
+ {
+  "task": "Mechanical screen field erection (post, frame, panel hang, flashings)",
+  "rate": "0.33",
+  "unit": "MH/LF equiv.",
+  "trade": "Ironworker",
+  "source": "HC3 S&S – exterior grilles/screens field install"
+ },
+ {
+  "task": "Install factory-built base/wall/tall casework (deliver set)",
+  "rate": "0.6–0.9",
+  "unit": "MH/LF",
+  "trade": "Finish carpenter",
+  "source": "Benchmark comercial Puget Sound, nov 2026 (pendiente confirmar con el contratista/Don Miguel)"
+ },
+ {
+  "task": "Scribes, fillers, hardware adjustment on casework",
+  "rate": "0.2–0.3",
+  "unit": "MH/LF",
+  "trade": "Finish carpenter",
+  "source": "Benchmark comercial Puget Sound, nov 2026 (pendiente confirmar con el contratista/Don Miguel)"
+ },
+ {
+  "task": "Install plastic-laminate / solid-surface countertop",
+  "rate": "0.3–0.5",
+  "unit": "MH/LF",
+  "trade": "Finish carpenter",
+  "source": "Benchmark comercial Puget Sound, nov 2026 (pendiente confirmar con el contratista/Don Miguel)"
+ },
+ {
+  "task": "Install chair rail / casing / running trim",
+  "rate": "0.05–0.08",
+  "unit": "MH/LF",
+  "trade": "Finish carpenter",
+  "source": "Benchmark comercial Puget Sound, nov 2026 (pendiente confirmar con el contratista/Don Miguel)"
+ },
+ {
+  "task": "Install solid-surface window sill",
+  "rate": "0.6–0.9",
+  "unit": "MH/EA",
+  "trade": "Finish carpenter",
+  "source": "Benchmark comercial Puget Sound, nov 2026 (pendiente confirmar con el contratista/Don Miguel)"
+ },
+ {
+  "task": "Install wall panel (Richlite / FRL / MDF / p-lam)",
+  "rate": "0.08–0.14",
+  "unit": "MH/SF",
+  "trade": "Finish carpenter",
+  "source": "Benchmark comercial Puget Sound, nov 2026 (pendiente confirmar con el contratista/Don Miguel)"
+ },
+ {
+  "task": "Install FRP panel with trim and adhesive",
+  "rate": "0.03–0.05",
+  "unit": "MH/SF",
+  "trade": "Finish carpenter",
+  "source": "Benchmark comercial Puget Sound, nov 2026 (pendiente confirmar con el contratista/Don Miguel)"
+ },
+ {
+  "task": "Gyp board walls: prime + 2 coats, roller/brush",
+  "rate": "0.010–0.013",
+  "unit": "MH/SF",
+  "trade": "Painter",
+  "source": "Benchmark comercial Puget Sound, nov 2026 (pendiente confirmar con el contratista/Don Miguel)"
+ },
+ {
+  "task": "Gyp board ceilings/soffits: prime + 2 coats",
+  "rate": "0.012–0.016",
+  "unit": "MH/SF",
+  "trade": "Painter",
+  "source": "Benchmark comercial Puget Sound, nov 2026 (pendiente confirmar con el contratista/Don Miguel)"
+ },
+ {
+  "task": "Exposed structure dryfall spray (with lift)",
+  "rate": "0.005–0.008",
+  "unit": "MH/SF",
+  "trade": "Painter",
+  "source": "Benchmark comercial Puget Sound, nov 2026 (pendiente confirmar con el contratista/Don Miguel)"
+ },
+ {
+  "task": "CMU block filler + 2 coats",
+  "rate": "0.014–0.018",
+  "unit": "MH/SF",
+  "trade": "Painter",
+  "source": "Benchmark comercial Puget Sound, nov 2026 (pendiente confirmar con el contratista/Don Miguel)"
+ },
+ {
+  "task": "Paint hollow-metal door, both faces",
+  "rate": "1.2–1.8",
+  "unit": "MH/EA",
+  "trade": "Painter",
+  "source": "Benchmark comercial Puget Sound, nov 2026 (pendiente confirmar con el contratista/Don Miguel)"
+ },
+ {
+  "task": "Paint hollow-metal frame",
+  "rate": "0.8–1.2",
+  "unit": "MH/EA",
+  "trade": "Painter",
+  "source": "Benchmark comercial Puget Sound, nov 2026 (pendiente confirmar con el contratista/Don Miguel)"
+ },
+ {
+  "task": "Stain + transparent finish on wood",
+  "rate": "0.018–0.025",
+  "unit": "MH/SF",
+  "trade": "Painter",
+  "source": "Benchmark comercial Puget Sound, nov 2026 (pendiente confirmar con el contratista/Don Miguel)"
+ },
+ {
+  "task": "High-performance coating on steel (epoxy + urethane)",
+  "rate": "0.025–0.035",
+  "unit": "MH/SF",
+  "trade": "Painter",
+  "source": "Benchmark comercial Puget Sound, nov 2026 (pendiente confirmar con el contratista/Don Miguel)"
+ },
+ {
+  "task": "Layout and frame non-structural metal stud partition",
+  "rate": "0.025–0.030",
+  "unit": "MH/SF",
+  "trade": "Drywall applicator",
+  "source": "Benchmark comercial Puget Sound, nov 2026 (pendiente confirmar con el contratista/Don Miguel)"
+ },
+ {
+  "task": "Head-of-wall / deflection track",
+  "rate": "0.03–0.05",
+  "unit": "MH/LF",
+  "trade": "Drywall applicator",
+  "source": "Benchmark comercial Puget Sound, nov 2026 (pendiente confirmar con el contratista/Don Miguel)"
+ },
+ {
+  "task": "Hang 5/8\" gypsum board on walls",
+  "rate": "0.009–0.012",
+  "unit": "MH/SF",
+  "trade": "Drywall applicator",
+  "source": "Benchmark comercial Puget Sound, nov 2026 (pendiente confirmar con el contratista/Don Miguel)"
+ },
+ {
+  "task": "Hang gypsum board on ceilings",
+  "rate": "0.018–0.022",
+  "unit": "MH/SF",
+  "trade": "Drywall applicator",
+  "source": "Benchmark comercial Puget Sound, nov 2026 (pendiente confirmar con el contratista/Don Miguel)"
+ },
+ {
+  "task": "Hang exterior glass-mat sheathing",
+  "rate": "0.010–0.012",
+  "unit": "MH/SF",
+  "trade": "Drywall applicator",
+  "source": "Benchmark comercial Puget Sound, nov 2026 (pendiente confirmar con el contratista/Don Miguel)"
+ },
+ {
+  "task": "Hang cement backer board",
+  "rate": "0.018–0.022",
+  "unit": "MH/SF",
+  "trade": "Drywall applicator",
+  "source": "Benchmark comercial Puget Sound, nov 2026 (pendiente confirmar con el contratista/Don Miguel)"
+ },
+ {
+  "task": "Install acoustic batt insulation in partitions",
+  "rate": "0.005–0.007",
+  "unit": "MH/SF",
+  "trade": "Drywall applicator",
+  "source": "Benchmark comercial Puget Sound, nov 2026 (pendiente confirmar con el contratista/Don Miguel)"
+ },
+ {
+  "task": "Tape and finish to Level 4",
+  "rate": "0.010–0.013",
+  "unit": "MH/SF",
+  "trade": "Drywall taper",
+  "source": "Benchmark comercial Puget Sound, nov 2026 (pendiente confirmar con el contratista/Don Miguel)"
+ },
+ {
+  "task": "Fire-tape to Level 1 (above ceilings)",
+  "rate": "0.003–0.004",
+  "unit": "MH/SF",
+  "trade": "Drywall taper",
+  "source": "Benchmark comercial Puget Sound, nov 2026 (pendiente confirmar con el contratista/Don Miguel)"
+ },
+ {
+  "task": "Level 5 high-build surfacer (add)",
+  "rate": "0.007–0.009",
+  "unit": "MH/SF",
+  "trade": "Drywall taper",
+  "source": "Benchmark comercial Puget Sound, nov 2026 (pendiente confirmar con el contratista/Don Miguel)"
+ },
+ {
+  "task": "TPO/EPDM membrane, mechanically attached (field)",
+  "rate": "0.012–0.020",
+  "unit": "MH/SF",
+  "trade": "Roofer",
+  "source": "Benchmark comercial Puget Sound, nov 2026 (pendiente confirmar con el contratista/Don Miguel)"
+ },
+ {
+  "task": "Polyiso insulation + cover board (per layer)",
+  "rate": "0.006–0.010",
+  "unit": "MH/SF",
+  "trade": "Roofer",
+  "source": "Benchmark comercial Puget Sound, nov 2026 (pendiente confirmar con el contratista/Don Miguel)"
+ },
+ {
+  "task": "Roof tear-off, single-ply (per layer)",
+  "rate": "0.010–0.018",
+  "unit": "MH/SF",
+  "trade": "Roofer",
+  "source": "Benchmark comercial Puget Sound, nov 2026 (pendiente confirmar con el contratista/Don Miguel)"
+ },
+ {
+  "task": "Membrane flashing / detail work at penetrations",
+  "rate": "0.4–0.8",
+  "unit": "MH/EA",
+  "trade": "Roofer",
+  "source": "Benchmark comercial Puget Sound, nov 2026 (pendiente confirmar con el contratista/Don Miguel)"
+ },
+ {
+  "task": "Asphalt shingle, architectural (steep slope, field)",
+  "rate": "0.020–0.030",
+  "unit": "MH/SF",
+  "trade": "Roofer",
+  "source": "Benchmark comercial Puget Sound, nov 2026 (pendiente confirmar con el contratista/Don Miguel)"
  }
 ]

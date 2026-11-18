@@ -1,0 +1,88 @@
+{
+  "profile": "Díaz Finish Carpenter",
+  "estimate_prefix": "DIAZ-EST-2026",
+  "date": "AUTO",
+  "contractor": {
+    "name": "DÍAZ FINISH CARPENTER",
+    "tag": "FINISH CARPENTRY · MILLWORK · CASEWORK",
+    "address": "Federal Way, WA",
+    "license": "WA Contractor Lic. Pending · UBI Pending",
+    "phone": "(253) 797-2766",
+    "email": "luisdiaz7870@gmail.com",
+    "contact": "Luis Daniel Diaz Lopez"
+  },
+  "relationship": "sub_to_gc",
+  "tier": "competitive",
+  "labor_rates": {
+    "SHOP": {
+      "label": "Shop fabricator / assembler",
+      "kind": "loaded",
+      "rate": "65.00",
+      "source": "Díaz in-shop casework loaded rate"
+    },
+    "FC": {
+      "label": "Finish Carpenter (prevailing wage)",
+      "kind": "prevailing_wage",
+      "trade": "Carpenters",
+      "rate": "83.21",
+      "source": "L&I journey-level rates, King Co., Carpenters General Carpenter, eff. 8/31/2026 (City of Redmond IFB 10912-26 Att. F) — replace with project county rate via lookup_wage"
+    },
+    "ADMIN": {
+      "label": "PM / admin",
+      "kind": "loaded",
+      "rate": "75.00",
+      "source": "Office / submittals / certified payroll"
+    }
+  },
+  "burden_pct": "15",
+  "markups": {
+    "contingency_pct": "5",
+    "overhead_pct": "10",
+    "profit_pct": "10",
+    "rounding": "50"
+  },
+  "tax": {
+    "mode": "excluded_resale"
+  },
+  "alkan_commission": {
+    "find_estimate_pct": "3",
+    "coordination_pct": "3",
+    "coordination_included": false
+  },
+  "validity_days": 30,
+  "scope_policy": [
+    "Finish carpentry, millwork and manufactured casework only; base bid only — alternates excluded (list them).",
+    "Include: P-lam base and wall cabinets, reception counters, mailbox units, hardware, white oak sills and trim, scribes/fillers, grommets, countertop substrates when part of casework scope.",
+    "Exclude unless asked: countertop surfaces (stone, solid surface, HPDL by others), plumbing fixtures, electrical in casework, wood doors and frames, rough carpentry, general conditions, bonds, sales tax."
+  ],
+  "spec_sections": [
+    "06 2000",
+    "12 3200"
+  ],
+  "aliases": [
+    "diaz",
+    "díaz",
+    "diaz finish",
+    "luis",
+    "luis diaz",
+    "carpintero",
+    "carpinteria"
+  ],
+  "oficio": "Finish carpentry, millwork and casework",
+  "exclusiones_base": [
+    "Countertop surfaces (Section 12 3600) - by countertop subcontractor.",
+    "Plumbing fixtures and electrical/data devices in casework.",
+    "Wood doors, frames and door hardware.",
+    "Rough carpentry, blocking in walls and backing panels (by GC/framer).",
+    "Performance and payment bonds; Washington State sales tax (resale to GC)."
+  ],
+  "supuestos_base": [
+    "Pricing is for the base bid only; alternates are excluded unless listed."
+  ],
+  "scope_excluir": [
+    {
+      "patron": "(?i)\\b(hpdl|plastic laminate|solid surface|quartz|granite|stone)\\b[^|]*\\bcountertops?\\b(?! support)",
+      "motivo": "Díaz no hace superficies de cubierta: van con el sub de countertops (p.ej. JC Granite)."
+    }
+  ]
+}

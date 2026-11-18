@@ -1,0 +1,85 @@
+name: Build ALKAN Bid Engine Android APK
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.24.5"
+          channel: stable
+          cache: true
+
+      - name: Bootstrap official Android Gradle wrapper & preserve ALKAN manifest/MainActivity
+        working-directory: mobile_app
+        run: |
+          cp pubspec.yaml /tmp/pubspec.yaml
+          cp android/app/src/main/AndroidManifest.xml /tmp/AndroidManifest.xml
+          cp android/app/src/main/kotlin/com/alkan/bidengine/MainActivity.kt /tmp/MainActivity.kt
+          rm -rf android
+          flutter create --platforms=android --org com.alkan .
+          cp /tmp/pubspec.yaml pubspec.yaml
+          cp /tmp/AndroidManifest.xml android/app/src/main/AndroidManifest.xml
+          rm -rf android/app/src/main/kotlin
+          mkdir -p android/app/src/main/kotlin/com/alkan/bidengine
+          cp /tmp/MainActivity.kt android/app/src/main/kotlin/com/alkan/bidengine/MainActivity.kt
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          for name in ("android/app/build.gradle", "android/app/build.gradle.kts"):
+              p = Path(name)
+              if not p.exists():
+                  continue
+              txt = p.read_text(encoding="utf-8")
+              txt = re.sub(r"minSdk(?:Version)?\s*=?\s*flutter\.minSdkVersion", "minSdk = 24" if name.endswith(".kts") else "minSdkVersion 24", txt)
+              txt = re.sub(r"compileSdk(?:Version)?\s*=?\s*flutter\.compileSdkVersion", "compileSdk = 34" if name.endswith(".kts") else "compileSdkVersion 34", txt)
+              txt = re.sub(r"targetSdk(?:Version)?\s*=?\s*flutter\.targetSdkVersion", "targetSdk = 34" if name.endswith(".kts") else "targetSdkVersion 34", txt)
+              p.write_text(txt, encoding="utf-8")
+          PY
+
+      - name: Get Flutter dependencies
+        working-directory: mobile_app
+        run: flutter pub get
+
+      - name: Build release APK
+        working-directory: mobile_app
+        run: |
+          flutter build apk --release
+          cp build/app/outputs/flutter-apk/app-release.apk ../ALKAN-BidEngine-v1.0.0.apk
+
+      - name: Upload ALKAN Bid Engine APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ALKAN-BidEngine-Android-APK
+          path: ALKAN-BidEngine-v1.0.0.apk
+          retention-days: 30
+
+      - name: Publish GitHub Release v1.0.0
+        if: github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if gh release view v1.0.0 >/dev/null 2>&1; then
+            gh release upload v1.0.0 ALKAN-BidEngine-v1.0.0.apk --clobber
+          else
+            gh release create v1.0.0 ALKAN-BidEngine-v1.0.0.apk --title "ALKAN Bid Engine v1.0.0 (Android APK)" --notes "APK Android compilado automáticamente desde Flutter 3.24.5 conectado a Railway."
+          fi

@@ -1,0 +1,421 @@
+{
+  "schema": "alkan-package/1",
+  "estimate_id": "ALKAN-PRE-2026-MES-PNT-01",
+  "date": "2026-11-17",
+  "relationship": "sub_to_gc",
+  "tier": "competitive",
+  "contractor": {
+    "name": "[CONTRACTOR NAME]",
+    "tag": "",
+    "address": "[Contractor address]",
+    "license": "[WA Contractor Lic. # - UBI #]",
+    "phone": "[Phone]",
+    "email": "",
+    "contact": "[Contact name, title]"
+  },
+  "project": {
+    "key": "MES-PAINT",
+    "short": "Madison ES Replacement",
+    "title": "Madison ES Replacement - Painting, Staining & High-Performance Coatings",
+    "owner": "Everett School District No. 2",
+    "owner_contact": "Megan Heiss, Procurement Supervisor - Capital Projects (425) 385-4190",
+    "project_no": "Bid ID No. 13:26/27 - Architect DYKEMAN Inc., Job 24-037",
+    "site": "616 Pecks Drive, Everett, WA 98203 (Snohomish County)",
+    "county": "Snohomish",
+    "prime_contractor": "GC bidders - to be confirmed (sub bid to GC)",
+    "bid_date": "December 9, 2026, 2:00 PM (GC bid to Owner)",
+    "wage_basis": "Snohomish County prevailing wage (WA public works, RCW 39.12), L&I rates eff. 11/2/2026",
+    "scope_label": "painting, staining & high-performance coatings scope",
+    "public_works": true,
+    "documents": [
+      "Project Manual Vol. 1 - Divisions 00-10, Bid Set issued 11/3/2026 (737 pp)",
+      "Project Manual Vol. 2 - Divisions 11-23, Bid Set issued 11/3/2026 (461 pp)",
+      "Project Manual Appendix - Geotechnical report and survey (497 pp)",
+      "DRAWINGS NOT RECEIVED - all quantities parametric, to be replaced by plan takeoff"
+    ]
+  },
+  "labor_rates": {
+    "PTR": {
+      "label": "Painter (prevailing wage)",
+      "kind": "prevailing_wage",
+      "trade": "painter",
+      "rate": "58.84",
+      "burden_pct": "15",
+      "source": "L&I journey-level prevailing wage, Snohomish County, eff. 11/2/2026 - Spec 00 8100 Wage Determination (Madison ES Project Manual Vol. 1) - Painters, Journey Level $58.84"
+    },
+    "ADMIN": {
+      "label": "PM / admin",
+      "kind": "loaded",
+      "rate": "75.00",
+      "source": "Generic office rate - submittals, certified payroll"
+    }
+  },
+  "markups": {
+    "contingency_pct": "5",
+    "overhead_pct": "10",
+    "profit_pct": "10",
+    "rounding": "50"
+  },
+  "tax": {
+    "mode": "excluded_resale"
+  },
+  "materials": [
+    {
+      "id": "M001",
+      "section": "A. Interior Painting (Sec 09 9120 - NOT IN BID SET)",
+      "item": "Gyp. board walls - PVA primer + 2 coats eggshell latex (zero-VOC)",
+      "spec": "MPI system TBD - Section 09 9120 missing; assumed MPI INT 9.2A",
+      "qty": "151632",
+      "unit": "SF",
+      "unit_price": "0.30",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - Sherwin-Williams / Rodda / Miller commercial pricing, Nov 2026, pending quote",
+      "qty_source": "ASSUMED - parametric from 75,522 GSF (Spec 01 1000 1.3.A); drawings not received: 8300 LF partitions x 10' x 2 faces + 1100 LF ext. wall x 2 fl x 70%, less 12% tile/FRP/wainscot, less semi-gloss"
+    },
+    {
+      "id": "M002",
+      "section": "A. Interior Painting (Sec 09 9120 - NOT IN BID SET)",
+      "item": "Gyp. board walls - primer + 2 coats semi-gloss (restrooms, kitchen, custodial; Level 5)",
+      "spec": "Assumed MPI INT 9.2A semi-gloss",
+      "qty": "8000",
+      "unit": "SF",
+      "unit_price": "0.38",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - Sherwin-Williams / Rodda / Miller commercial pricing, Nov 2026, pending quote",
+      "qty_source": "ASSUMED wet areas"
+    },
+    {
+      "id": "M003",
+      "section": "A. Interior Painting (Sec 09 9120 - NOT IN BID SET)",
+      "item": "Gyp. board ceilings and soffits - primer + 2 coats flat",
+      "spec": "Assumed MPI INT 9.2A flat",
+      "qty": "9000",
+      "unit": "SF",
+      "unit_price": "0.30",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - Sherwin-Williams / Rodda / Miller commercial pricing, Nov 2026, pending quote",
+      "qty_source": "ASSUMED - parametric from 75,522 GSF (Spec 01 1000 1.3.A); drawings not received: ~12% of GSF"
+    },
+    {
+      "id": "M004",
+      "section": "A. Interior Painting (Sec 09 9120 - NOT IN BID SET)",
+      "item": "Exposed deck, joists, ducts - dryfall spray (gym, commons)",
+      "spec": "Assumed waterborne dryfall",
+      "qty": "16000",
+      "unit": "SF",
+      "unit_price": "0.22",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - Sherwin-Williams / Rodda / Miller commercial pricing, Nov 2026, pending quote",
+      "qty_source": "ASSUMED ~11,500 SF exposed areas x 1.4 flute factor"
+    },
+    {
+      "id": "M005",
+      "section": "A. Interior Painting (Sec 09 9120 - NOT IN BID SET)",
+      "item": "CMU - block filler + 2 coats",
+      "spec": "Assumed MPI INT 4.2",
+      "qty": "6000",
+      "unit": "SF",
+      "unit_price": "0.55",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - Sherwin-Williams / Rodda / Miller commercial pricing, Nov 2026, pending quote",
+      "qty_source": "ASSUMED - verify painted CMU on drawings (04 2200)"
+    },
+    {
+      "id": "M006",
+      "section": "A. Interior Painting (Sec 09 9120 - NOT IN BID SET)",
+      "item": "Hollow metal frames - prime touch-up + 2 coats DTM/alkyd",
+      "spec": "Spec 08 1113 field painting",
+      "qty": "250",
+      "unit": "EA",
+      "unit_price": "16.00",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - Sherwin-Williams / Rodda / Miller commercial pricing, Nov 2026, pending quote",
+      "qty_source": "ASSUMED ~1 opening per 300 GSF"
+    },
+    {
+      "id": "M007",
+      "section": "A. Interior Painting (Sec 09 9120 - NOT IN BID SET)",
+      "item": "Hollow metal doors - both faces",
+      "spec": "Spec 08 1113",
+      "qty": "70",
+      "unit": "EA",
+      "unit_price": "28.00",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - Sherwin-Williams / Rodda / Miller commercial pricing, Nov 2026, pending quote",
+      "qty_source": "ASSUMED (wood doors 08 1416 assumed factory finished)"
+    },
+    {
+      "id": "M008",
+      "section": "B. Staining & Transparent Finish (Sec 09 9300)",
+      "item": "Site stain + transparent finish on exposed wood / dimension lumber",
+      "spec": "Spec 09 9300 2.5, water-based satin",
+      "qty": "1500",
+      "unit": "SF",
+      "unit_price": "0.80",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - Sherwin-Williams / Rodda / Miller commercial pricing, Nov 2026, pending quote",
+      "qty_source": "ASSUMED allowance (finish carpentry shop-finished per 06 2000)"
+    },
+    {
+      "id": "M009",
+      "section": "C. High-Performance Coatings (Sec 09 9600)",
+      "item": "HPC at steel columns and stair railings - epoxy primer + urethane",
+      "spec": "Spec 09 9600 3.x; match Architect samples",
+      "qty": "3500",
+      "unit": "SF",
+      "unit_price": "1.40",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - Tnemec / Sherwin-Williams HPC, Nov 2026",
+      "qty_source": "ASSUMED - verify on drawings"
+    },
+    {
+      "id": "M010",
+      "section": "D. Exterior Painting",
+      "item": "Exterior steel: covered play structure, canopies, bollards, misc. metals, gas pipe",
+      "spec": "Spec 09 9113 referenced (missing); assumed DTM acrylic over primer",
+      "qty": "6000",
+      "unit": "SF",
+      "unit_price": "0.65",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - Sherwin-Williams / Rodda / Miller commercial pricing, Nov 2026, pending quote",
+      "qty_source": "ASSUMED - 4,854 SF covered play (Spec 01 1000) + misc."
+    },
+    {
+      "id": "M011",
+      "section": "A. Interior Painting (Sec 09 9120 - NOT IN BID SET)",
+      "item": "Sundries: masking, plastic, caulk, patch, abrasives",
+      "spec": "Paintable acrylic latex caulk, 3M masking, 6-mil poly, setting-type patch",
+      "qty": "1",
+      "unit": "LS",
+      "unit_price": "6000.00",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - Nov 2026",
+      "qty_source": "ASSUMED ~$0.03/SF painted"
+    },
+    {
+      "id": "M012",
+      "section": "A. Interior Painting (Sec 09 9120 - NOT IN BID SET)",
+      "item": "Mock-ups, draw-downs and touch-up stock",
+      "spec": "Spec 09 9300 / 09 9600 mock-ups",
+      "qty": "1",
+      "unit": "LS",
+      "unit_price": "1500.00",
+      "price_basis": "BUDGET",
+      "price_source": "Budget - Nov 2026",
+      "qty_source": "Specs 09 9300 1.x, 09 9600 1.x"
+    }
+  ],
+  "labor": [
+    {
+      "id": "L001",
+      "task": "Walls eggshell 151632 SF @ 0.011 MH/SF (prime + 2 coats)",
+      "rate": "PTR",
+      "hours": "1668"
+    },
+    {
+      "id": "L002",
+      "task": "Walls semi-gloss 8000 SF @ 0.012 MH/SF",
+      "rate": "PTR",
+      "hours": "96"
+    },
+    {
+      "id": "L003",
+      "task": "Ceilings / soffits 9000 SF @ 0.014 MH/SF",
+      "rate": "PTR",
+      "hours": "126"
+    },
+    {
+      "id": "L004",
+      "task": "Dryfall spray 16,000 SF @ 0.006 MH/SF (with lift)",
+      "rate": "PTR",
+      "hours": "96"
+    },
+    {
+      "id": "L005",
+      "task": "CMU 6,000 SF @ 0.016 MH/SF",
+      "rate": "PTR",
+      "hours": "96"
+    },
+    {
+      "id": "L006",
+      "task": "HM frames 250 EA @ 1.0 MH/EA",
+      "rate": "PTR",
+      "hours": "250"
+    },
+    {
+      "id": "L007",
+      "task": "HM doors 70 EA @ 1.5 MH/EA",
+      "rate": "PTR",
+      "hours": "105"
+    },
+    {
+      "id": "L008",
+      "task": "Stain / clear finish 1,500 SF @ 0.02 MH/SF",
+      "rate": "PTR",
+      "hours": "30"
+    },
+    {
+      "id": "L009",
+      "task": "HPC 3,500 SF @ 0.03 MH/SF",
+      "rate": "PTR",
+      "hours": "105"
+    },
+    {
+      "id": "L010",
+      "task": "Exterior steel 6,000 SF @ 0.015 MH/SF",
+      "rate": "PTR",
+      "hours": "90"
+    },
+    {
+      "id": "L011",
+      "task": "Prep walkdown: caulk, spot prime, protection",
+      "rate": "PTR",
+      "hours": "160"
+    },
+    {
+      "id": "L012",
+      "task": "Punch list and touch-up after trades / owner move-in",
+      "rate": "PTR",
+      "hours": "240"
+    },
+    {
+      "id": "L013",
+      "task": "Foreman non-working supervision (~30 weeks)",
+      "rate": "PTR",
+      "hours": "300"
+    },
+    {
+      "id": "L014",
+      "task": "Submittals, product lists (MPI), samples, certified payroll",
+      "rate": "ADMIN",
+      "hours": "120"
+    }
+  ],
+  "other": [
+    {
+      "id": "O001",
+      "item": "Scissor lifts 19'/26' - 2 units x 8 months",
+      "category": "Equipment",
+      "qty": "16",
+      "unit": "MO",
+      "rate": "900.00"
+    },
+    {
+      "id": "O002",
+      "item": "Boom lift for gym / commons - 1 month",
+      "category": "Equipment",
+      "qty": "1",
+      "unit": "MO",
+      "rate": "4500.00"
+    },
+    {
+      "id": "O003",
+      "item": "Airless sprayers, small tools",
+      "category": "Equipment",
+      "qty": "1",
+      "unit": "LS",
+      "rate": "3000.00"
+    },
+    {
+      "id": "O004",
+      "item": "Mobilization - 3 mobs (interiors, exterior, punch)",
+      "category": "Mobilization",
+      "qty": "3",
+      "unit": "EA",
+      "rate": "1200.00"
+    },
+    {
+      "id": "O005",
+      "item": "L&I Statement of Intent + Affidavit (verify current fee)",
+      "category": "Fees",
+      "qty": "2",
+      "unit": "EA",
+      "rate": "65.10"
+    }
+  ],
+  "scope": [
+    {
+      "title": "Interior painting",
+      "text": "Prime and finish painted gypsum board walls (159632 SF) and ceilings/soffits (9000 SF), dryfall on exposed structure (16,000 SF), CMU (6,000 SF), hollow metal frames (250) and doors (70)."
+    },
+    {
+      "title": "Staining & transparent finishing (09 9300)",
+      "text": "Site finishing of exposed wood and dimension lumber not shop-finished (1,500 SF allowance)."
+    },
+    {
+      "title": "High-performance coatings (09 9600)",
+      "text": "Epoxy/urethane system at steel columns and stair railings (3,500 SF allowance)."
+    },
+    {
+      "title": "Exterior painting",
+      "text": "Exterior steel at the 4,854 SF covered play structure, canopies, bollards, misc. metals and exposed gas piping (6,000 SF allowance)."
+    }
+  ],
+  "exclusions": [
+    "Performance and payment bonds (available as an add on request).",
+    "Washington State sales tax (resale to GC per WAC 458-20-171; GC collects).",
+    "Alternate No. 1 - North Parking Lot (no work of this trade).",
+    "Work outside the trade sections listed in the scope.",
+    "Dumpsters, temporary power, lighting, heat, sanitary facilities and hoisting (by GC).",
+    "Premium / overtime time unless directed in writing by GC.",
+    "Shop priming of structural steel, joists and deck (by steel fabricator per 05 1200 / 05 2100 / 05 3100).",
+    "Factory-finished items: wood doors, casework, toilet partitions, lockers, louvers, storefront.",
+    "Pavement markings (32 1723), water repellents (07 1900), resinous / fluid-applied flooring (09 67xx).",
+    "Pipe and duct identification painting/labels (Div. 22/23).",
+    "Wallcoverings and tackable wall systems (09 7200)."
+  ],
+  "assumptions": [
+    "DRAWINGS NOT RECEIVED. Every quantity is parametric from the 75,522 SF school (Spec 01 1000) and must be replaced by a plan takeoff before submission.",
+    "Snohomish County prevailing wage, L&I rates effective 11/2/2026 per Spec 00 8100; rates are fixed at the bid date (12/9/2026) - re-check on L&I if an update is posted.",
+    "Work occurs in Phase 1 (new building, 3/29/2027 - SC 6/16/2028) per Spec 00 5200; Phase 2 is demolition/site work.",
+    "Owner occupies the adjacent existing school during construction; work hours 7:00 AM - 5:00 PM M-F (Spec 01 1000).",
+    "Pricing valid 30 days; material escalation beyond 2027 not included.",
+    "SECTION 09 9120 PAINTING IS LISTED IN THE TABLE OF CONTENTS BUT NOT INCLUDED IN THE BID SET (Vol. 1 jumps from 09 8433 to 09 9300). Other sections also reference 09 9113 Exterior Painting and 09 9123 Interior Painting. Paint systems, sheens and number of coats are ASSUMED (primer + 2 finish coats) - submit RFI to Dykeman.",
+    "Gypsum finish levels per 09 2116 3.6: Level 5 at semi-gloss areas, Level 4 elsewhere; Level 5 high-build surfacer is by the drywall contractor.",
+    "Wood doors (08 1416) and casework assumed factory/shop finished."
+  ],
+  "alkan_commission": {
+    "find_estimate_pct": "3",
+    "coordination_pct": "3",
+    "coordination_included": false
+  },
+  "release": {
+    "authorized": false,
+    "allow_budget_prices": true,
+    "note": "Preliminary budget from the specifications only (drawings not received). Quantities are parametric from the 75,522 SF building area; prices are Nov 2026 Puget Sound budget benchmarks pending supplier quotes. Not for submission until plan takeoff and quotes replace the ASSUMED/BUDGET lines."
+  },
+  "validity_days": 30,
+  "subcontract_package": {
+    "banner": "SUBCONTRACT PACKAGE – BUDGETARY",
+    "header_note": "Quantities are parametric (no drawings received). To be replaced by plan takeoff upon GC award or receipt of drawings.",
+    "basis_lead": [
+      "DRAWINGS NOT RECEIVED. All quantities are parametric from the 75,522 SF building area (Spec 01 1000 1.3.A) and assumed ratios/room program shown in each line's quantity source. This is not a plan takeoff and does not claim takeoff precision; quantities must be replaced by a plan takeoff upon GC award or receipt of drawings.",
+      "Material pricing is BUDGET/CATALOG until supplier quotes are received. All material lines remain open for supplier pricing."
+    ],
+    "summary_note": "This is a subcontract package prepared to support GC bidders. Final numbers subject to plan takeoff and supplier quotes.",
+    "scope_critical": [
+      "CRITICAL: Section 09 9120 Painting is listed in the Table of Contents but is NOT included in the Bid Set (Vol. 1 jumps from 09 8433 to 09 9300). Paint systems, sheens and number of coats are ASSUMED (primer + 2 finish coats). RFI to Dykeman required. Scope is provisional until the full section is issued."
+    ],
+    "review_flags": [
+      "DRAWINGS NOT RECEIVED – all quantities parametric.",
+      "All material lines BUDGET/CATALOG – replace with supplier quotes.",
+      "CRITICAL: Section 09 9120 Painting missing from Bid Set – RFI to Dykeman required; scope provisional.",
+      "Confirm painted CMU, exposed structure and HPC areas on drawings.",
+      "Re-check L&I prevailing wage rates (Snohomish County) on the bid/award date.",
+      "Pricing valid 30 days (from November 17, 2026 through December 17, 2026); material escalation beyond 2027 not included."
+    ]
+  },
+  "revision": 2,
+  "revision_log": [
+    {
+      "rev": 1,
+      "date": "2026-11-17",
+      "note": "Rev 1 - first budget from specifications"
+    },
+    {
+      "rev": 2,
+      "date": "2026-11-17",
+      "note": "Rev 2 (2026-11-17): independent review - no changes."
+    }
+  ]
+}

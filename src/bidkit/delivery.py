@@ -9,13 +9,16 @@ from __future__ import annotations
 
 import json
 import re
+import shutil
 import zipfile
 from datetime import datetime
 from pathlib import Path
 from xml.sax.saxutils import escape
 
+from .domain import AuditLedger
 from .estimator_agent.tools import merge_profile
 from .package_build import build
+from .security import SelfApprovalError, assert_independent_approver
 
 
 def _inline(text: str) -> str:
@@ -90,16 +93,43 @@ def make_zip(run_dir: Path, key: str, *, package_json: bool = True, log: bool = 
     return target
 
 
-def authorize(package_path: Path, out_dir: Path, actor: str, note: str = "") -> dict:
-    """A named person releases the proposal: DRAFT → LUMP-SUM PROPOSAL, rebuilt and re-verified."""
+def authorize(
+    package_path: Path,
+    out_dir: Path,
+    actor: str,
+    note: str = "",
+    *,
+    prepared_by: str = "",
+    org_id: str = "default",
+    version: int | None = None,
+    strict_separation: bool = False,
+) -> dict:
+    """A named person releases the proposal: DRAFT -> LUMP-SUM PROPOSAL, rebuilt and archived immutably."""
     actor = (actor or "").strip()
     if not actor:
         raise ValueError("Indique quién autoriza")
+    if actor.lower().startswith("agent") or actor.lower() in ("ai", "claude", "estimator_agent", "auto"):
+        raise SelfApprovalError("An automated AI agent cannot authorize its own estimate.")
+    if strict_separation:
+        assert_independent_approver(prepared_by, actor)
+
     package_path = Path(package_path)
+    out_dir = Path(out_dir)
     pkg = json.loads(package_path.read_text(encoding="utf-8"))
     release = dict(pkg.get("release") or {})
-    release.update({"authorized": True, "authorized_by": actor,
-                    "authorized_at": datetime.now().astimezone().isoformat(timespec="seconds")})
+    next_ver = version if version is not None else int(release.get("version") or 0) + 1
+    snap_dir = out_dir / "approved_versions" / f"v{next_ver}"
+    if snap_dir.exists():
+        raise ValueError(f"Approved snapshot v{next_ver} already exists and cannot be overwritten.")
+
+    independent_verified = bool(prepared_by and prepared_by.strip().lower() != actor.lower())
+    release.update({
+        "authorized": True,
+        "authorized_by": actor,
+        "authorized_at": datetime.now().astimezone().isoformat(timespec="seconds"),
+        "version": next_ver,
+        "independent_reviewer_verified": independent_verified,
+    })
     if note.strip():
         release["note"] = note.strip()
     pkg["release"] = release
@@ -107,6 +137,29 @@ def authorize(package_path: Path, out_dir: Path, actor: str, note: str = "") -> 
     manifest = build(package_path, out_dir)
     if manifest["qa"]["status"] != "PASS":
         raise ValueError("La verificación cruzada falló al regenerar; no se autorizó")
+
+    # Save immutable approved version snapshot
+    snap_dir.mkdir(parents=True, exist_ok=False)
+    shutil.copy2(package_path, snap_dir / package_path.name)
+    for info in (manifest.get("files") or {}).values():
+        p = Path(info["path"])
+        if p.exists():
+            shutil.copy2(p, snap_dir / p.name)
+    manifest["version"] = next_ver
+    manifest["snapshot_dir"] = str(snap_dir)
+    manifest["independent_reviewer_verified"] = independent_verified
+    AuditLedger(out_dir / "audit_ledger.jsonl").record(
+        org_id=org_id,
+        project_id=str((pkg.get("project") or {}).get("key") or pkg.get("estimate_id") or "run"),
+        actor=actor,
+        role="reviewer" if independent_verified else "operator",
+        action="PROPOSAL_AUTHORIZED",
+        state_from="Review Required",
+        state_to="Approved",
+        resource_type="proposal",
+        resource_id=f"{pkg.get('estimate_id', '')}:v{next_ver}",
+        detail={"independent_reviewer_verified": independent_verified, "note": note.strip()},
+    )
     return manifest
 
 

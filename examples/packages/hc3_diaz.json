@@ -1,0 +1,243 @@
+{
+  "schema": "alkan-package/1",
+  "estimate_id": "DIAZ-EST-2026-HC3-01",
+  "date": "2026-11-12",
+  "relationship": "sub_to_gc",
+  "tier": "competitive",
+  "contractor": {
+    "name": "DIAZ FINISH CARPENTER LLC",
+    "tag": "FINISH CARPENTRY \u00b7 MILLWORK \u00b7 CASEWORK",
+    "address": "Federal Way, WA 98003",
+    "license": "WA Contractor Lic. (pending verification)",
+    "phone": "(253) 000-0000",
+    "email": "luisdiaz7870@gmail.com",
+    "contact": "Luis Daniel Diaz Lopez, Owner",
+    "logo": "/mnt/user-data/uploads/29f71342-image.png"
+  },
+  "project": {
+    "key": "HC3",
+    "short": "Highline College Bldg 3 Renovation",
+    "title": "Highline College Building 3 Renovation \u2014 Finish Carpentry, Millwork & Casework",
+    "owner": "Highline College / State of Washington DES",
+    "owner_contact": "Zach Lambert, 206-653-5537",
+    "project_no": "2026-763 G (1-1)",
+    "site": "2400 S. 240th St., Des Moines, WA 98198 (King County)",
+    "county": "King",
+    "prime_contractor": "to be confirmed at award",
+    "bid_date": "November 17, 2026, 1:00 PM",
+    "wage_basis": "King County prevailing wage (WA State public works project)",
+    "scope_label": "finish carpentry, millwork & manufactured casework scope",
+    "documents": [
+      "Plans - Highline College Bldg 3 Renovation (62 sheets, 10/20/2026)",
+      "Specifications (Sections 06 2000, 12 3200, 06 1053)",
+      "Addendum No. 1 (10/30/2026)"
+    ]
+  },
+  "labor_rates": {
+    "FC": {
+      "label": "Finish Carpenter",
+      "kind": "prevailing_wage",
+      "trade": "carpenter",
+      "rate": "87.45",
+      "burden_pct": "15",
+      "source": "L&I journey-level Carpenter, King Co., WA prevailing wage"
+    },
+    "SHOP": {
+      "label": "Shop fabricator",
+      "kind": "loaded",
+      "rate": "65.00",
+      "source": "Diaz shop millwork loaded rate"
+    },
+    "ADMIN": {
+      "label": "PM / admin",
+      "kind": "loaded",
+      "rate": "75.00",
+      "source": "Office / submittals / certified payroll"
+    }
+  },
+  "markups": {
+    "contingency_pct": "5",
+    "overhead_pct": "10",
+    "profit_pct": "10",
+    "rounding": "50"
+  },
+  "tax": {
+    "mode": "excluded_resale"
+  },
+  "materials": [
+    {
+      "id": "M001",
+      "section": "A. Manufactured Casework (Sec 12 3200)",
+      "item": "P-Lam base cabinets, 24\" deep, flush overlay, Custom Grade AWI - Reception 101, Workroom 116, offices (approx. 48 LF)",
+      "spec": "PLAM-2 doors, melamine interior Satin Gray, PVC edge 3mm, full-ext ball-bearing slides, concealed Euro hinges 110-deg, chrome wire pulls 4\"",
+      "qty": "48",
+      "unit": "LF",
+      "unit_price": "285.00",
+      "price_basis": "BUDGET",
+      "price_source": "Budget pricing Custom Grade AWI P-Lam base cabinets, Puget Sound Nov 2026",
+      "qty_source": "Plans A3.01, A9.01 casework tags"
+    },
+    {
+      "id": "M002",
+      "section": "A. Manufactured Casework (Sec 12 3200)",
+      "item": "P-Lam wall cabinets, 16\" deep, flush overlay, Custom Grade AWI - Workroom 116, offices (approx. 36 LF)",
+      "spec": "PLAM-2 locking doors where shown, adjustable shelves 2 per cabinet, PLAM-1 light valance, shelf standards w/ rubber button rests",
+      "qty": "36",
+      "unit": "LF",
+      "unit_price": "245.00",
+      "price_basis": "BUDGET",
+      "price_source": "Budget pricing Custom Grade AWI P-Lam wall cabinets, Puget Sound Nov 2026",
+      "qty_source": "Plans A3.01, A9.01, A9.10 details"
+    },
+    {
+      "id": "M003",
+      "section": "A. Manufactured Casework (Sec 12 3200)",
+      "item": "Reception counter assembly - dual height (35.25\" service / 34\" ADA work surface), with cable management grommets",
+      "spec": "P-Lam faces PLAM-1/PLAM-2, Rakks EH Series brackets, 450 lb/bracket min, powder-coat finish sel. by Architect",
+      "qty": "1",
+      "unit": "LS",
+      "unit_price": "4800.00",
+      "price_basis": "BUDGET",
+      "price_source": "Budget pricing custom reception counter w/ ADA compliance, Puget Sound Nov 2026",
+      "qty_source": "Plans A9.01 Reception 101 elevations"
+    },
+    {
+      "id": "M004",
+      "section": "A. Manufactured Casework (Sec 12 3200)",
+      "item": "Mailbox unit - 16 slots per Detail 3/A9.10 (Workroom 116)",
+      "spec": "PLAM face, name tag holders 1-3/8\" x 3-3/8\" SS centered each door, chrome wire pulls",
+      "qty": "1",
+      "unit": "LS",
+      "unit_price": "3200.00",
+      "price_basis": "BUDGET",
+      "price_source": "Budget pricing 16-slot mailbox unit, custom P-Lam, Puget Sound Nov 2026",
+      "qty_source": "Plans A9.01, detail 3/A9.10"
+    },
+    {
+      "id": "M005",
+      "section": "A. Manufactured Casework (Sec 12 3200)",
+      "item": "Cabinet hardware allowance - locks (5-pin, keyed per room), silencers, shelf standards, adjustable levelers",
+      "spec": "BHMA A156.9, cam locks satin chromium, 2 keys per lock, neoprene silencer disks 3/8\"",
+      "qty": "1",
+      "unit": "LS",
+      "unit_price": "1800.00",
+      "price_basis": "BUDGET",
+      "price_source": "Hardware allowance Custom Grade casework, Nov 2026",
+      "qty_source": "Spec 12 3200 Sec 2.06"
+    },
+    {
+      "id": "M008",
+      "section": "C. Finish Carpentry (Sec 06 2000)",
+      "item": "White Oak window sills and wall caps, quarter sawn, 6% max MC, vertical grain, Custom Grade AWI",
+      "spec": "Transparent finish semi-transparent grey-wash to match wood doors, single source fabricator 5yr min exp",
+      "qty": "18",
+      "unit": "EA",
+      "unit_price": "165.00",
+      "price_basis": "BUDGET",
+      "price_source": "Budget pricing quarter-sawn White Oak sills/caps custom finish, Puget Sound Nov 2026",
+      "qty_source": "Plans A3.01 window count, Spec 06 2000"
+    },
+    {
+      "id": "M009",
+      "section": "D. Scribes, Fillers & Accessories",
+      "item": "Scribe panels, filler panels, and end panels - matching P-Lam construction and finish",
+      "spec": "Per Spec 12 3200 Sec 2.04H, match adjacent cabinet construction",
+      "qty": "1",
+      "unit": "LS",
+      "unit_price": "1200.00",
+      "price_basis": "BUDGET",
+      "price_source": "Allowance for filler/scribe panels, Nov 2026",
+      "qty_source": "Spec 12 3200 field conditions"
+    },
+    {
+      "id": "M010",
+      "section": "D. Scribes, Fillers & Accessories",
+      "item": "Metal grommets for countertop cable management",
+      "spec": "Painted metal, color to blend with surface, Spec 12 3200 Sec 2.08C",
+      "qty": "12",
+      "unit": "EA",
+      "unit_price": "18.00",
+      "price_basis": "BUDGET",
+      "price_source": "Standard painted metal desk grommets, Nov 2026",
+      "qty_source": "Spec 12 3200, est 1 per 4 LF countertop"
+    }
+  ],
+  "other": [
+    {
+      "id": "O001",
+      "item": "Mobilization, delivery, and protection of finished casework",
+      "category": "Mobilization",
+      "qty": "1",
+      "unit": "LS",
+      "rate": "1800.00"
+    },
+    {
+      "id": "O002",
+      "item": "Lift equipment, installation tools, and seismic anchor hardware",
+      "category": "Equipment",
+      "qty": "1",
+      "unit": "LS",
+      "rate": "950.00"
+    }
+  ],
+  "release": {
+    "authorized": true,
+    "disclaimer": "This estimate is based on the bid documents listed above including Addendum No. 1. Sales tax excluded (resale to GC). Prevailing wages apply. Subject to field verification of conditions. Valid for 30 days.",
+    "allow_budget_prices": true,
+    "budget_note": "Pre-bid budget estimate based on plan takeoff and prevailing wage rates. Subject to final quantity verification.",
+    "note": "Pre-bid budget estimate. Quantities from plan takeoff; prices from market benchmarks Nov 2026. Subject to field verification."
+  },
+  "labor": [
+    {
+      "id": "L001",
+      "task": "Shop fabrication - base cabinets, wall cabinets, reception counter, mailbox unit",
+      "rate": "SHOP",
+      "hours": "160"
+    },
+    {
+      "id": "L003",
+      "task": "Shop fabrication - White Oak window sills and wall caps, custom finish",
+      "rate": "SHOP",
+      "hours": "24"
+    },
+    {
+      "id": "L004",
+      "task": "Field installation - all casework, finish carpentry, leveling, anchoring, seismic bracing (countertops by others)",
+      "rate": "FC",
+      "hours": "120"
+    },
+    {
+      "id": "L005",
+      "task": "Submittals, shop drawings, certified payroll, coordination, punch list",
+      "rate": "ADMIN",
+      "hours": "40"
+    }
+  ],
+  "scope": [
+    {
+      "title": "Manufactured Wood Casework (Sec 12 3200)",
+      "text": "Furnish and install P-Lam base cabinets (48 LF), wall cabinets (36 LF), reception counter assembly with dual-height ADA surface, 16-slot mailbox unit, all hardware, scribe/filler panels, grommets. Custom Grade AWI, flush overlay, seismic anchoring per ASCE 7."
+    },
+    {
+      "title": "Finish Carpentry (Sec 06 2000)",
+      "text": "Furnish and install 18 White Oak window sills and wall caps, quarter sawn, vertical grain, 6% max MC, transparent semi-transparent grey-wash finish to match wood doors. Custom Grade AWI, single-source fabricator."
+    }
+  ],
+  "exclusions": [
+    "P-Lam countertops, backsplash, and Rakks brackets (by countertop subcontractor).",
+    "Countertop installation labor (by countertop subcontractor).",
+    "Structural steel (DELETED per Addendum No. 1).",
+    "Rough carpentry, blocking, nailers (Sec 06 1053 - by GC or others).",
+    "Painting and finishing of non-wood items.",
+    "Electrical and data rough-in within casework.",
+    "Appliances and equipment (OFOI)."
+  ],
+  "assumptions": [
+    "Casework quantities based on plan takeoff of tags shown on A3.01, A9.01, A9.10. Field verification required.",
+    "White Oak sills/caps count (18) per window count on plans; final count subject to field measure.",
+    "Single delivery and installation mobilization assumed. Multiple mobs will require change order.",
+    "All work subject to King County prevailing wages. Certified payroll included.",
+    "GC provides clear, clean, level working areas and power/water for installation."
+  ],
+  "validity_days": 30
+}

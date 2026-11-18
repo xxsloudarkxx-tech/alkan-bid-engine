@@ -202,12 +202,12 @@ async function corrida(id) {
 }
 
 /* ───────── Administrador ───────── */
-const TABS = [['conexiones', 'Conexiones'], ['motor', 'Motor'], ['entrega', 'Entrega'], ['contratistas', 'Contratistas'], ['tarifas', 'Tarifas L&I'], ['precios', 'Libro de precios'], ['productividad', 'Productividad']];
+const TABS = [['conexiones', 'Conexiones'], ['motor', 'Motor'], ['entrega', 'Entrega'], ['contratistas', 'Contratistas'], ['tarifas', 'Tarifas L&I'], ['precios', 'Libro de precios'], ['proveedores', 'Proveedores'], ['productividad', 'Productividad']];
 async function admin(tab, arg = '') {
   tab = tab || 'conexiones';
   const head = `<h1>Administrador</h1><p class="sub">Conecta lo que falte y ajusta cómo estima y cómo entrega el motor. Los cambios aplican a la siguiente corrida.</p>
     <div class="tabs">${TABS.map(([k, t]) => `<a href="#admin/${k}" class="${k === tab ? 'on' : ''}">${t}</a>`).join('')}</div>`;
-  const fn = {conexiones: aConexiones, motor: aMotor, entrega: aEntrega, contratistas: aContratistas, tarifas: () => aTabla('wages'), precios: () => aTabla('price_book'), productividad: () => aTabla('productivity')}[tab] || aConexiones;
+  const fn = {conexiones: aConexiones, motor: aMotor, entrega: aEntrega, contratistas: aContratistas, tarifas: () => aTabla('wages'), precios: () => aTabla('price_book'), proveedores: () => aTabla('suppliers'), productividad: () => aTabla('productivity')}[tab] || aConexiones;
   view.innerHTML = head + '<div id="tab"></div>';
   await fn(arg);
 }
@@ -347,6 +347,8 @@ const TABLES = {
     cols: {county: 'Condado', trade: 'Oficio', classification: 'Clasificación', rate: '$/h', effective: 'Vigente desde', source: 'Fuente', verified: 'Verificada'}, wide: ['source']},
   price_book: {title: 'Libro de precios', help: 'El agente busca aquí antes que en internet y prefiere QUOTE > CATALOG > BUDGET. Cada cotización real que cargues como QUOTE vuelve más preciso el siguiente estimado.',
     cols: {item: 'Artículo', spec: 'Especificación', unit: 'Unidad', unit_price: 'Precio unitario', price_basis: 'Base', source: 'Fuente', date: 'Fecha', county: 'Condado'}, wide: ['item', 'spec', 'source']},
+  suppliers: {title: 'Proveedores', help: 'Directorio de proveedores. El id (minúsculas y guion bajo, ej. farwest_steel) es el que se usa en los archivos de cambios y en las listas de precios. Las palabras clave, separadas por coma, sirven para sugerir proveedor a cada renglón de material; un * al final abarca la raíz de la palabra (galvaniz*).',
+    cols: {id: 'Id', name: 'Proveedor', type: 'Tipo', categories: 'Qué surte', keywords: 'Palabras clave', contact: 'Contacto', phone: 'Teléfono', email: 'Correo', city: 'Ciudad', notes: 'Notas', verified: 'Verificado'}, wide: ['categories', 'keywords', 'notes']},
   productivity: {title: 'Productividad', help: 'Horas por unidad por tarea. Ajústalas con las horas reales de obra.',
     cols: {task: 'Tarea', rate: 'Horas', unit: 'Unidad', trade: 'Oficio', source: 'Fuente'}, wide: ['task', 'source']},
 };

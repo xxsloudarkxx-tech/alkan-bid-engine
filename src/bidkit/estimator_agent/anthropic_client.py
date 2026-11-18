@@ -56,14 +56,18 @@ def _with_cache_mark(messages: list) -> list:
 
 class AnthropicClient:
     def __init__(self, api_key: str | None = None, model: str | None = None, max_tokens: int = 32000,
-                 timeout: int = 900, thinking_budget: int = 0, url: str = API_URL, effort: str = "",
-                 cache: bool = True):
+                 timeout: int = 900, thinking_budget: int = 0, url: str | None = None, effort: str = "",
+                 cache: bool = True, base_url: str | None = None):
         self.api_key = api_key or os.environ.get("ANTHROPIC_API_KEY", "")
         if not self.api_key:
             raise APIError("Falta la clave de la API de Anthropic. Cárguela en Administrador → Conexiones "
                            "o con .\\Configure-ClaudeAPI.ps1 en la misma ventana de PowerShell.")
+        base = (base_url or os.environ.get("ANTHROPIC_BASE_URL") or "https://api.anthropic.com").strip().rstrip("/")
+        self.base_url = base
+        resolved_url = url or f"{base}/v1/messages"
+        self.models_url = f"{base}/v1/models"
         self.model = model or os.environ.get("BIDKIT_CLAUDE_MODEL", DEFAULT_MODEL)
-        self.max_tokens, self.timeout, self.thinking_budget, self.url = max_tokens, timeout, thinking_budget, url
+        self.max_tokens, self.timeout, self.thinking_budget, self.url = max_tokens, timeout, thinking_budget, resolved_url
         self.effort, self.cache = effort, cache
         self.warnings: list[str] = []
         self.usage = {"input_tokens": 0, "output_tokens": 0, "cache_read_input_tokens": 0,
@@ -126,7 +130,7 @@ class AnthropicClient:
                 if attempt < 5:
                     time.sleep(5)
                     continue
-                raise APIError("No se pudo conectar con api.anthropic.com") from None
+                raise APIError(f"No se pudo conectar con {self.base_url}") from None
         raise APIError("Reintentos agotados")
 
     # ───────────────────────────── admin helpers
@@ -143,12 +147,12 @@ class AnthropicClient:
 
     def list_models(self) -> list[dict]:
         try:
-            with urlopen(Request(MODELS_URL + "?limit=100", headers=self._headers()), timeout=30) as r:
+            with urlopen(Request(self.models_url + "?limit=100", headers=self._headers()), timeout=30) as r:
                 rows = json.loads(r.read()).get("data", [])
         except HTTPError as exc:
             raise APIError(f"API HTTP {exc.code} al listar modelos") from None
         except (URLError, TimeoutError):
-            raise APIError("No se pudo conectar con api.anthropic.com") from None
+            raise APIError(f"No se pudo conectar con {self.base_url}") from None
         return [{"id": m.get("id"), "label": m.get("display_name") or m.get("id")} for m in rows]
 
 

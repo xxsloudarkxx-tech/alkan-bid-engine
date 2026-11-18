@@ -1338,5 +1338,435 @@
   "source": "West Seattle Junction Landbank Park (2026-11-08) — Nov 2026 Puget Sound budget pricing (supplier list/retail benchmarks, commercial grade)",
   "date": "2026-11-08",
   "county": "King"
+ },
+ {
+  "item": "P-lam base cabinet, commercial grade (AWI Economy/Custom, box + face frame + doors/drawers + hardware)",
+  "spec": "Sec 12 3200 manufactured wood casework, HPDL faces",
+  "unit": "LF",
+  "unit_price": "285.00",
+  "price_basis": "BUDGET",
+  "source": "HC3 Highline College Bldg 3 (2026-11) — Puget Sound commercial casework budget, Díaz Finish Carpenter",
+  "date": "2026-11-11",
+  "county": "King"
+ },
+ {
+  "item": "P-lam wall cabinet, commercial grade (AWI Economy/Custom, box + face frame + doors + hardware)",
+  "spec": "Sec 12 3200 manufactured wood casework, HPDL faces",
+  "unit": "LF",
+  "unit_price": "245.00",
+  "price_basis": "BUDGET",
+  "source": "HC3 Highline College Bldg 3 (2026-11) — Puget Sound commercial casework budget, Díaz Finish Carpenter",
+  "date": "2026-11-11",
+  "county": "King"
+ },
+ {
+  "item": "Reception counter assembly, dual-height ADA (P-lam, solid surface transaction top, knee space)",
+  "spec": "Sec 12 3200, custom per architect detail",
+  "unit": "LS",
+  "unit_price": "4800.00",
+  "price_basis": "BUDGET",
+  "source": "HC3 Highline College Bldg 3 (2026-11) — Díaz Finish Carpenter",
+  "date": "2026-11-11",
+  "county": "King"
+ },
+ {
+  "item": "Built-in mailbox unit, multi-slot (P-lam, lockable doors)",
+  "spec": "Sec 12 3200, custom per architect detail",
+  "unit": "LS",
+  "unit_price": "3200.00",
+  "price_basis": "BUDGET",
+  "source": "HC3 Highline College Bldg 3 (2026-11) — Díaz Finish Carpenter",
+  "date": "2026-11-11",
+  "county": "King"
+ },
+ {
+  "item": "White Oak sill / window cap, quarter-sawn, shop finished",
+  "spec": "Sec 06 2000 Finish Carpentry, WOCA oil finish",
+  "unit": "EA",
+  "unit_price": "165.00",
+  "price_basis": "BUDGET",
+  "source": "HC3 Highline College Bldg 3 (2026-11) — Díaz Finish Carpenter",
+  "date": "2026-11-11",
+  "county": "King"
+ },
+ {
+  "item": "Casework hardware allowance (pulls, hinges, slides, catches per opening)",
+  "spec": "Sec 12 3200",
+  "unit": "LS",
+  "unit_price": "1800.00",
+  "price_basis": "BUDGET",
+  "source": "HC3 Highline College Bldg 3 (2026-11) — Díaz Finish Carpenter",
+  "date": "2026-11-11",
+  "county": "King"
+ },
+ {
+  "item": "Scribe molding / filler strips allowance",
+  "spec": "Sec 12 3200",
+  "unit": "LS",
+  "unit_price": "1200.00",
+  "price_basis": "BUDGET",
+  "source": "HC3 Highline College Bldg 3 (2026-11) — Díaz Finish Carpenter",
+  "date": "2026-11-11",
+  "county": "King"
+ },
+ {
+  "item": "Desk/counter grommet, 2\" dia, black ABS",
+  "spec": "Sec 12 3200 casework accessory",
+  "unit": "EA",
+  "unit_price": "18.00",
+  "price_basis": "BUDGET",
+  "source": "HC3 Highline College Bldg 3 (2026-11) — common to Díaz & JC Granite",
+  "date": "2026-11-11",
+  "county": "King"
+ },
+ {
+  "item": "HPDL countertop, 25\" deep, post-formed or square-edge, commercial grade",
+  "spec": "Sec 12 3200 / 12 3600, Wilsonart or Formica",
+  "unit": "LF",
+  "unit_price": "72.00",
+  "price_basis": "BUDGET",
+  "source": "HC3 Highline College Bldg 3 (2026-11) — JC Granite Design",
+  "date": "2026-11-11",
+  "county": "King"
+ },
+ {
+  "item": "HPDL backsplash, 4\" H, matching laminate",
+  "spec": "Sec 12 3200 / 12 3600",
+  "unit": "LF",
+  "unit_price": "22.00",
+  "price_basis": "BUDGET",
+  "source": "HC3 Highline College Bldg 3 (2026-11) — JC Granite Design",
+  "date": "2026-11-11",
+  "county": "King"
+ },
+ {
+  "item": "Reception countertop surfaces (HPDL, dual-height, shaped edges)",
+  "spec": "Sec 12 3200 / 12 3600, per architect detail",
+  "unit": "LS",
+  "unit_price": "2400.00",
+  "price_basis": "BUDGET",
+  "source": "HC3 Highline College Bldg 3 (2026-11) — JC Granite Design",
+  "date": "2026-11-11",
+  "county": "King"
+ },
+ {
+  "item": "Rakks wall-mounted countertop bracket, 18\" or 24\" heavy-duty",
+  "spec": "Rangine Corp, anodized aluminum, Sec 12 3200",
+  "unit": "EA",
+  "unit_price": "95.00",
+  "price_basis": "BUDGET",
+  "source": "HC3 Highline College Bldg 3 (2026-11) — JC Granite Design & Díaz (S&S used same in screen system)",
+  "date": "2026-11-11",
+  "county": "King"
+ },
+ {
+  "item": "Silicone sealant, commercial grade (Dow 795 or equiv.)",
+  "spec": "Sec 07 9200",
+  "unit": "TU",
+  "unit_price": "12.00",
+  "price_basis": "BUDGET",
+  "source": "HC3 Highline College Bldg 3 (2026-11) — JC Granite Design",
+  "date": "2026-11-11",
+  "county": "King"
+ },
+ {
+  "item": "RoofScreen SC3R post support, galvanized steel, roof-mount base",
+  "spec": "Sec 10 8213, RoofScreen RS-PS series",
+  "unit": "EA",
+  "unit_price": "185.00",
+  "price_basis": "BUDGET",
+  "source": "HC3 Highline College Bldg 3 (2026-11) — S & S Custom Iron Works",
+  "date": "2026-11-11",
+  "county": "King"
+ },
+ {
+  "item": "Stainless steel post cap, concealed fastener",
+  "spec": "Sec 10 8213, 304 SS",
+  "unit": "EA",
+  "unit_price": "95.00",
+  "price_basis": "BUDGET",
+  "source": "HC3 Highline College Bldg 3 (2026-11) — S & S Custom Iron Works",
+  "date": "2026-11-11",
+  "county": "King"
+ },
+ {
+  "item": "Galvalume HSS framing tube, 2x2x14ga or 2x3x14ga",
+  "spec": "Sec 10 8213, Galvalume coated",
+  "unit": "LF",
+  "unit_price": "28.00",
+  "price_basis": "BUDGET",
+  "source": "HC3 Highline College Bldg 3 (2026-11) — S & S Custom Iron Works",
+  "date": "2026-11-11",
+  "county": "King"
+ },
+ {
+  "item": "PVDF-coated ribbed metal panel, 24 ga Galvalume",
+  "spec": "Sec 10 8213, color per architect",
+  "unit": "SF",
+  "unit_price": "12.50",
+  "price_basis": "BUDGET",
+  "source": "HC3 Highline College Bldg 3 (2026-11) — S & S Custom Iron Works",
+  "date": "2026-11-11",
+  "county": "King"
+ },
+ {
+  "item": "Stainless steel concealed connectors / hardware kit (screen system)",
+  "spec": "Sec 10 8213, 304 SS",
+  "unit": "LS",
+  "unit_price": "1400.00",
+  "price_basis": "BUDGET",
+  "source": "HC3 Highline College Bldg 3 (2026-11) — S & S Custom Iron Works",
+  "date": "2026-11-11",
+  "county": "King"
+ },
+ {
+  "item": "Screen panel trim / cap flashing, Galvalume",
+  "spec": "Sec 10 8213",
+  "unit": "LS",
+  "unit_price": "850.00",
+  "price_basis": "BUDGET",
+  "source": "HC3 Highline College Bldg 3 (2026-11) — S & S Custom Iron Works",
+  "date": "2026-11-11",
+  "county": "King"
+ },
+ {
+  "item": "TPO flashing boot / curb flashing (per penetration)",
+  "spec": "Sec 10 8213 / 07 5400 interface",
+  "unit": "EA",
+  "unit_price": "65.00",
+  "price_basis": "BUDGET",
+  "source": "HC3 Highline College Bldg 3 (2026-11) — S & S Custom Iron Works",
+  "date": "2026-11-11",
+  "county": "King"
+ },
+ {
+  "item": "Architectural asphalt shingles (material only)",
+  "spec": "Supplier price range $120–185/SQ; midpoint used",
+  "unit": "SQ",
+  "unit_price": "152.50",
+  "price_basis": "BUDGET",
+  "source": "Staxen roofing material prices 2026 (getstaxen.com) — verify with local supplier quote",
+  "date": "2026-11-14",
+  "county": "King"
+ },
+ {
+  "item": "Shingle roof accessories: underlayment, starter, fasteners",
+  "spec": "$25–45/SQ; midpoint used",
+  "unit": "SQ",
+  "unit_price": "35.00",
+  "price_basis": "BUDGET",
+  "source": "Staxen roofing material prices 2026 (getstaxen.com) — verify with local supplier quote",
+  "date": "2026-11-14",
+  "county": "King"
+ },
+ {
+  "item": "TPO single-ply membrane 60 mil (material only)",
+  "spec": "$180–280/SQ; midpoint used",
+  "unit": "SQ",
+  "unit_price": "230.00",
+  "price_basis": "BUDGET",
+  "source": "roofreplacementcost.ai roofing material cost per square 2026 — verify with local supplier quote",
+  "date": "2026-11-14",
+  "county": "King"
+ },
+ {
+  "item": "5/8\" Type X mold-resistant gypsum board",
+  "spec": "ASTM C1396, mold score 10",
+  "unit": "SF",
+  "unit_price": "0.78",
+  "price_basis": "BUDGET",
+  "source": "Nov 2026 Puget Sound budget (lista/retail, grado comercial) — reemplazar con cotización",
+  "date": "2026-11-17",
+  "county": "King"
+ },
+ {
+  "item": "5/8\" Type X abuse-resistant gypsum board",
+  "spec": "ASTM C1629 Level 1",
+  "unit": "SF",
+  "unit_price": "1.20",
+  "price_basis": "BUDGET",
+  "source": "Nov 2026 Puget Sound budget (lista/retail, grado comercial) — reemplazar con cotización",
+  "date": "2026-11-17",
+  "county": "King"
+ },
+ {
+  "item": "5/8\" cement backer board",
+  "spec": "ANSI A118.9 (Durock/PermaBase)",
+  "unit": "SF",
+  "unit_price": "1.55",
+  "price_basis": "BUDGET",
+  "source": "Nov 2026 Puget Sound budget (lista/retail, grado comercial) — reemplazar con cotización",
+  "date": "2026-11-17",
+  "county": "King"
+ },
+ {
+  "item": "5/8\" glass-mat exterior sheathing",
+  "spec": "ASTM C1177 (DensGlass/Securock)",
+  "unit": "SF",
+  "unit_price": "1.15",
+  "price_basis": "BUDGET",
+  "source": "Nov 2026 Puget Sound budget (lista/retail, grado comercial) — reemplazar con cotización",
+  "date": "2026-11-17",
+  "county": "King"
+ },
+ {
+  "item": "6\" 20 ga EQ steel stud @16\" o.c.",
+  "spec": "ASTM C645, SSMA",
+  "unit": "LF",
+  "unit_price": "1.15",
+  "price_basis": "BUDGET",
+  "source": "Nov 2026 Puget Sound budget (lista/retail, grado comercial) — reemplazar con cotización",
+  "date": "2026-11-17",
+  "county": "King"
+ },
+ {
+  "item": "Slotted deflection track",
+  "spec": "ClarkDietrich/MaxTrak",
+  "unit": "LF",
+  "unit_price": "3.40",
+  "price_basis": "BUDGET",
+  "source": "Nov 2026 Puget Sound budget (lista/retail, grado comercial) — reemplazar con cotización",
+  "date": "2026-11-17",
+  "county": "King"
+ },
+ {
+  "item": "3-1/2\" mineral fiber acoustic batt",
+  "spec": "ASTM C665 unfaced",
+  "unit": "SF",
+  "unit_price": "0.72",
+  "price_basis": "BUDGET",
+  "source": "Nov 2026 Puget Sound budget (lista/retail, grado comercial) — reemplazar con cotización",
+  "date": "2026-11-17",
+  "county": "King"
+ },
+ {
+  "item": "Joint compound + tape (per finished SF)",
+  "spec": "ASTM C475",
+  "unit": "SF",
+  "unit_price": "0.09",
+  "price_basis": "BUDGET",
+  "source": "Nov 2026 Puget Sound budget (lista/retail, grado comercial) — reemplazar con cotización",
+  "date": "2026-11-17",
+  "county": "King"
+ },
+ {
+  "item": "Interior latex, prime + 2 coats (walls)",
+  "spec": "MPI, zero-VOC, material only",
+  "unit": "SF",
+  "unit_price": "0.30",
+  "price_basis": "BUDGET",
+  "source": "Nov 2026 Puget Sound budget (lista/retail, grado comercial) — reemplazar con cotización",
+  "date": "2026-11-17",
+  "county": "King"
+ },
+ {
+  "item": "Interior semi-gloss, prime + 2 coats (wet areas)",
+  "spec": "MPI, material only",
+  "unit": "SF",
+  "unit_price": "0.38",
+  "price_basis": "BUDGET",
+  "source": "Nov 2026 Puget Sound budget (lista/retail, grado comercial) — reemplazar con cotización",
+  "date": "2026-11-17",
+  "county": "King"
+ },
+ {
+  "item": "Waterborne dryfall, 1 coat (material)",
+  "spec": "material only",
+  "unit": "SF",
+  "unit_price": "0.22",
+  "price_basis": "BUDGET",
+  "source": "Nov 2026 Puget Sound budget (lista/retail, grado comercial) — reemplazar con cotización",
+  "date": "2026-11-17",
+  "county": "King"
+ },
+ {
+  "item": "CMU block filler + 2 coats (material)",
+  "spec": "MPI INT 4.2",
+  "unit": "SF",
+  "unit_price": "0.55",
+  "price_basis": "BUDGET",
+  "source": "Nov 2026 Puget Sound budget (lista/retail, grado comercial) — reemplazar con cotización",
+  "date": "2026-11-17",
+  "county": "King"
+ },
+ {
+  "item": "HPC epoxy/urethane system (material)",
+  "spec": "Tnemec/S-W, 2-coat",
+  "unit": "SF",
+  "unit_price": "1.40",
+  "price_basis": "BUDGET",
+  "source": "Nov 2026 Puget Sound budget (lista/retail, grado comercial) — reemplazar con cotización",
+  "date": "2026-11-17",
+  "county": "King"
+ },
+ {
+  "item": "P-lam base cabinet, premium AWI QCP (furnish)",
+  "spec": "HPDL, MDF MR core",
+  "unit": "LF",
+  "unit_price": "360.00",
+  "price_basis": "BUDGET",
+  "source": "Nov 2026 Puget Sound budget (lista/retail, grado comercial) — reemplazar con cotización",
+  "date": "2026-11-17",
+  "county": "King"
+ },
+ {
+  "item": "P-lam wall cabinet, premium AWI QCP (furnish)",
+  "spec": "HPDL, MDF MR core",
+  "unit": "LF",
+  "unit_price": "290.00",
+  "price_basis": "BUDGET",
+  "source": "Nov 2026 Puget Sound budget (lista/retail, grado comercial) — reemplazar con cotización",
+  "date": "2026-11-17",
+  "county": "King"
+ },
+ {
+  "item": "P-lam tall/wardrobe cabinet (furnish)",
+  "spec": "HPDL, keyed locks",
+  "unit": "LF",
+  "unit_price": "520.00",
+  "price_basis": "BUDGET",
+  "source": "Nov 2026 Puget Sound budget (lista/retail, grado comercial) — reemplazar con cotización",
+  "date": "2026-11-17",
+  "county": "King"
+ },
+ {
+  "item": "HPDL countertop, 1-1/4\" built-up edge + backsplash",
+  "spec": "NEMA LD3 HGS",
+  "unit": "LF",
+  "unit_price": "95.00",
+  "price_basis": "BUDGET",
+  "source": "Nov 2026 Puget Sound budget (lista/retail, grado comercial) — reemplazar con cotización",
+  "date": "2026-11-17",
+  "county": "King"
+ },
+ {
+  "item": "Solid surface countertop 1/2\"",
+  "spec": "ISFA 2-01 (Corian/Wilsonart)",
+  "unit": "LF",
+  "unit_price": "185.00",
+  "price_basis": "BUDGET",
+  "source": "Nov 2026 Puget Sound budget (lista/retail, grado comercial) — reemplazar con cotización",
+  "date": "2026-11-17",
+  "county": "King"
+ },
+ {
+  "item": "Clear maple trim / chair rail, stain grade",
+  "spec": "Custom Grade",
+  "unit": "LF",
+  "unit_price": "8.50",
+  "price_basis": "BUDGET",
+  "source": "Nov 2026 Puget Sound budget (lista/retail, grado comercial) — reemplazar con cotización",
+  "date": "2026-11-17",
+  "county": "King"
+ },
+ {
+  "item": "FRP panel Class A + trim + adhesive",
+  "spec": "ASTM D5319",
+  "unit": "SF",
+  "unit_price": "3.10",
+  "price_basis": "BUDGET",
+  "source": "Nov 2026 Puget Sound budget (lista/retail, grado comercial) — reemplazar con cotización",
+  "date": "2026-11-17",
+  "county": "King"
  }
 ]

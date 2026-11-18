@@ -41,36 +41,68 @@ SS = dict(
     big=ParagraphStyle("big", fontName="Helvetica-Bold", fontSize=20, leading=24, textColor=RED, alignment=TA_RIGHT),
     lab=ParagraphStyle("lab", fontName="Helvetica-Bold", fontSize=7, leading=9, textColor=GREY),
     val=ParagraphStyle("val", fontName="Helvetica", fontSize=8.4, leading=10.8, textColor=INK),
+    flag=ParagraphStyle("flag", fontName="Helvetica-Bold", fontSize=8.8, leading=11.8, textColor=RED),
+    flagbody=ParagraphStyle("flagbody", fontName="Helvetica", fontSize=8.6, leading=11.6, textColor=RED),
     center=ParagraphStyle("center", fontName="Helvetica", fontSize=7.4, leading=9.6, textColor=GREY, alignment=TA_CENTER),
 )
 
 # Default Washington public-works terms (overridable through package.terms).
-DEFAULT_TERMS = {
-    "payment": [
-        "Monthly progress billing against an approved schedule of values, submitted by the 25th of each month; materials "
-        "fabricated or stored on site/in shop are billable with proof of insurance and title.",
-        "Payment due within 10 days after the prime contractor receives payment from the Owner (RCW 39.04.250), and in no case more than 30 days after invoice.",
-        "Retainage of 5% may be withheld per RCW 60.28; retainage to be released within 60 days of acceptance of the work, or earlier by retainage bond.",
-        "No deposit is required on public works. Late payments accrue interest at 1% per month as allowed by RCW 39.04.250.",
-        "Changes, extra work and unforeseen conditions billed only by written change order signed before the work is performed.",
-    ],
-    "warranty": [
+# Trade-adaptive: metal-specific clauses are injected only when scope_label
+# contains a metal-trade keyword (see _is_metal_scope).
+_METAL_KEYWORDS = {"metal", "iron", "steel", "fence", "handrail", "guardrail", "bollard", "grating", "screen"}
+
+def _is_metal_scope(scope_label: str) -> bool:
+    """Return True if the scope_label indicates a metal-fabrication trade."""
+    words = set(scope_label.lower().split())
+    return bool(words & _METAL_KEYWORDS)
+
+def _default_terms(scope_label: str = "") -> dict:
+    """Build DEFAULT_TERMS, including metal-specific clauses only when appropriate."""
+    metal = _is_metal_scope(scope_label)
+    warranty = [
         "One (1) year warranty on workmanship and installation from the date of Substantial Completion, or longer if required by the Contract Documents.",
         "Manufacturer warranties on supplied products are passed through to the Owner.",
-        "Hot-dip galvanizing per ASTM A123/A153; field repair of damaged coatings per ASTM A780.",
-        "Warranty excludes damage from vandalism, vehicle impact, misuse, improper maintenance, settlement of work by others, or acts of nature.",
-    ],
-    "general": [
+    ]
+    if metal:
+        warranty.append("Hot-dip galvanizing per ASTM A123/A153; field repair of damaged coatings per ASTM A780.")
+    warranty.append(
+        "Warranty excludes damage from vandalism, vehicle impact, misuse, improper maintenance, settlement of work by others, or acts of nature."
+    )
+    general = [
         "Prevailing wages: all on-site and project-specific shop work paid at Washington prevailing wage rates; Intents and Affidavits filed with L&I (RCW 39.12).",
-        "Schedule: shop drawings submitted within 10 working days of subcontract and receipt of complete documents; fabrication lead time 3–5 weeks after approval; site work per the prime contractor's schedule with 5 working days' notice.",
-        "Site conditions: proposal assumes clear, compacted and accessible work areas at finish grade, staked alignment, and staging space. Rock, roots, buried debris or utilities requiring hand digging or relocation are extra.",
-        "Steel price escalation: if the subcontract is executed more than 30 days after this proposal, or mill/supplier prices increase more than 5% before material release, the price will be adjusted by documented cost.",
+        "Schedule: shop drawings submitted within 10 working days of subcontract and receipt of complete documents; fabrication lead time 3–5 weeks after approval; site work per the prime contractor’s schedule with 5 working days’ notice.",
+        "Site conditions: proposal assumes clear, accessible work areas with staging space. Unforeseen conditions requiring additional work are extra.",
+    ]
+    if metal:
+        general.append(
+            "Steel price escalation: if the subcontract is executed more than 30 days after this proposal, or mill/supplier prices increase more than 5% before material release, the price will be adjusted by documented cost."
+        )
+    else:
+        general.append(
+            "Material price escalation: if the subcontract is executed more than 60 days after this proposal, or material prices increase more than 5% before purchase, the price will be adjusted by documented cost."
+        )
+    general += [
         "Insurance: commercial general liability, auto and Washington L&I coverage carried; additional insured endorsements provided as required by the prime contract.",
-        "Back-charges must be submitted in writing with 48 hours' prior notice and opportunity to cure. The contractor is not responsible for delays caused by others, Owner changes, weather or material shortages beyond its control.",
+        "Back-charges must be submitted in writing with 48 hours’ prior notice and opportunity to cure. The contractor is not responsible for delays caused by others, Owner changes, weather or material shortages beyond its control.",
         "Lien and bond rights under RCW 39.08 and RCW 60.28 are reserved. Disputes resolved per the prime contract dispute procedure; venue in the county of the project.",
         "This proposal, when accepted, becomes part of the subcontract; conflicting terms in the subcontract are subject to mutual written agreement.",
-    ],
-}
+    ]
+    return {
+        "payment": [
+            "Monthly progress billing against an approved schedule of values, submitted by the 25th of each month; materials "
+            "fabricated or stored on site/in shop are billable with proof of insurance and title.",
+            "Payment due within 10 days after the prime contractor receives payment from the Owner (RCW 39.04.250), and in no case more than 30 days after invoice.",
+            "Retainage of 5% may be withheld per RCW 60.28; retainage to be released within 60 days of acceptance of the work, or earlier by retainage bond.",
+            "No deposit is required on public works. Late payments accrue interest at 1% per month as allowed by RCW 39.04.250.",
+            "Changes, extra work and unforeseen conditions billed only by written change order signed before the work is performed.",
+        ],
+        "warranty": warranty,
+        "general": general,
+    }
+
+# Legacy constant kept for backward compatibility; callers that access DEFAULT_TERMS
+# directly still get the metal-inclusive version (original behavior).
+DEFAULT_TERMS = _default_terms("metal fabrication")
 
 TAX_LINE = {
     "excluded_resale": "Washington sales tax not included — collected by prime contractor (WAC 458-20-171)",
@@ -108,6 +140,7 @@ class _Doc(BaseDocTemplate):
                          title=f"{pkg.project['short']} — {doctitle}", author=pkg.contractor["name"],
                          subject=pkg.estimate_id, keywords=keywords, invariant=1)
         self.pkg, self.doctitle, self.conf = pkg, doctitle, conf
+        self.banner = ""
         logo = pkg.contractor.get("logo")
         self.logo = None
         if logo:
@@ -139,6 +172,9 @@ class _Doc(BaseDocTemplate):
         if self.conf.startswith("DRAFT"):
             c.setFillColor(RED); c.setFont("Helvetica-Bold", 7.5)
         c.drawRightString(W - 0.6 * inch, H - 0.89 * inch, self.conf)
+        if self.banner:
+            c.setFillColor(RED); c.setFont("Helvetica-Bold", 7.5)
+            c.drawRightString(W - 0.6 * inch, H - 1.01 * inch, self.banner)
         c.setStrokeColor(RED); c.setLineWidth(1.6); c.line(0.6 * inch, H - 1.22 * inch, W - 0.6 * inch, H - 1.22 * inch)
         c.setStrokeColor(LINE); c.setLineWidth(0.5); c.line(0.6 * inch, 0.55 * inch, W - 0.6 * inch, 0.55 * inch)
         c.setFillColor(GREY); c.setFont("Helvetica", 7)
@@ -165,6 +201,19 @@ def _grid(rows, widths, header=True, total_rows=()):
         st += [("BACKGROUND", (0, r), (-1, r), LIGHT), ("LINEABOVE", (0, r), (-1, r), 0.8, RED)]
     t.setStyle(TableStyle(st))
     return t
+
+
+def _callout(paras, border=RED, fill=colors.HexColor("#FDF1F1")):
+    """Boxed block for flags that must not be missed."""
+    t = Table([[p] for p in paras], colWidths=[7.3 * inch])
+    t.setStyle(TableStyle([("BOX", (0, 0), (-1, -1), 1.2, border), ("BACKGROUND", (0, 0), (-1, -1), fill),
+                           ("LEFTPADDING", (0, 0), (-1, -1), 7), ("RIGHTPADDING", (0, 0), (-1, -1), 7),
+                           ("TOPPADDING", (0, 0), (-1, -1), 2.5), ("BOTTOMPADDING", (0, 0), (-1, -1), 2.5)]))
+    return t
+
+
+def _valid_until(pkg: Package) -> str:
+    return _fmt_date((date.fromisoformat(pkg.date) + timedelta(days=pkg.validity_days)).isoformat())
 
 
 def _project_block(pkg: Package):
@@ -205,14 +254,30 @@ def _keywords(r):
 
 def render_cost_analysis(pkg: Package, r: dict, path: Path) -> Path:
     d = _Doc(path, pkg, "Cost Analysis", "INTERNAL · CONFIDENTIAL", _keywords(r))
+    sp = pkg.subcontract
+    d.banner = sp.get("banner", "")
     s = [P(pkg.project["title"], "h1"),
          P("Complete cost analysis: materials, labor, equipment and other costs — "
-           + pkg.project.get("scope_label", "metal fabrication scope only"), "sub"),
-         Spacer(1, 6), _project_block(pkg), Spacer(1, 8),
+           + pkg.project.get("scope_label", "scope of work as described"), "sub")]
+    if sp:
+        s += [Spacer(1, 6), _callout(
+            ([P(sp["banner"], "flag")] if sp.get("banner") else [])
+            + ([P(sp["header_note"], "body")] if sp.get("header_note") else [])
+            + [P(f"<b>Price validity:</b> {pkg.validity_days} days from {_fmt_date(pkg.date)} "
+                 f"(valid through {_valid_until(pkg)}).", "body")])]
+    s += [Spacer(1, 6), _project_block(pkg), Spacer(1, 8),
          _kpis([("MATERIALS", money(r["materials"])), ("LABOR", money(r["labor"])), ("EQUIP. & OTHER", money(r["other"])),
                 ("DIRECT COST", money(r["direct"])), ("SELL PRICE", money(r["price"], False))])]
 
     s.append(P("1. Basis of estimate", "h2"))
+    if sp.get("basis_lead"):
+        s.append(_callout([P(x, "flag" if i == 0 else "body") for i, x in enumerate(sp["basis_lead"])]))
+        s.append(Spacer(1, 4))
+    for g in sp.get("go_no_go", []):
+        s.append(_callout([P(g, "flag")], fill=colors.HexColor("#FBE3E3")))
+        s.append(Spacer(1, 4))
+    for x in sp.get("basis_requirements", []):
+        s.append(P("• <b>" + x + "</b>", "body"))
     basis = [f"Quantities taken off from: {'; '.join(pkg.project['documents'])}."]
     for x in pkg.rates.values():
         if x.kind == "prevailing_wage":
@@ -232,13 +297,38 @@ def render_cost_analysis(pkg: Package, r: dict, path: Path) -> Path:
         s.append(P("• " + b, "body"))
 
     s.append(P("2. Materials by section", "h2"))
-    rows = [[P("Section", "hdr"), P("Lines", "hdrr"), P("Extended", "hdrr"), P("% of materials", "hdrr")]]
+    unq = set(r["validation"]["unquoted_lines"])
+
+    def _status(lines):
+        open_ = sum(1 for m in lines if m.id in unq)
+        if open_ == len(lines):
+            return "BUDGET – Not supplier-quoted"
+        return "Supplier-quoted" if not open_ else f"{len(lines) - open_} quoted / {open_} BUDGET"
+
+    rows = [[P("Section", "hdr"), P("Lines", "hdrr"), P("Status", "hdr"), P("Extended", "hdrr"), P("% of materials", "hdrr")]]
     for k, v in r["sections"].items():
-        n = sum(1 for m in pkg.materials if m.section == k)
-        rows.append([P(k), P(str(n), "cellr"), P(money(v), "cellr"), P(f"{v / r['materials'] * 100:.1f}%", "cellr")])
+        lines = [m for m in pkg.materials if m.section == k]
+        rows.append([P(k), P(str(len(lines)), "cellr"), P(_status(lines)), P(money(v), "cellr"),
+                     P(f"{v / r['materials'] * 100:.1f}%", "cellr")])
     rows.append([P("Total materials (see 02 Material List for every item)", "cellb"), P(str(len(pkg.materials)), "cellrb"),
-                 P(money(r["materials"]), "cellrb"), P("100.0%", "cellrb")])
-    s.append(_grid(rows, [4.2 * inch, 0.7 * inch, 1.2 * inch, 1.2 * inch], total_rows=[len(rows) - 1]))
+                 P(_status(pkg.materials), "cellb"), P(money(r["materials"]), "cellrb"), P("100.0%", "cellrb")])
+    s.append(_grid(rows, [3.15 * inch, 0.5 * inch, 1.55 * inch, 1.15 * inch, 0.95 * inch], total_rows=[len(rows) - 1]))
+    if sp:
+        s.append(Spacer(1, 3))
+        s.append(P(f"{len(unq)}/{len(pkg.materials)} material lines are BUDGET. "
+                   "Replace with actual supplier quotes before final proposal to GC.", "flag"))
+
+    if any(k for k in r["by_supplier"]):
+        from .suppliers import load_directory, supplier_name
+        directory = load_directory()
+        s.append(Spacer(1, 6))
+        rows = [[P("Purchasing by supplier", "hdr"), P("Lines", "hdrr"), P("Not quoted", "hdrr"), P("Extended", "hdrr")]]
+        for sid, g in sorted(r["by_supplier"].items(), key=lambda kv: (kv[0] == "", -kv[1]["total"])):
+            rows.append([P(supplier_name(sid, directory) if sid else "No supplier assigned"), P(str(g["lines"]), "cellr"),
+                         P(str(g["unquoted"]), "cellr"), P(money(g["total"]), "cellr")])
+        rows.append([P("Total materials", "cellb"), P(str(len(pkg.materials)), "cellrb"),
+                     P(str(len(r["validation"]["unquoted_lines"])), "cellrb"), P(money(r["materials"]), "cellrb")])
+        s.append(KeepTogether(_grid(rows, [4.2 * inch, 0.7 * inch, 1.2 * inch, 1.2 * inch], total_rows=[len(rows) - 1])))
 
     s.append(P("3. Labor", "h2"))
     rows = [[P("Task", "hdr"), P("Trade", "hdr"), P("Hours", "hdrr"), P("Rate", "hdrr"), P("Cost", "hdrr")]]
@@ -278,17 +368,28 @@ def render_cost_analysis(pkg: Package, r: dict, path: Path) -> Path:
         s.append(P(f"Alkan commission per services agreement: {money(r['commission']['total'])} "
                    f"({money(sch['at_contract_signing'])} at contract signing + {money(sch['on_first_payment'])} on first payment). "
                    f"Net margin after commission: {money(r['commission']['net_margin'])}.", "small"))
+    if sp.get("summary_note"):
+        s.append(Spacer(1, 3))
+        s.append(P(sp["summary_note"], "cellb"))
 
     s.append(P("6. Scope carried and exclusions", "h2"))
+    for x in sp.get("scope_critical", []):
+        s.append(_callout([P(x, "flag")])); s.append(Spacer(1, 4))
     for sc in pkg.scope:
         s.append(P(f"<b>{sc['title']}.</b> {sc['text']}", "body")); s.append(Spacer(1, 2))
     s.append(Spacer(1, 3))
     for e in pkg.exclusions:
         s.append(P("<b>Excluded:</b> " + e, "body"))
+    for x in sp.get("coordination_notes", []):
+        s.append(Spacer(1, 3)); s.append(P("<b>GC coordination:</b> " + x, "body"))
     v = r["validation"]
-    if v["warnings"]:
+    flags = list(sp.get("review_flags", []))
+    engine = [w for w in v["warnings"] if not (flags and "no cotizado" in w)]   # budget-price warning already in flags
+    if flags or engine:
         s.append(P("7. Review flags before release", "h2"))
-        for w in v["warnings"]:
+        for w in flags:
+            s.append(P("[ ] " + w, "flagbody" if w.startswith(("GO/NO-GO", "CRITICAL")) else "body"))
+        for w in engine:
             s.append(P("• " + w, "body"))
     s.append(Spacer(1, 6))
     s.append(P(f"Internal working document prepared for {pkg.contractor['name']}. Status: {r['status']}. Prices are budgetary "
@@ -342,7 +443,7 @@ def render_proposal(pkg: Package, r: dict, path: Path, label: str) -> Path:
     s = [P(pkg.project["title"], "h1"),
          P(f"Proposal valid {pkg.validity_days} days — through {_fmt_date(valid.isoformat())}", "sub"),
          Spacer(1, 6), _project_block(pkg), Spacer(1, 10)]
-    scope_label = pkg.project.get("scope_label", "metal fabrication scope")
+    scope_label = pkg.project.get("scope_label", "scope of work")
     tot = Table([[P(f"<b>TOTAL LUMP-SUM PRICE</b><br/><font size=7.5 color='#6B6B6B'>{scope_label.capitalize()} described below — "
                     "furnish, fabricate, deliver and install</font>", "val"), P(money(r["price"], False), "big")]],
                 colWidths=[4.6 * inch, 2.7 * inch])
@@ -369,7 +470,7 @@ def render_proposal(pkg: Package, r: dict, path: Path, label: str) -> Path:
     s.append(P("3. Exclusions and clarifications", "h2"))
     for e in pkg.exclusions:
         s.append(P("• " + e, "body"))
-    terms = {**DEFAULT_TERMS, **(pkg.terms or {})}
+    terms = {**_default_terms(scope_label), **(pkg.terms or {})}
     for num, (title, key) in enumerate((("Payment terms", "payment"), ("Warranty", "warranty"),
                                         ("General terms and conditions", "general")), 4):
         s.append(P(f"{num}. {title}", "h2"))
@@ -392,6 +493,12 @@ def render_proposal(pkg: Package, r: dict, path: Path, label: str) -> Path:
 
 
 def render_all(pkg: Package, r: dict, out_dir: Path) -> dict:
+    pkg_status = (pkg.project or {}).get("status") or (pkg.release or {}).get("status")
+    if pkg_status in ("preestimado", "ajustado"):
+        raise ValueError(
+            f"Los 3 PDFs (Cost Analysis, Material List, Proposal) solo se generan cuando el estado es 'final' "
+            f"(estado actual: '{pkg_status}')."
+        )
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     key = pkg.project["key"]
