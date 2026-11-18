@@ -9,6 +9,7 @@ import '../services/bidkit_api_client.dart';
 import '../services/offline_store.dart';
 import '../services/voice_dictation_service.dart';
 import '../theme/alkan_theme.dart';
+import '../widgets/alkan_flow.dart';
 
 /// Pantalla 2 — Nuevo Estimado: Contratista, Especialidad, Planos (WhatsApp/PDF/Cámara) y Dictado por Voz.
 class NuevoEstimadoScreen extends StatefulWidget {
@@ -264,18 +265,13 @@ class _NuevoEstimadoScreenState extends State<NuevoEstimadoScreen> {
         padding: const EdgeInsets.all(16),
         children: [
           // Selector de Contratista con Logo visible
-          Container(
-            padding: const EdgeInsets.all(14),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: AlkanColors.border),
-            ),
+          AlkanSectionCard(
+            number: 1,
+            title: 'Contratista y Especialidad',
+            why: AlkanFlowCopy.clienteWhy,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('1. Contratista y Especialidad', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900)),
-                const SizedBox(height: 10),
                 Row(
                   children: [
                     Container(
@@ -344,21 +340,16 @@ class _NuevoEstimadoScreenState extends State<NuevoEstimadoScreen> {
               ],
             ),
           ),
-          const SizedBox(height: 14),
+          const SizedBox(height: 8),
 
           // 3 botones grandes de carga de archivos
-          Container(
-            padding: const EdgeInsets.all(14),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: AlkanColors.border),
-            ),
+          AlkanSectionCard(
+            number: 2,
+            title: 'Planos, Especificaciones o Fotos',
+            why: AlkanFlowCopy.alcanceWhy,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('2. Planos, Especificaciones o Fotos', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900)),
-                const SizedBox(height: 10),
                 OutlinedButton.icon(
                   onPressed: _submitting ? null : _pickPdfOrZip,
                   icon: const Icon(Icons.picture_as_pdf, size: 26),
@@ -392,21 +383,16 @@ class _NuevoEstimadoScreenState extends State<NuevoEstimadoScreen> {
               ],
             ),
           ),
-          const SizedBox(height: 14),
+          const SizedBox(height: 8),
 
           // Clave del proyecto + Dictado por Voz Push-to-Talk
-          Container(
-            padding: const EdgeInsets.all(14),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: AlkanColors.border),
-            ),
+          AlkanSectionCard(
+            number: 3,
+            title: 'Proyecto y Dictado por Voz',
+            why: AlkanFlowCopy.proyectoWhy,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('3. Proyecto y Dictado por Voz', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900)),
-                const SizedBox(height: 10),
                 TextField(
                   controller: _keyCtrl,
                   textCapitalization: TextCapitalization.characters,

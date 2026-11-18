@@ -394,7 +394,7 @@ class _PaqueteAprobacionScreenState extends State<PaqueteAprobacionScreen> {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 5),
                         child: Text(
-                          'Margen: ${fin['margin_pct'] ?? '--'}%',
+                          'Margen bruto: \$${fin['gross_margin'] ?? '--'}',
                           style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: AlkanColors.approved),
                         ),
                       ),

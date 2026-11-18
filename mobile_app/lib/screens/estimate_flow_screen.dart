@@ -9,6 +9,7 @@ import '../services/bidkit_api_client.dart';
 import '../services/offline_store.dart';
 import '../services/voice_dictation_service.dart';
 import '../theme/alkan_theme.dart';
+import '../widgets/alkan_flow.dart';
 import '../widgets/alkan_loading_logo.dart';
 import '../widgets/step_coach_shell.dart';
 import 'paquete_aprobacion_screen.dart';
@@ -64,13 +65,23 @@ class _EstimateFlowScreenState extends State<EstimateFlowScreen> {
   ];
 
   static const _stepWhyLabels = [
-    'El condado define los salarios de la obra. Esto va en el Cost Analysis.',
-    'Al elegir el cliente, el documento ya sale con su nombre, su logo y sus exclusiones.',
-    'Con la especialidad, el motor elige rendimientos y proveedores correctos.',
-    'Habla como le dirías a tu ayudante. De aquí sale el alcance de los 3 documentos.',
-    'Revisa los números. Puedes corregir cualquiera con un toque. Siguen siendo presupuestarios hasta cotizar.',
-    'Dejamos tus defaults. Toca solo si quieres cambiar el margen.',
-    'Esto arma tus 3 documentos. Dura unos segundos.',
+    AlkanFlowCopy.proyectoWhy,
+    AlkanFlowCopy.clienteWhy,
+    AlkanFlowCopy.especialidadWhy,
+    AlkanFlowCopy.alcanceWhy,
+    AlkanFlowCopy.cantidadesWhy,
+    AlkanFlowCopy.ajustesWhy,
+    AlkanFlowCopy.generarWhy,
+  ];
+
+  static const _stepFeeds = [
+    AlkanFlowCopy.feedsCostAnalysis,
+    AlkanFlowCopy.feedsLos3,
+    AlkanFlowCopy.feedsCostAnalysis,
+    AlkanFlowCopy.feedsLos3,
+    AlkanFlowCopy.feedsCostAnalysis,
+    AlkanFlowCopy.feedsLos3,
+    AlkanFlowCopy.feedsLos3,
   ];
 
   static const _coachTips = [
@@ -585,9 +596,10 @@ class _EstimateFlowScreenState extends State<EstimateFlowScreen> {
     final idx = _step - 1;
     return StepCoachShell(
       stepNumber: _step,
-      totalSteps: 7,
+      totalSteps: AlkanFlowCopy.totalSteps,
       title: _stepTitles[idx],
       whyLabel: _stepWhyLabels[idx],
+      feedsDocument: _stepFeeds[idx],
       firstTimeCoachTip: _coachTips[idx],
       showCoachTip: _coachVisible[_step] ?? false,
       onDismissCoachTip: () => _dismissCoach(_step),

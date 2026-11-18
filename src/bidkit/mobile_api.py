@@ -905,15 +905,6 @@ class MobileBidEngineAPI:
         sell_price = totals.get("price") or run_data.get("price")
         direct_cost = totals.get("direct") or run_data.get("direct")
         gross_margin = totals.get("gross_margin")
-        margin_pct = None
-        if sell_price and gross_margin:
-            try:
-                sp = Decimal(str(sell_price))
-                gm = Decimal(str(gross_margin))
-                if sp > 0:
-                    margin_pct = str(((gm / sp) * Decimal("100")).quantize(Decimal("0.1")))
-            except Exception:
-                margin_pct = None
 
         raw_status = str(run_data.get("status") or "").lower()
         is_approved = raw_status in ("autorizada", "exportada")
@@ -985,8 +976,9 @@ class MobileBidEngineAPI:
                 "contingency": totals.get("contingency"),
                 "overhead": totals.get("overhead"),
                 "profit": totals.get("profit"),
+                "total": totals.get("total"),
+                "break_even": totals.get("break_even"),
                 "gross_margin": gross_margin,
-                "margin_pct": margin_pct,
                 "pricing_alerts": {
                     "quote_count": len(quote_lines),
                     "catalog_count": len(catalog_lines),
