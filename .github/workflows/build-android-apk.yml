@@ -51,7 +51,7 @@ jobs:
                   continue
               txt = p.read_text(encoding="utf-8")
               txt = re.sub(r"minSdk(?:Version)?\s*=?\s*flutter\.minSdkVersion", "minSdk = 24" if name.endswith(".kts") else "minSdkVersion 24", txt)
-              txt = re.sub(r"compileSdk(?:Version)?\s*=?\s*flutter\.compileSdkVersion", "compileSdk = 34" if name.endswith(".kts") else "compileSdkVersion 34", txt)
+              txt = re.sub(r"compileSdk(?:Version)?\s*=?\s*flutter\.compileSdkVersion", "compileSdk = 35" if name.endswith(".kts") else "compileSdkVersion 35", txt)
               txt = re.sub(r"targetSdk(?:Version)?\s*=?\s*flutter\.targetSdkVersion", "targetSdk = 34" if name.endswith(".kts") else "targetSdkVersion 34", txt)
               p.write_text(txt, encoding="utf-8")
           PY

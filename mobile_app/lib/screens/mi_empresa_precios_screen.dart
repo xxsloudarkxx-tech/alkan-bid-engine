@@ -225,7 +225,7 @@ class _MiEmpresaPreciosScreenState extends State<MiEmpresaPreciosScreen> {
                 const SizedBox(height: 10),
                 TextField(controller: _contactCtrl, decoration: const InputDecoration(labelText: 'Contacto Principal')),
                 const SizedBox(height: 14),
-                const Text('Tarifas por Defecto ($/hr) y Markups (%)', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900)),
+                const Text('Tarifas por Defecto (\$/hr) y Markups (%)', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900)),
                 const SizedBox(height: 10),
                 Row(
                   children: [
