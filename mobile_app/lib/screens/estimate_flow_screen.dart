@@ -76,7 +76,6 @@ class _EstimateFlowScreenState extends State<EstimateFlowScreen> {
   String? _voiceError;
   bool _loadingPreview = false;
   bool _generating = false;
-  bool _savingClient = false;
   bool _expandAdjustments = false;
   double _uploadProgress = 0;
   String _genStatus = 'Preparando paquete ALKAN...';

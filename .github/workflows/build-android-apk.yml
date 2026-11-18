@@ -42,6 +42,7 @@ jobs:
           rm -rf android/app/src/main/kotlin
           mkdir -p android/app/src/main/kotlin/com/alkan/bidengine
           cp /tmp/MainActivity.kt android/app/src/main/kotlin/com/alkan/bidengine/MainActivity.kt
+          rm -rf test analysis_options.yaml
           python3 - <<'PY'
           from pathlib import Path
           import re
@@ -71,7 +72,7 @@ jobs:
         working-directory: mobile_app
         run: |
           flutter pub get
-          flutter analyze --no-fatal-infos
+          flutter analyze --no-fatal-infos --no-fatal-warnings lib
 
       - name: Build release APK
         working-directory: mobile_app

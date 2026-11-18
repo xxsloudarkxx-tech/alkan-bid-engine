@@ -132,7 +132,9 @@ class _MiEmpresaPreciosScreenState extends State<MiEmpresaPreciosScreen> {
       final results = await Future.wait<dynamic>([
         widget.api.fetchProfiles(),
         target != null ? widget.api.fetchProfileDetail(target).catchError((_) => <String, dynamic>{}) : Future.value(<String, dynamic>{}),
-        target != null ? widget.api.fetchCalibration(target).catchError((_) => null) : Future.value(null),
+        target != null
+            ? widget.api.fetchCalibration(target).then<ProfileCalibration?>((v) => v).catchError((_) => null)
+            : Future<ProfileCalibration?>.value(null),
         widget.api.session?.role == 'admin'
             ? widget.api.fetchUsers().catchError((_) => <Map<String, dynamic>>[])
             : Future.value(<Map<String, dynamic>>[]),
@@ -216,7 +218,7 @@ class _MiEmpresaPreciosScreenState extends State<MiEmpresaPreciosScreen> {
     try {
       final results = await Future.wait<dynamic>([
         widget.api.fetchProfileDetail(name),
-        widget.api.fetchCalibration(name).catchError((_) => null),
+        widget.api.fetchCalibration(name).then<ProfileCalibration?>((v) => v).catchError((_) => null),
       ]);
       final detail = results[0] as Map<String, dynamic>;
       final cal = results[1] as ProfileCalibration?;
