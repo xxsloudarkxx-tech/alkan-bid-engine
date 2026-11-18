@@ -321,6 +321,7 @@ class AuthStore:
         org_id: str = "default",
         allowed_orgs: list[str] | None = None,
         client_id: str | None = None,
+        must_change_password: bool = False,
     ) -> dict[str, Any]:
         if role not in ROLES:
             raise ValueError(f"Invalid role {role!r}; expected one of {ROLES}")
@@ -340,10 +341,69 @@ class AuthStore:
                 "client_id": client_id,
                 "password_hash": hash_password(password),
                 "active": True,
+                "must_change_password": bool(must_change_password),
                 "created_at": datetime.now(timezone.utc).isoformat(),
             }
             self._save(data)
-            return {"username": uname, "role": role, "org_id": org_id}
+            return {
+                "username": uname,
+                "role": role,
+                "org_id": org_id,
+                "must_change_password": bool(must_change_password),
+            }
+
+    def must_change_password(self, username: str) -> bool:
+        """Return True if the user is flagged for mandatory password rotation."""
+        uname = (username or "").strip().lower()
+        with self._lock:
+            data = self._load()
+            user = (data.get("users") or {}).get(uname) or {}
+            return bool(user.get("must_change_password", False))
+
+    def change_password(
+        self,
+        username: str,
+        current_password: str,
+        new_password: str,
+    ) -> tuple[str, SecurityContext]:
+        """Validate current password, rotate to new_password, revoke old sessions, and issue a fresh token."""
+        uname = (username or "").strip().lower()
+        with self._lock:
+            data = self._load()
+            user = data.get("users", {}).get(uname)
+            if not user or not user.get("active", True) or not verify_password(current_password, user["password_hash"]):
+                raise AuthenticationError("Contraseña actual incorrecta.")
+            if new_password == current_password:
+                raise ValueError("La nueva contraseña debe ser diferente de la actual.")
+            user["password_hash"] = hash_password(new_password)
+            user["must_change_password"] = False
+            user["password_changed_at"] = datetime.now(timezone.utc).isoformat()
+            # Revoke previous sessions for this user so old tokens cannot persist after rotation
+            data["sessions"] = {
+                k: v for k, v in (data.get("sessions") or {}).items()
+                if v.get("username") != uname
+            }
+            self._save(data)
+            return self.authenticate_password(uname, new_password)
+
+    def list_users(self, org_id: str | None = None) -> list[dict[str, Any]]:
+        """List registered users without exposing password hashes."""
+        with self._lock:
+            data = self._load()
+            out: list[dict[str, Any]] = []
+            for uname, rec in sorted((data.get("users") or {}).items()):
+                if org_id and rec.get("org_id") != org_id:
+                    continue
+                out.append({
+                    "username": uname,
+                    "role": rec.get("role"),
+                    "org_id": rec.get("org_id"),
+                    "active": bool(rec.get("active", True)),
+                    "must_change_password": bool(rec.get("must_change_password", False)),
+                    "created_at": rec.get("created_at"),
+                    "password_changed_at": rec.get("password_changed_at"),
+                })
+            return out
 
     def authenticate_password(self, username: str, password: str) -> tuple[str, SecurityContext]:
         uname = (username or "").strip().lower()

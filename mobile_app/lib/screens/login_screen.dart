@@ -28,8 +28,8 @@ class _LoginScreenState extends State<LoginScreen> {
   static const _emulatorLocalUrl = 'http://10.0.2.2:8000';
 
   final _urlCtrl = TextEditingController(text: _railwayUrl);
-  final _userCtrl = TextEditingController(text: 'estimator');
-  final _passCtrl = TextEditingController(text: 'Estimator!2026');
+  final _userCtrl = TextEditingController();
+  final _passCtrl = TextEditingController();
   bool _loading = false;
   String? _error;
 
@@ -44,27 +44,181 @@ class _LoginScreenState extends State<LoginScreen> {
     if (mounted) setState(() => _urlCtrl.text = saved);
   }
 
-  Future<void> _submit({bool bootstrap = true}) async {
+  Future<AuthSession?> _promptPasswordChange({
+    required String baseUrl,
+    required String username,
+    required String currentPassword,
+    required bool mandatory,
+  }) async {
+    final userFieldCtrl = TextEditingController(text: username);
+    final curPassCtrl = TextEditingController(text: currentPassword);
+    final newPassCtrl = TextEditingController();
+    final confirmCtrl = TextEditingController();
+    String? modalError;
+    bool saving = false;
+
+    final updatedSession = await showDialog<AuthSession>(
+      context: context,
+      barrierDismissible: !mandatory,
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, setModalState) => PopScope(
+          canPop: !mandatory,
+          child: AlertDialog(
+            title: Text(
+              mandatory ? 'Cambio de Contraseña Obligatorio' : 'Cambiar Contraseña',
+              style: const TextStyle(fontWeight: FontWeight.w900),
+            ),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    mandatory
+                        ? 'Tu cuenta tiene una contraseña temporal. Asigna una contraseña personal de al menos 8 caracteres para continuar.'
+                        : 'Actualiza tu contraseña de acceso en ALKAN Bid Engine (mínimo 8 caracteres).',
+                    style: const TextStyle(fontSize: 13.5),
+                  ),
+                  const SizedBox(height: 12),
+                  TextField(
+                    controller: userFieldCtrl,
+                    readOnly: mandatory && username.isNotEmpty,
+                    decoration: const InputDecoration(labelText: 'Usuario'),
+                  ),
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: curPassCtrl,
+                    readOnly: mandatory && currentPassword.isNotEmpty,
+                    obscureText: true,
+                    decoration: const InputDecoration(labelText: 'Contraseña actual'),
+                  ),
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: newPassCtrl,
+                    obscureText: true,
+                    decoration: const InputDecoration(labelText: 'Nueva contraseña (mín. 8 caracteres)'),
+                  ),
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: confirmCtrl,
+                    obscureText: true,
+                    decoration: const InputDecoration(labelText: 'Confirmar nueva contraseña'),
+                  ),
+                  if (modalError != null) ...[
+                    const SizedBox(height: 10),
+                    Text(
+                      modalError!,
+                      style: const TextStyle(color: AlkanColors.noGo, fontWeight: FontWeight.w700, fontSize: 13),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+            actions: [
+              if (!mandatory)
+                TextButton(
+                  onPressed: saving ? null : () => Navigator.pop(ctx),
+                  child: const Text('Cancelar'),
+                ),
+              ElevatedButton(
+                onPressed: saving
+                    ? null
+                    : () async {
+                        final u = userFieldCtrl.text.trim();
+                        final c = curPassCtrl.text;
+                        final n1 = newPassCtrl.text;
+                        final n2 = confirmCtrl.text;
+                        if (u.isEmpty || c.isEmpty) {
+                          setModalState(() => modalError = 'Ingresa usuario y contraseña actual.');
+                          return;
+                        }
+                        if (n1.length < 8) {
+                          setModalState(() => modalError = 'La nueva contraseña debe tener al menos 8 caracteres.');
+                          return;
+                        }
+                        if (n1 != n2) {
+                          setModalState(() => modalError = 'Las contraseñas nuevas no coinciden.');
+                          return;
+                        }
+                        if (n1 == c) {
+                          setModalState(() => modalError = 'La nueva contraseña debe ser diferente de la actual.');
+                          return;
+                        }
+                        setModalState(() {
+                          saving = true;
+                          modalError = null;
+                        });
+                        try {
+                          final rotated = await widget.api.changePassword(
+                            baseUrl: baseUrl,
+                            username: u,
+                            currentPassword: c,
+                            newPassword: n1,
+                          );
+                          if (ctx.mounted) Navigator.pop(ctx, rotated);
+                        } catch (e) {
+                          setModalState(() {
+                            saving = false;
+                            modalError = e.toString();
+                          });
+                        }
+                      },
+                child: Text(saving ? 'Guardando...' : 'ACTUALIZAR CONTRASEÑA'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+    return updatedSession;
+  }
+
+  Future<void> _submit() async {
+    final user = _userCtrl.text.trim();
+    final pass = _passCtrl.text;
+    if (user.isEmpty || pass.isEmpty) {
+      setState(() => _error = 'Ingresa usuario y contraseña.');
+      return;
+    }
     setState(() {
       _loading = true;
       _error = null;
     });
     try {
-      final session = bootstrap
-          ? await widget.api.bootstrapAuth(
-              baseUrl: _urlCtrl.text,
-              username: _userCtrl.text,
-              password: _passCtrl.text,
-            )
-          : await widget.api.login(
-              baseUrl: _urlCtrl.text,
-              username: _userCtrl.text,
-              password: _passCtrl.text,
-            );
+      AuthSession session;
+      try {
+        session = await widget.api.login(
+          baseUrl: _urlCtrl.text,
+          username: user,
+          password: pass,
+        );
+      } on ApiException catch (e) {
+        if (e.statusCode == 401) {
+          session = await widget.api.bootstrapAuth(
+            baseUrl: _urlCtrl.text,
+            username: user,
+            password: pass,
+          );
+        } else {
+          rethrow;
+        }
+      }
+      if (!mounted) return;
+      if (session.mustChangePassword) {
+        setState(() => _loading = false);
+        final updated = await _promptPasswordChange(
+          baseUrl: _urlCtrl.text,
+          username: user,
+          currentPassword: pass,
+          mandatory: true,
+        );
+        if (updated == null) return;
+        session = updated;
+      }
       await widget.store.saveSession(session);
       widget.onAuthenticated(session);
     } catch (e) {
-      setState(() => _error = e.toString());
+      if (mounted) setState(() => _error = e.toString());
     } finally {
       if (mounted) setState(() => _loading = false);
     }
@@ -178,37 +332,28 @@ class _LoginScreenState extends State<LoginScreen> {
                 )
               else
                 ElevatedButton.icon(
-                  onPressed: () => _submit(bootstrap: true),
+                  onPressed: _submit,
                   icon: const Icon(Icons.login, size: 24),
                   label: const Text('ENTRAR A BID ENGINE'),
                 ),
               const SizedBox(height: 12),
-              Row(
-                children: [
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: _loading
-                          ? null
-                          : () {
-                              _userCtrl.text = 'estimator';
-                              _passCtrl.text = 'Estimator!2026';
-                            },
-                      child: const Text('Rol: Estimador'),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: _loading
-                          ? null
-                          : () {
-                              _userCtrl.text = 'reviewer';
-                              _passCtrl.text = 'Reviewer!2026';
-                            },
-                      child: const Text('Rol: Aprobador'),
-                    ),
-                  ),
-                ],
+              OutlinedButton.icon(
+                onPressed: _loading
+                    ? null
+                    : () async {
+                        final updated = await _promptPasswordChange(
+                          baseUrl: _urlCtrl.text,
+                          username: _userCtrl.text.trim(),
+                          currentPassword: _passCtrl.text,
+                          mandatory: false,
+                        );
+                        if (updated != null && mounted) {
+                          await widget.store.saveSession(updated);
+                          widget.onAuthenticated(updated);
+                        }
+                      },
+                icon: const Icon(Icons.vpn_key_outlined),
+                label: const Text('🔑 Cambiar mi contraseña'),
               ),
               const SizedBox(height: 10),
               TextButton.icon(
@@ -219,7 +364,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           AuthSession(
                             baseUrl: _urlCtrl.text.trim(),
                             token: 'offline_local',
-                            actor: _userCtrl.text.trim().isEmpty ? 'estimator' : _userCtrl.text.trim(),
+                            actor: _userCtrl.text.trim().isEmpty ? 'contratista_offline' : _userCtrl.text.trim(),
                             role: 'estimator',
                             orgId: 'default',
                           ),

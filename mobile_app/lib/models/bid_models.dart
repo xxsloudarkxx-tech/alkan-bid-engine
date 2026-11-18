@@ -6,6 +6,7 @@ class AuthSession {
   final String actor;
   final String role;
   final String orgId;
+  final bool mustChangePassword;
 
   const AuthSession({
     required this.baseUrl,
@@ -13,6 +14,7 @@ class AuthSession {
     required this.actor,
     required this.role,
     required this.orgId,
+    this.mustChangePassword = false,
   });
 
   bool get isValid => token.isNotEmpty && baseUrl.isNotEmpty;
@@ -23,6 +25,7 @@ class AuthSession {
         'actor': actor,
         'role': role,
         'orgId': orgId,
+        'mustChangePassword': mustChangePassword,
       };
 
   factory AuthSession.fromJson(Map<String, dynamic> json) => AuthSession(
@@ -31,6 +34,7 @@ class AuthSession {
         actor: (json['actor'] ?? '').toString(),
         role: (json['role'] ?? 'estimator').toString(),
         orgId: (json['orgId'] ?? 'default').toString(),
+        mustChangePassword: json['mustChangePassword'] == true || json['must_change_password'] == true,
       );
 }
 

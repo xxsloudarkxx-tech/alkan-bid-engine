@@ -123,7 +123,7 @@ WA_COUNTIES: tuple[str, ...] = (
 IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png", ".webp"}
 QUOTE_IMPORT_SUFFIXES = {".csv", ".xlsx", ".xlsm", ".pdf"}
 PUBLIC_GET_PATHS = {"/api/mobile/health", "/"}
-PUBLIC_POST_PATHS = {"/api/v4/auth/login", "/api/mobile/auth/bootstrap"}
+PUBLIC_POST_PATHS = {"/api/v4/auth/login", "/api/mobile/auth/bootstrap", "/api/mobile/auth/change-password"}
 
 PROGRESS_STEPS: tuple[dict[str, str], ...] = (
     {"id": "reading", "label": "Leyendo planos"},
@@ -243,6 +243,44 @@ class MobileBidEngineAPI:
     def __init__(self, root: Path | None = None, settings: AppSettings | None = None, client_factory=None):
         self.root = Path(root or _default_root()).resolve()
         self.app = AppAPI(self.root, settings=settings, client_factory=client_factory)
+        self._init_storage_and_env_users()
+
+    def _init_storage_and_env_users(self) -> None:
+        """Ensure persistent folders exist and seed users from ALKAN_INITIAL_USERS_JSON if store is empty."""
+        (self.root / "data" / "security").mkdir(parents=True, exist_ok=True)
+        (self.root / "data" / "uploads").mkdir(parents=True, exist_ok=True)
+        self.app.runs.base.mkdir(parents=True, exist_ok=True)
+
+        raw_users = os.environ.get("ALKAN_INITIAL_USERS_JSON", "").strip()
+        if not raw_users:
+            return
+        auth = self.app.v4.auth
+        with auth._lock:
+            data = auth._load()
+            if data.get("users"):
+                return
+            try:
+                entries = json.loads(raw_users)
+            except ValueError:
+                return
+            if not isinstance(entries, list):
+                return
+            for entry in entries:
+                if not isinstance(entry, dict):
+                    continue
+                uname = str(entry.get("username") or "").strip()
+                pwd = str(entry.get("password") or "")
+                role = str(entry.get("role") or "estimator").strip()
+                org_id = str(entry.get("org_id") or "default").strip() or "default"
+                must_change = bool(entry.get("must_change_password", True))
+                if uname and len(pwd) >= 8:
+                    auth.create_user(
+                        uname,
+                        pwd,
+                        role=role,
+                        org_id=org_id,
+                        must_change_password=must_change,
+                    )
 
     # ───────────────────────────── auth helpers
     def _auth_headers(self, headers: dict[str, str] | None) -> dict[str, str]:
@@ -277,20 +315,21 @@ class MobileBidEngineAPI:
         raise AuthenticationError("Autenticación requerida: envíe Authorization: Bearer <token>.")
 
     def bootstrap_auth(self, req: dict[str, Any]) -> dict[str, Any]:
-        """Seed initial estimator/reviewer accounts once on empty store and sign in."""
+        """Seed initial estimator/reviewer/admin accounts once on empty store (if allowed) and sign in."""
         allow_bootstrap = os.environ.get("ALKAN_ALLOW_BOOTSTRAP", "true").lower() not in ("0", "false", "no")
         auth = self.app.v4.auth
         seeded = False
         with auth._lock:
             data = auth._load()
             if not data.get("users") and allow_bootstrap:
-                auth.create_user("estimator", "Estimator!2026", role="estimator", org_id="default")
-                auth.create_user("reviewer", "Reviewer!2026", role="reviewer", org_id="default")
+                auth.create_user("estimator", "Estimator!2026", role="estimator", org_id="default", must_change_password=False)
+                auth.create_user("reviewer", "Reviewer!2026", role="reviewer", org_id="default", must_change_password=False)
+                auth.create_user("admin", "Admin!2026", role="admin", org_id="default", must_change_password=False)
                 seeded = True
-        username = str(req.get("username") or "estimator").strip().lower()
+        username = str(req.get("username") or "").strip().lower()
         password = str(req.get("password") or "")
-        if not password:
-            raise AuthenticationError("Ingrese su contraseña.")
+        if not username or not password:
+            raise AuthenticationError("Ingrese usuario y contraseña.")
         token, ctx = auth.authenticate_password(username, password)
         return {
             "token": token,
@@ -298,6 +337,35 @@ class MobileBidEngineAPI:
             "role": ctx.role,
             "org_id": ctx.org_id,
             "seeded": seeded,
+            "must_change_password": auth.must_change_password(ctx.actor),
+        }
+
+    def change_password_mobile(self, req: dict[str, Any]) -> dict[str, Any]:
+        """Verify current credentials, rotate password, clear must_change_password and issue new session."""
+        username = str(req.get("username") or "").strip().lower()
+        current_password = str(req.get("current_password") or "")
+        new_password = str(req.get("new_password") or "")
+        if not username or not current_password or not new_password:
+            raise ValueError("Usuario, contraseña actual y nueva contraseña requeridos.")
+        token, ctx = self.app.v4.auth.change_password(username, current_password, new_password)
+        self.app.v4._org_ledger(ctx.org_id).record(
+            org_id=ctx.org_id,
+            project_id="AUTH",
+            actor=ctx.actor,
+            role=ctx.role,
+            action="USER_PASSWORD_CHANGED",
+            state_from="Active",
+            state_to="Active",
+            resource_type="user",
+            resource_id=ctx.actor,
+            detail={"must_change_password": False},
+        )
+        return {
+            "token": token,
+            "actor": ctx.actor,
+            "role": ctx.role,
+            "org_id": ctx.org_id,
+            "must_change_password": False,
         }
 
     # ───────────────────────────── uploads (resumable + camera photo -> PDF)
@@ -1095,6 +1163,9 @@ class MobileBidEngineAPI:
         if method == "POST" and path == "/api/mobile/auth/bootstrap":
             return 200, self.bootstrap_auth(req)
 
+        if method == "POST" and path == "/api/mobile/auth/change-password":
+            return 200, self.change_password_mobile(req)
+
         if method == "POST" and path == "/api/v4/auth/login":
             res = self.app.v4.post(path, req, str(req.get("username") or "login"), headers=hdrs)
             return 200, res
@@ -1103,6 +1174,10 @@ class MobileBidEngineAPI:
         ctx = self.authenticate(hdrs)
 
         if method == "GET":
+            if path == "/api/mobile/auth/users":
+                require_permission(ctx, "admin:users", org_id=ctx.org_id)
+                return 200, {"users": self.app.v4.auth.list_users(ctx.org_id)}
+
             if path == "/api/mobile/runs":
                 return 200, self.list_mobile_runs()
 
@@ -1134,6 +1209,32 @@ class MobileBidEngineAPI:
             return 404, {"error": f"Ruta no encontrada: {path}"}
 
         if method == "POST":
+            if path == "/api/mobile/auth/users":
+                require_permission(ctx, "admin:users", org_id=ctx.org_id)
+                user_role = str(req.get("user_role") or req.get("role") or "estimator").strip()
+                must_change = bool(req.get("must_change_password", True))
+                created = self.app.v4.auth.create_user(
+                    str(req.get("username") or ""),
+                    str(req.get("password") or ""),
+                    role=user_role,
+                    org_id=ctx.org_id,
+                    client_id=req.get("client_id"),
+                    must_change_password=must_change,
+                )
+                self.app.v4._org_ledger(ctx.org_id).record(
+                    org_id=ctx.org_id,
+                    project_id="AUTH",
+                    actor=ctx.actor,
+                    role=ctx.role,
+                    action="USER_CREATED",
+                    state_from="",
+                    state_to="Active",
+                    resource_type="user",
+                    resource_id=created["username"],
+                    detail={"role": user_role, "must_change_password": must_change},
+                )
+                return 200, created
+
             if path == "/api/mobile/upload/chunk":
                 require_permission(ctx, "estimate:create", org_id=ctx.org_id)
                 return 200, self.upload_chunk(req)

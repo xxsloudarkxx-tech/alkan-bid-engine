@@ -206,11 +206,18 @@ class V4API:
                 role=req["user_role"],
                 org_id=org_id,
                 client_id=req.get("client_id"),
+                must_change_password=bool(req.get("must_change_password", True)),
             )
 
         if path == "/api/v4/auth/login":
             token, user_ctx = self.auth.authenticate_password(req["username"], req["password"])
-            return {"token": token, "actor": user_ctx.actor, "role": user_ctx.role, "org_id": user_ctx.org_id}
+            return {
+                "token": token,
+                "actor": user_ctx.actor,
+                "role": user_ctx.role,
+                "org_id": user_ctx.org_id,
+                "must_change_password": self.auth.must_change_password(user_ctx.actor),
+            }
 
         if path == "/api/v4/pricebook/save":
             rec = PriceRecord.from_dict({**req["record"], "org_id": org_id})

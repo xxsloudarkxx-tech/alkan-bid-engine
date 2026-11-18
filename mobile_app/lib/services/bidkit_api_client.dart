@@ -90,6 +90,7 @@ class BidKitApiClient {
       actor: (data['actor'] ?? username).toString(),
       role: (data['role'] ?? 'estimator').toString(),
       orgId: (data['org_id'] ?? 'default').toString(),
+      mustChangePassword: data['must_change_password'] == true,
     );
     _session = session;
     return session;
@@ -116,9 +117,75 @@ class BidKitApiClient {
       actor: (data['actor'] ?? username).toString(),
       role: (data['role'] ?? 'estimator').toString(),
       orgId: (data['org_id'] ?? 'default').toString(),
+      mustChangePassword: data['must_change_password'] == true,
     );
     _session = session;
     return session;
+  }
+
+  Future<AuthSession> changePassword({
+    required String baseUrl,
+    required String username,
+    required String currentPassword,
+    required String newPassword,
+  }) async {
+    final clean = _cleanBase(baseUrl);
+    final uri = Uri.parse('$clean/api/mobile/auth/change-password');
+    final res = await _http
+        .post(
+          uri,
+          headers: _headers(authenticated: false),
+          body: jsonEncode({
+            'username': username,
+            'current_password': currentPassword,
+            'new_password': newPassword,
+          }),
+        )
+        .timeout(const Duration(seconds: 12));
+    final data = Map<String, dynamic>.from(_decodeJson(res) as Map);
+    final session = AuthSession(
+      baseUrl: clean,
+      token: (data['token'] ?? '').toString(),
+      actor: (data['actor'] ?? username).toString(),
+      role: (data['role'] ?? 'estimator').toString(),
+      orgId: (data['org_id'] ?? 'default').toString(),
+      mustChangePassword: false,
+    );
+    _session = session;
+    return session;
+  }
+
+  Future<List<Map<String, dynamic>>> fetchUsers() async {
+    final s = _requireSession();
+    final uri = Uri.parse('${s.baseUrl}/api/mobile/auth/users');
+    final res = await _http.get(uri, headers: _headers()).timeout(const Duration(seconds: 12));
+    final data = Map<String, dynamic>.from(_decodeJson(res) as Map);
+    return (data['users'] as List<dynamic>? ?? const [])
+        .map((e) => Map<String, dynamic>.from(e as Map))
+        .toList();
+  }
+
+  Future<Map<String, dynamic>> createUser({
+    required String username,
+    required String password,
+    required String userRole,
+    bool mustChangePassword = true,
+  }) async {
+    final s = _requireSession();
+    final uri = Uri.parse('${s.baseUrl}/api/mobile/auth/users');
+    final res = await _http
+        .post(
+          uri,
+          headers: _headers(),
+          body: jsonEncode({
+            'username': username,
+            'password': password,
+            'user_role': userRole,
+            'must_change_password': mustChangePassword,
+          }),
+        )
+        .timeout(const Duration(seconds: 12));
+    return Map<String, dynamic>.from(_decodeJson(res) as Map);
   }
 
   Future<List<ContractorProfileItem>> fetchProfiles() async {

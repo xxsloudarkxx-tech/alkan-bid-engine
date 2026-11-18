@@ -179,8 +179,8 @@ class _PaqueteAprobacionScreenState extends State<PaqueteAprobacionScreen> {
     final needsIndependentLogin =
         session.actor.toLowerCase() == preparedBy.toLowerCase() || (session.role != 'reviewer' && session.role != 'admin');
 
-    final userCtrl = TextEditingController(text: needsIndependentLogin ? 'reviewer' : session.actor);
-    final passCtrl = TextEditingController(text: needsIndependentLogin ? 'Reviewer!2026' : '');
+    final userCtrl = TextEditingController(text: needsIndependentLogin ? '' : session.actor);
+    final passCtrl = TextEditingController();
     final noteCtrl = TextEditingController();
 
     final confirmed = await showDialog<bool>(

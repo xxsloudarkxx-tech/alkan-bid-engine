@@ -35,6 +35,10 @@ class _MiEmpresaPreciosScreenState extends State<MiEmpresaPreciosScreen> {
   final _shopRateCtrl = TextEditingController();
   final _adminRateCtrl = TextEditingController();
   final _supplierCtrl = TextEditingController(text: 'Farwest Steel');
+  final _newUserCtrl = TextEditingController();
+  final _newUserPassCtrl = TextEditingController();
+  String _newUserRole = 'estimator';
+  List<Map<String, dynamic>> _orgUsers = [];
 
   bool _loading = true;
   bool _saving = false;
@@ -54,6 +58,11 @@ class _MiEmpresaPreciosScreenState extends State<MiEmpresaPreciosScreen> {
       if (list.isNotEmpty) {
         final target = _selectedName ?? list.first.name;
         await _selectProfile(target);
+      }
+      if (widget.api.session?.role == 'admin') {
+        try {
+          _orgUsers = await widget.api.fetchUsers();
+        } catch (_) {}
       }
     } finally {
       if (mounted) setState(() => _loading = false);
@@ -173,6 +182,41 @@ class _MiEmpresaPreciosScreenState extends State<MiEmpresaPreciosScreen> {
     }
   }
 
+  Future<void> _createRealUser() async {
+    final uname = _newUserCtrl.text.trim();
+    final pwd = _newUserPassCtrl.text;
+    if (uname.length < 3 || pwd.length < 8) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Usuario (mín. 3 chars) y contraseña temporal (mín. 8 chars) requeridos.')),
+      );
+      return;
+    }
+    setState(() => _saving = true);
+    try {
+      await widget.api.createUser(
+        username: uname,
+        password: pwd,
+        userRole: _newUserRole,
+        mustChangePassword: true,
+      );
+      _newUserCtrl.clear();
+      _newUserPassCtrl.clear();
+      _orgUsers = await widget.api.fetchUsers();
+      if (mounted) {
+        setState(() {});
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('✅ Usuario $uname creado (deberá cambiar contraseña al entrar).')),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error al crear usuario: $e')));
+      }
+    } finally {
+      if (mounted) setState(() => _saving = false);
+    }
+  }
+
   @override
   void dispose() {
     _nameCtrl.dispose();
@@ -186,6 +230,8 @@ class _MiEmpresaPreciosScreenState extends State<MiEmpresaPreciosScreen> {
     _shopRateCtrl.dispose();
     _adminRateCtrl.dispose();
     _supplierCtrl.dispose();
+    _newUserCtrl.dispose();
+    _newUserPassCtrl.dispose();
     super.dispose();
   }
 
@@ -263,6 +309,70 @@ class _MiEmpresaPreciosScreenState extends State<MiEmpresaPreciosScreen> {
                   icon: const Icon(Icons.upload_file),
                   label: const Text('SUBIR COTIZACIÓN (CSV / XLSX / PDF / FOTO)'),
                 ),
+                const SizedBox(height: 22),
+                const Divider(),
+                const SizedBox(height: 10),
+                const Text('Seguridad y Usuarios (Producción)', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900)),
+                const SizedBox(height: 8),
+                Text(
+                  'Sesión activa: ${widget.api.session?.actor ?? ''} (${widget.api.session?.role ?? ''})',
+                  style: const TextStyle(color: AlkanColors.muted, fontWeight: FontWeight.w700),
+                ),
+                if (widget.api.session?.role == 'admin') ...[
+                  const SizedBox(height: 12),
+                  TextField(
+                    controller: _newUserCtrl,
+                    decoration: const InputDecoration(labelText: 'Nuevo usuario (ej. carlos_obra)'),
+                  ),
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: _newUserPassCtrl,
+                    obscureText: true,
+                    decoration: const InputDecoration(labelText: 'Contraseña temporal (mín. 8 caracteres)'),
+                  ),
+                  const SizedBox(height: 10),
+                  DropdownButtonFormField<String>(
+                    value: _newUserRole,
+                    decoration: const InputDecoration(labelText: 'Rol asignado'),
+                    items: const [
+                      DropdownMenuItem(value: 'estimator', child: Text('Estimador (obra / campo)')),
+                      DropdownMenuItem(value: 'reviewer', child: Text('Revisor / Aprobador independiente')),
+                      DropdownMenuItem(value: 'admin', child: Text('Administrador')),
+                    ],
+                    onChanged: (v) {
+                      if (v != null) setState(() => _newUserRole = v);
+                    },
+                  ),
+                  const SizedBox(height: 12),
+                  ElevatedButton.icon(
+                    onPressed: _saving ? null : _createRealUser,
+                    icon: const Icon(Icons.person_add),
+                    label: const Text('CREAR USUARIO REAL'),
+                  ),
+                  if (_orgUsers.isNotEmpty) ...[
+                    const SizedBox(height: 14),
+                    const Text('Usuarios activos:', style: TextStyle(fontWeight: FontWeight.w800)),
+                    const SizedBox(height: 6),
+                    for (final u in _orgUsers)
+                      ListTile(
+                        dense: true,
+                        contentPadding: EdgeInsets.zero,
+                        leading: const Icon(Icons.verified_user_outlined),
+                        title: Text('${u['username']} (${u['role']})', style: const TextStyle(fontWeight: FontWeight.w700)),
+                        subtitle: Text(
+                          u['must_change_password'] == true
+                              ? 'Pendiente cambio de contraseña'
+                              : 'Contraseña personal activa',
+                        ),
+                      ),
+                  ],
+                ] else ...[
+                  const SizedBox(height: 6),
+                  const Text(
+                    'Solo un usuario con rol Administrador puede dar de alta nuevas cuentas.',
+                    style: TextStyle(fontSize: 13, color: AlkanColors.muted),
+                  ),
+                ],
                 const SizedBox(height: 24),
               ],
             ),

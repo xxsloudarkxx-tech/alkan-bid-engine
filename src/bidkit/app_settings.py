@@ -40,7 +40,7 @@ DEFAULTS = {
         "extra_instructions": "",
     },
     "delivery": {
-        "output_dir": "ENTREGAS/AGENTE",
+        "output_dir": os.environ.get("BIDKIT_DELIVERY_DIR", "").strip() or "ENTREGAS/AGENTE",
         "default_profile": "",
         "report_pdf": True,
         "zip_include_package_json": True,
@@ -91,6 +91,10 @@ class AppSettings:
             for section, values in stored.items():
                 if section in data and isinstance(values, dict):
                     data[section].update({k: v for k, v in values.items() if k in data[section]})
+            env_dir = os.environ.get("BIDKIT_DELIVERY_DIR", "").strip()
+            stored_out = ((stored.get("delivery") or {}).get("output_dir") or "").strip()
+            if env_dir and stored_out in ("", "ENTREGAS/AGENTE"):
+                data["delivery"]["output_dir"] = env_dir
             return data
 
     def save(self, patch: dict) -> dict:

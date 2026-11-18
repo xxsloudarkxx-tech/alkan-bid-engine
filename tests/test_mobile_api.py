@@ -4,12 +4,14 @@ from __future__ import annotations
 import base64
 import io
 import json
+import os
 from pathlib import Path
 import shutil
 import sys
 import tempfile
 import threading
 import unittest
+from unittest import mock
 from urllib import error as urlerror
 from urllib import request as urlrequest
 
@@ -491,6 +493,148 @@ class MobileBidEngineAPITest(unittest.TestCase):
         self.assertEqual(st_pdf, 200)
         txt = "\n".join(p.extract_text() or "" for p in PdfReader(io.BytesIO(pdf_resp.data)).pages)
         self.assertIn("ALKAN Assistant", txt)
+
+    def test_phase3_production_auth_hardening(self) -> None:
+        prod_root = Path(tempfile.mkdtemp(prefix="alkan_prod_test_"))
+        try:
+            for folder in ("profiles", "examples", "data"):
+                src = ROOT_REPO / folder
+                if src.exists():
+                    shutil.copytree(src, prod_root / folder)
+            shutil.copytree(
+                ROOT_REPO / "src" / "bidkit" / "estimator_agent" / "knowledge",
+                prod_root / "src" / "bidkit" / "estimator_agent" / "knowledge",
+            )
+
+            # 1. With ALKAN_ALLOW_BOOTSTRAP=false and empty user store, default credentials are rejected
+            with mock.patch.dict(
+                os.environ,
+                {
+                    "ALKAN_ALLOW_BOOTSTRAP": "false",
+                    "BIDKIT_DELIVERY_DIR": str(prod_root / "data" / "ENTREGAS" / "AGENTE"),
+                },
+                clear=False,
+            ):
+                os.environ.pop("ALKAN_INITIAL_USERS_JSON", None)
+                no_boot_api = MobileBidEngineAPI(prod_root)
+                st_fail, _ = no_boot_api.handle_safe(
+                    "POST",
+                    "/api/mobile/auth/bootstrap",
+                    body={"username": "estimator", "password": "Estimator!2026"},
+                )
+                self.assertEqual(st_fail, 401)
+                self.assertEqual(
+                    no_boot_api.app.runs.base.resolve(),
+                    (prod_root / "data" / "ENTREGAS" / "AGENTE").resolve(),
+                )
+
+            # 2. Seeding via ALKAN_INITIAL_USERS_JSON sets must_change_password=True
+            seed_users = [
+                {"username": "alkan_admin", "password": "TempAdmin#2026!", "role": "admin", "must_change_password": True},
+                {"username": "obra_est", "password": "TempEst#2026!", "role": "estimator", "must_change_password": True},
+                {"username": "obra_rev", "password": "TempRev#2026!", "role": "reviewer", "must_change_password": True},
+            ]
+            prod_root2 = Path(tempfile.mkdtemp(prefix="alkan_prod_seed_"))
+            try:
+                for folder in ("profiles", "examples", "data"):
+                    src = ROOT_REPO / folder
+                    if src.exists():
+                        shutil.copytree(src, prod_root2 / folder)
+                shutil.copytree(
+                    ROOT_REPO / "src" / "bidkit" / "estimator_agent" / "knowledge",
+                    prod_root2 / "src" / "bidkit" / "estimator_agent" / "knowledge",
+                )
+                with mock.patch.dict(
+                    os.environ,
+                    {
+                        "ALKAN_ALLOW_BOOTSTRAP": "false",
+                        "ALKAN_INITIAL_USERS_JSON": json.dumps(seed_users),
+                    },
+                    clear=False,
+                ):
+                    prod_api = MobileBidEngineAPI(prod_root2)
+
+                st_l1, est_login = prod_api.handle_safe(
+                    "POST",
+                    "/api/v4/auth/login",
+                    body={"username": "obra_est", "password": "TempEst#2026!"},
+                )
+                self.assertEqual(st_l1, 200)
+                self.assertTrue(est_login["must_change_password"])
+
+                # 3. Password change rotates credentials, clears must_change_password, and issues valid token
+                st_cp, rotated = prod_api.handle_safe(
+                    "POST",
+                    "/api/mobile/auth/change-password",
+                    body={
+                        "username": "obra_est",
+                        "current_password": "TempEst#2026!",
+                        "new_password": "MiNuevaClave!2026",
+                    },
+                )
+                self.assertEqual(st_cp, 200, rotated)
+                self.assertFalse(rotated["must_change_password"])
+
+                # Old session token is revoked after rotation
+                st_revoked, _ = prod_api.handle_safe(
+                    "GET",
+                    "/api/mobile/runs",
+                    headers=self._auth_headers(est_login["token"]),
+                )
+                self.assertEqual(st_revoked, 401)
+
+                # New token works
+                st_ok, _ = prod_api.handle_safe(
+                    "GET",
+                    "/api/mobile/runs",
+                    headers=self._auth_headers(rotated["token"]),
+                )
+                self.assertEqual(st_ok, 200)
+
+                # 4. Admin creates new contractor user & lists users (estimator denied)
+                st_adm, adm_login = prod_api.handle_safe(
+                    "POST",
+                    "/api/v4/auth/login",
+                    body={"username": "alkan_admin", "password": "TempAdmin#2026!"},
+                )
+                self.assertEqual(st_adm, 200)
+                adm_hdrs = self._auth_headers(adm_login["token"])
+
+                st_denied, _ = prod_api.handle_safe(
+                    "GET",
+                    "/api/mobile/auth/users",
+                    headers=self._auth_headers(rotated["token"]),
+                )
+                self.assertEqual(st_denied, 403)
+
+                st_new, created = prod_api.handle_safe(
+                    "POST",
+                    "/api/mobile/auth/users",
+                    body={
+                        "username": "carlos_obra",
+                        "password": "CarlosTemp#2026!",
+                        "user_role": "estimator",
+                        "must_change_password": True,
+                    },
+                    headers=adm_hdrs,
+                )
+                self.assertEqual(st_new, 200, created)
+                self.assertEqual(created["username"], "carlos_obra")
+                self.assertTrue(created["must_change_password"])
+
+                st_list, users_res = prod_api.handle_safe(
+                    "GET",
+                    "/api/mobile/auth/users",
+                    headers=adm_hdrs,
+                )
+                self.assertEqual(st_list, 200)
+                usernames = {u["username"] for u in users_res["users"]}
+                self.assertIn("carlos_obra", usernames)
+                self.assertIn("alkan_admin", usernames)
+            finally:
+                shutil.rmtree(prod_root2, ignore_errors=True)
+        finally:
+            shutil.rmtree(prod_root, ignore_errors=True)
 
 
 if __name__ == "__main__":
