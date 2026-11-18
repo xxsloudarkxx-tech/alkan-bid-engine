@@ -49,7 +49,12 @@ DEFAULTS = {
         "local_time_label": "Ciudad de México",
         "local_time_offset_from_pacific_h": 2,
     },
-    "legacy": {"api_base": "", "model": "", "audit_model": "", "vision": False},
+    "legacy": {
+        "api_base": os.environ.get("ANTHROPIC_BASE_URL", "https://apikey.vnaipro.app/v1"),
+        "model": "",
+        "audit_model": "",
+        "vision": False,
+    },
 }
 _INT_LIMITS = {
     ("engine", "max_turns"): (10, 400), ("engine", "budget_tokens"): (200_000, 40_000_000),
@@ -70,14 +75,17 @@ class AppSettings:
     def __init__(self, root: Path, secrets_dir: Path | None = None):
         self.root = Path(root).resolve()
         self.path = self.root / "data" / "settings.json"
-        self.secrets_path = (Path(secrets_dir) if secrets_dir else _secrets_dir()) / "secrets.json"
+        self.secrets_path = (Path(secrets_dir) if secrets_dir else (self.root / "data" / "security")) / "secrets.json"
         self._lock = threading.RLock()
         self._memory: dict[str, str] = {}
         self._saved: dict[str, str] = {}
-        try:
-            self._saved = json.loads(self.secrets_path.read_text(encoding="utf-8"))
-        except (OSError, ValueError):
-            self._saved = {}
+        for candidate in (self.secrets_path, _secrets_dir() / "secrets.json"):
+            try:
+                if candidate.exists():
+                    self._saved = json.loads(candidate.read_text(encoding="utf-8"))
+                    break
+            except (OSError, ValueError):
+                continue
         self.apply_legacy_env()
 
     # ───────────────────────────── settings

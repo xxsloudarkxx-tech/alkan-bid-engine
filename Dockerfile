@@ -5,6 +5,8 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     BIDKIT_ROOT=/app \
     BIDKIT_DELIVERY_DIR=/app/data/ENTREGAS/AGENTE \
+    ANTHROPIC_BASE_URL=https://apikey.vnaipro.app/v1 \
+    BIDKIT_API_BASE=https://apikey.vnaipro.app/v1 \
     PORT=8000
 
 COPY pyproject.toml ./

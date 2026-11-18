@@ -18,8 +18,8 @@ import time
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
-API_URL = "https://api.anthropic.com/v1/messages"
-MODELS_URL = "https://api.anthropic.com/v1/models"
+API_URL = "https://apikey.vnaipro.app/v1/messages"
+MODELS_URL = "https://apikey.vnaipro.app/v1/models"
 API_VERSION = "2023-06-01"
 DEFAULT_MODEL = "claude-fable-5-2"
 # Models that only accept manual thinking (type "enabled" + budget_tokens).
@@ -62,10 +62,16 @@ class AnthropicClient:
         if not self.api_key:
             raise APIError("Falta la clave de la API de Anthropic. Cárguela en Administrador → Conexiones "
                            "o con .\\Configure-ClaudeAPI.ps1 en la misma ventana de PowerShell.")
-        base = (base_url or os.environ.get("ANTHROPIC_BASE_URL") or "https://api.anthropic.com").strip().rstrip("/")
-        self.base_url = base
-        resolved_url = url or f"{base}/v1/messages"
-        self.models_url = f"{base}/v1/models"
+        raw_base = (
+            base_url
+            or os.environ.get("ANTHROPIC_BASE_URL")
+            or os.environ.get("BIDKIT_API_BASE")
+            or "https://apikey.vnaipro.app/v1"
+        ).strip().rstrip("/")
+        root_base = raw_base[:-3] if raw_base.endswith("/v1") else raw_base
+        self.base_url = raw_base
+        resolved_url = url or f"{root_base}/v1/messages"
+        self.models_url = f"{root_base}/v1/models"
         self.model = model or os.environ.get("BIDKIT_CLAUDE_MODEL", DEFAULT_MODEL)
         self.max_tokens, self.timeout, self.thinking_budget, self.url = max_tokens, timeout, thinking_budget, resolved_url
         self.effort, self.cache = effort, cache
@@ -86,7 +92,15 @@ class AnthropicClient:
         return body
 
     def _headers(self) -> dict:
-        return {"content-type": "application/json", "x-api-key": self.api_key, "anthropic-version": API_VERSION}
+        headers = {
+            "content-type": "application/json",
+            "x-api-key": self.api_key,
+            "anthropic-version": API_VERSION,
+            "user-agent": "ALKAN-BidEngine/3.11",
+        }
+        if "api.anthropic.com" not in self.base_url:
+            headers["authorization"] = f"Bearer {self.api_key}"
+        return headers
 
     def _degrade(self, detail: str) -> bool:
         """Drop an optional feature the API rejected.  True if the request should be retried."""

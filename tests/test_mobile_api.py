@@ -636,6 +636,17 @@ class MobileBidEngineAPITest(unittest.TestCase):
         finally:
             shutil.rmtree(prod_root, ignore_errors=True)
 
+    def test_vnaipro_anthropic_base_url(self) -> None:
+        from bidkit.estimator_agent.anthropic_client import AnthropicClient
+
+        client = AnthropicClient(api_key="sk-test-vnaipro", base_url="https://apikey.vnaipro.app/v1")
+        self.assertEqual(client.url, "https://apikey.vnaipro.app/v1/messages")
+        self.assertEqual(client.models_url, "https://apikey.vnaipro.app/v1/models")
+        hdrs = client._headers()
+        self.assertEqual(hdrs["x-api-key"], "sk-test-vnaipro")
+        self.assertEqual(hdrs["authorization"], "Bearer sk-test-vnaipro")
+        self.assertIn("user-agent", hdrs)
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
