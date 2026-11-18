@@ -449,7 +449,6 @@ class _EstimateFlowScreenState extends State<EstimateFlowScreen> {
     if (ok != true || nameCtrl.text.trim().isEmpty) return;
 
     final enteredName = nameCtrl.text.trim();
-    setState(() => _savingClient = true);
     try {
       final res = await widget.api.registerQuickProfile(
         contractorName: enteredName,
@@ -486,8 +485,6 @@ class _EstimateFlowScreenState extends State<EstimateFlowScreen> {
           SnackBar(content: Text('Cliente "$enteredName" guardado como destinatario (modo offline).')),
         );
       }
-    } finally {
-      if (mounted) setState(() => _savingClient = false);
     }
   }
 
