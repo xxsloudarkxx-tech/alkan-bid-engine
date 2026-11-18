@@ -1158,6 +1158,7 @@ class MobileBidEngineAPI:
                 "counties": list(WA_COUNTIES),
                 "has_anthropic_key": bool(key_info.get("configured")),
                 "anthropic_base_url": os.environ.get("ANTHROPIC_BASE_URL") or "https://apikey.vnaipro.app/v1",
+                "model": self.app.settings.load()["engine"]["model"],
                 "active_run": self.app.runs.active(),
             }
 

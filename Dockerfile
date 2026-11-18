@@ -7,6 +7,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     BIDKIT_DELIVERY_DIR=/app/data/ENTREGAS/AGENTE \
     ANTHROPIC_BASE_URL=https://apikey.vnaipro.app/v1 \
     BIDKIT_API_BASE=https://apikey.vnaipro.app/v1 \
+    BIDKIT_CLAUDE_MODEL=claude-sonnet-5 \
     PORT=8000
 
 COPY pyproject.toml ./

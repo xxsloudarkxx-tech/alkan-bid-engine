@@ -14,6 +14,7 @@ from copy import deepcopy
 from pathlib import Path
 
 MODELS = [
+    {"id": "claude-sonnet-5", "label": "Claude Sonnet 5 — recomendado (vnaipro)"},
     {"id": "claude-fable-5-2", "label": "Claude Fable 5.2 — máxima precisión (recomendado para planos)"},
     {"id": "claude-opus-5-5", "label": "Claude Opus 5.5 — muy capaz, menor costo"},
     {"id": "claude-sonnet-5-5", "label": "Claude Sonnet 5.5 — económico, proyectos chicos o de puro texto"},
@@ -23,7 +24,7 @@ EFFORTS = ("low", "medium", "high", "xhigh", "max")
 
 DEFAULTS = {
     "engine": {
-        "model": "claude-fable-5-2",
+        "model": os.environ.get("BIDKIT_CLAUDE_MODEL", "").strip() or "claude-sonnet-5",
         "review_model": "",                 # vacío = mismo modelo, contexto nuevo
         "effort": "high",
         "max_turns": 140,
@@ -103,6 +104,10 @@ class AppSettings:
             stored_out = ((stored.get("delivery") or {}).get("output_dir") or "").strip()
             if env_dir and stored_out in ("", "ENTREGAS/AGENTE"):
                 data["delivery"]["output_dir"] = env_dir
+            env_model = os.environ.get("BIDKIT_CLAUDE_MODEL", "").strip()
+            stored_model = ((stored.get("engine") or {}).get("model") or "").strip()
+            if env_model and stored_model in ("", "claude-fable-5-2", "claude-opus-5-5"):
+                data["engine"]["model"] = env_model
             return data
 
     def save(self, patch: dict) -> dict:
