@@ -418,6 +418,80 @@ class MobileBidEngineAPITest(unittest.TestCase):
             srv.shutdown()
             srv.server_close()
 
+    def test_preview_draft_multi_specialty_and_quantity_overrides(self) -> None:
+        _, est = self.api.handle_safe(
+            "POST",
+            "/api/mobile/auth/bootstrap",
+            body={"username": "estimator", "password": "Estimator!2026"},
+        )
+        hdrs = self._auth_headers(est["token"])
+
+        st_prev, preview = self.api.handle_safe(
+            "POST",
+            "/api/mobile/runs/preview-draft",
+            body={
+                "key": "MADISON",
+                "project_title": "Madison ES Mixed",
+                "profile": "diaz_finish_carpenter",
+                "specialties": ["tablaroca", "pintura"],
+                "county": "Snohomish",
+                "voice_notes": "26 aulas muros tablaroca y pintura dos manos",
+            },
+            headers=hdrs,
+        )
+        self.assertEqual(st_prev, 200, preview)
+        self.assertGreater(len(preview["materials"]), 1)
+        self.assertGreater(len(preview["labor"]), 1)
+        self.assertEqual(preview["specialties"], ["tablaroca", "pintura"])
+        first_mat = preview["materials"][0]
+
+        # Build baseline vs edited quantity override and confirm price reflects edit + QA passes
+        st_base, base_sum = self.api.handle_safe(
+            "POST",
+            "/api/mobile/runs/quick-package",
+            body={
+                "key": "MADBASE",
+                "project_title": "Madison Base",
+                "profile": "diaz_finish_carpenter",
+                "specialties": ["tablaroca", "pintura"],
+                "county": "Snohomish",
+            },
+            headers=hdrs,
+        )
+        self.assertEqual(st_base, 200, base_sum)
+        self.assertEqual(base_sum["run"]["qa"], "PASS")
+
+        new_qty = str(int(float(first_mat["qty"])) + 500)
+        st_edit, edit_sum = self.api.handle_safe(
+            "POST",
+            "/api/mobile/runs/quick-package",
+            body={
+                "key": "MADEDIT",
+                "project_title": "Madison Edited",
+                "profile": "diaz_finish_carpenter",
+                "specialties": ["tablaroca", "pintura"],
+                "county": "Snohomish",
+                "materials_overrides": [{"id": first_mat["id"], "qty": new_qty}],
+                "markups": {"contingency_pct": "5", "overhead_pct": "10", "profit_pct": "12"},
+                "validity_days": 45,
+            },
+            headers=hdrs,
+        )
+        self.assertEqual(st_edit, 200, edit_sum)
+        self.assertEqual(edit_sum["run"]["qa"], "PASS")
+        self.assertNotEqual(base_sum["financials"]["sell_price"], edit_sum["financials"]["sell_price"])
+
+        # Verify PDF renders with ALKAN Assistant header text cleanly
+        st_pdf, pdf_resp = self.api.handle_safe(
+            "GET",
+            "/api/app/run/file",
+            query={"id": [edit_sum["run"]["id"]], "name": ["MADEDIT_03_ESTIMATE_PROPOSAL.pdf"]},
+            headers=hdrs,
+        )
+        self.assertEqual(st_pdf, 200)
+        txt = "\n".join(p.extract_text() or "" for p in PdfReader(io.BytesIO(pdf_resp.data)).pages)
+        self.assertIn("ALKAN Assistant", txt)
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

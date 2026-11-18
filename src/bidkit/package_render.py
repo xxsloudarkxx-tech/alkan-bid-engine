@@ -148,6 +148,11 @@ class _Doc(BaseDocTemplate):
             if not lp.is_absolute() and pkg.base_dir:
                 lp = pkg.base_dir / lp
             self.logo = lp if lp.exists() else None
+        alkan_candidates = [
+            Path(__file__).resolve().parents[2] / "profiles" / "assets" / "alkan_logo.png",
+            (pkg.base_dir / "assets" / "alkan_logo.png") if pkg.base_dir else None,
+        ]
+        self.alkan_logo = next((p for p in alkan_candidates if p and p.exists()), None)
         f = Frame(self.leftMargin, self.bottomMargin, self.width, self.height, id="f")
         self.addPageTemplates([PageTemplate(id="pg", frames=[f], onPage=self._deco)])
 
@@ -160,6 +165,14 @@ class _Doc(BaseDocTemplate):
             c.drawImage(str(self.logo), 0.6 * inch, H - 1.12 * inch, width=1.08 * inch, height=0.72 * inch,
                         mask="auto", preserveAspectRatio=True)
             x = 1.82 * inch
+        # Top-right subtle ALKAN Assistant co-brand mark (never overlaps contractor logo or doctitle)
+        c.setFillColor(GREY); c.setFont("Helvetica", 6.6)
+        brand_x = W - 0.6 * inch
+        if self.alkan_logo:
+            c.drawImage(str(self.alkan_logo), W - 0.80 * inch, H - 0.43 * inch, width=0.20 * inch, height=0.20 * inch,
+                        mask="auto", preserveAspectRatio=True)
+            brand_x = W - 0.84 * inch
+        c.drawRightString(brand_x, H - 0.36 * inch, "Prepared by ALKAN Assistant")
         c.setFillColor(INK); c.setFont("Helvetica-Bold", 13); c.drawString(x, H - 0.62 * inch, co["name"])
         c.setFillColor(RED); c.setFont("Helvetica-Bold", 7.5); c.drawString(x, H - 0.77 * inch, co.get("tag", ""))
         c.setFillColor(GREY); c.setFont("Helvetica", 7.3)

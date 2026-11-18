@@ -12,6 +12,85 @@ class OfflineStore {
   static const _kRunsCache = 'alkan_runs_cache';
   static const _kPendingDrafts = 'alkan_pending_drafts';
   static const _kServerUrl = 'alkan_server_url';
+  static const _kProfilesCache = 'alkan_profiles_cache';
+  static const _kProfileDetailPrefix = 'alkan_profile_detail_';
+  static const _kCoachDismissedPrefix = 'alkan_coach_done_';
+  static const _kWizardDraft = 'alkan_wizard_draft_v1';
+
+  Future<bool> isCoachDismissed(int step) async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('$_kCoachDismissedPrefix$step') ?? false;
+  }
+
+  Future<void> dismissCoach(int step) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('$_kCoachDismissedPrefix$step', true);
+  }
+
+  Future<void> saveCachedProfiles(List<ContractorProfileItem> profiles) async {
+    final prefs = await SharedPreferences.getInstance();
+    final raw = profiles
+        .map((p) => {
+              'name': p.name,
+              'label': p.label,
+              'contractor': p.contractor,
+              'generic': p.generic,
+              'has_logo': p.hasLogo,
+              'trade': p.trade,
+              'markups': p.markups,
+            })
+        .toList();
+    await prefs.setString(_kProfilesCache, jsonEncode(raw));
+  }
+
+  Future<List<ContractorProfileItem>> loadCachedProfiles() async {
+    final prefs = await SharedPreferences.getInstance();
+    final raw = prefs.getString(_kProfilesCache);
+    if (raw == null || raw.isEmpty) return [];
+    try {
+      final list = jsonDecode(raw) as List<dynamic>;
+      return list.map((e) => ContractorProfileItem.fromJson(Map<String, dynamic>.from(e as Map))).toList();
+    } catch (_) {
+      return [];
+    }
+  }
+
+  Future<void> saveCachedProfileDetail(String name, Map<String, dynamic> detail) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('$_kProfileDetailPrefix$name', jsonEncode(detail));
+  }
+
+  Future<Map<String, dynamic>?> loadCachedProfileDetail(String name) async {
+    final prefs = await SharedPreferences.getInstance();
+    final raw = prefs.getString('$_kProfileDetailPrefix$name');
+    if (raw == null || raw.isEmpty) return null;
+    try {
+      return Map<String, dynamic>.from(jsonDecode(raw) as Map);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<void> saveWizardDraft(Map<String, dynamic> draft) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_kWizardDraft, jsonEncode(draft));
+  }
+
+  Future<Map<String, dynamic>?> loadWizardDraft() async {
+    final prefs = await SharedPreferences.getInstance();
+    final raw = prefs.getString(_kWizardDraft);
+    if (raw == null || raw.isEmpty) return null;
+    try {
+      return Map<String, dynamic>.from(jsonDecode(raw) as Map);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<void> clearWizardDraft() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_kWizardDraft);
+  }
 
   Future<String> loadServerUrl({String fallback = 'http://10.0.2.2:8000'}) async {
     final prefs = await SharedPreferences.getInstance();

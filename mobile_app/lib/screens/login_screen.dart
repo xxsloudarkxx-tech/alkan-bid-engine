@@ -4,6 +4,7 @@ import '../models/bid_models.dart';
 import '../services/bidkit_api_client.dart';
 import '../services/offline_store.dart';
 import '../theme/alkan_theme.dart';
+import '../widgets/alkan_loading_logo.dart';
 
 /// Acceso rápido para contratistas y revisores en campo.
 class LoginScreen extends StatefulWidget {
@@ -90,20 +91,28 @@ class _LoginScreenState extends State<LoginScreen> {
               Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: AlkanColors.primary,
+                  color: const Color(0xFF041428),
                   borderRadius: BorderRadius.circular(18),
                 ),
-                child: const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: const Row(
                   children: [
-                    Text(
-                      'ALKAN BID ENGINE',
-                      style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.w900),
-                    ),
-                    SizedBox(height: 6),
-                    Text(
-                      'Estimación Profesional · Estado de Washington\nControl Humano Obligatorio (DRAFT hasta autorización)',
-                      style: TextStyle(color: Colors.white70, fontSize: 14, height: 1.35),
+                    AlkanLogoBadge(size: 96),
+                    SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'ALKAN BID ENGINE',
+                            style: TextStyle(color: Colors.white, fontSize: 21, fontWeight: FontWeight.w900),
+                          ),
+                          SizedBox(height: 6),
+                          Text(
+                            'Estimación en obra · Washington\nControl Humano (DRAFT hasta autorización)',
+                            style: TextStyle(color: Colors.white70, fontSize: 13.5, height: 1.35),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -160,17 +169,19 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ],
               const SizedBox(height: 20),
-              ElevatedButton.icon(
-                onPressed: _loading ? null : () => _submit(bootstrap: true),
-                icon: _loading
-                    ? const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2.5, color: Colors.white),
-                      )
-                    : const Icon(Icons.login, size: 24),
-                label: Text(_loading ? 'CONECTANDO...' : 'ENTRAR A BID ENGINE'),
-              ),
+              if (_loading)
+                const Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 12),
+                    child: AlkanLoadingAnimation(size: 76, label: 'Conectando con ALKAN...'),
+                  ),
+                )
+              else
+                ElevatedButton.icon(
+                  onPressed: () => _submit(bootstrap: true),
+                  icon: const Icon(Icons.login, size: 24),
+                  label: const Text('ENTRAR A BID ENGINE'),
+                ),
               const SizedBox(height: 12),
               Row(
                 children: [
@@ -198,6 +209,24 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ],
+              ),
+              const SizedBox(height: 10),
+              TextButton.icon(
+                onPressed: _loading
+                    ? null
+                    : () {
+                        widget.onAuthenticated(
+                          AuthSession(
+                            baseUrl: _urlCtrl.text.trim(),
+                            token: 'offline_local',
+                            actor: _userCtrl.text.trim().isEmpty ? 'estimator' : _userCtrl.text.trim(),
+                            role: 'estimator',
+                            orgId: 'default',
+                          ),
+                        );
+                      },
+                icon: const Icon(Icons.cloud_off),
+                label: const Text('Trabajar sin señal (Modo Obra Offline)'),
               ),
             ],
           ),

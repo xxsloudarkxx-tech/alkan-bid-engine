@@ -308,16 +308,123 @@ class RunExecutiveSummary {
   }
 }
 
+class EditableMaterialLine {
+  final String id;
+  final String section;
+  final String item;
+  String qty;
+  final String unit;
+  final String unitPrice;
+  final String priceBasis;
+
+  EditableMaterialLine({
+    required this.id,
+    required this.section,
+    required this.item,
+    required this.qty,
+    required this.unit,
+    required this.unitPrice,
+    required this.priceBasis,
+  });
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'section': section,
+        'item': item,
+        'qty': qty,
+        'unit': unit,
+        'unit_price': unitPrice,
+        'price_basis': priceBasis,
+      };
+
+  factory EditableMaterialLine.fromJson(Map<String, dynamic> json) => EditableMaterialLine(
+        id: (json['id'] ?? '').toString(),
+        section: (json['section'] ?? '').toString(),
+        item: (json['item'] ?? '').toString(),
+        qty: (json['qty'] ?? '1').toString(),
+        unit: (json['unit'] ?? 'EA').toString(),
+        unitPrice: (json['unit_price'] ?? '0.00').toString(),
+        priceBasis: (json['price_basis'] ?? 'BUDGET').toString(),
+      );
+}
+
+class EditableLaborLine {
+  final String id;
+  final String task;
+  final String rate;
+  String hours;
+
+  EditableLaborLine({
+    required this.id,
+    required this.task,
+    required this.rate,
+    required this.hours,
+  });
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'task': task,
+        'rate': rate,
+        'hours': hours,
+      };
+
+  factory EditableLaborLine.fromJson(Map<String, dynamic> json) => EditableLaborLine(
+        id: (json['id'] ?? '').toString(),
+        task: (json['task'] ?? '').toString(),
+        rate: (json['rate'] ?? '').toString(),
+        hours: (json['hours'] ?? '1').toString(),
+      );
+}
+
+class DraftPreview {
+  final String key;
+  final String contractor;
+  final List<String> exclusions;
+  final List<EditableMaterialLine> materials;
+  final List<EditableLaborLine> labor;
+  final Map<String, dynamic> markups;
+  final int validityDays;
+
+  const DraftPreview({
+    required this.key,
+    required this.contractor,
+    required this.exclusions,
+    required this.materials,
+    required this.labor,
+    required this.markups,
+    required this.validityDays,
+  });
+
+  factory DraftPreview.fromJson(Map<String, dynamic> json) => DraftPreview(
+        key: (json['key'] ?? '').toString(),
+        contractor: (json['contractor'] ?? '').toString(),
+        exclusions: (json['exclusions'] as List<dynamic>? ?? const []).map((e) => e.toString()).toList(),
+        materials: (json['materials'] as List<dynamic>? ?? const [])
+            .map((e) => EditableMaterialLine.fromJson(Map<String, dynamic>.from(e as Map)))
+            .toList(),
+        labor: (json['labor'] as List<dynamic>? ?? const [])
+            .map((e) => EditableLaborLine.fromJson(Map<String, dynamic>.from(e as Map)))
+            .toList(),
+        markups: Map<String, dynamic>.from(json['markups'] as Map? ?? const {}),
+        validityDays: (json['validity_days'] as num? ?? 30).toInt(),
+      );
+}
+
 class PendingOfflineEstimate {
   final String localId;
   final String key;
   final String projectTitle;
   final String profile;
   final String specialty;
+  final List<String> specialties;
   final String county;
   final String voiceNotes;
   final List<String> filePaths;
   final bool useQuickPackage;
+  final List<Map<String, dynamic>> materialsOverrides;
+  final List<Map<String, dynamic>> laborOverrides;
+  final Map<String, dynamic> markups;
+  final int validityDays;
   final String createdAt;
 
   const PendingOfflineEstimate({
@@ -326,10 +433,15 @@ class PendingOfflineEstimate {
     required this.projectTitle,
     required this.profile,
     required this.specialty,
+    this.specialties = const [],
     required this.county,
     required this.voiceNotes,
     required this.filePaths,
     required this.useQuickPackage,
+    this.materialsOverrides = const [],
+    this.laborOverrides = const [],
+    this.markups = const {},
+    this.validityDays = 30,
     required this.createdAt,
   });
 
@@ -339,10 +451,15 @@ class PendingOfflineEstimate {
         'projectTitle': projectTitle,
         'profile': profile,
         'specialty': specialty,
+        'specialties': specialties,
         'county': county,
         'voiceNotes': voiceNotes,
         'filePaths': filePaths,
         'useQuickPackage': useQuickPackage,
+        'materialsOverrides': materialsOverrides,
+        'laborOverrides': laborOverrides,
+        'markups': markups,
+        'validityDays': validityDays,
         'createdAt': createdAt,
       };
 
@@ -352,10 +469,19 @@ class PendingOfflineEstimate {
         projectTitle: (json['projectTitle'] ?? '').toString(),
         profile: (json['profile'] ?? '').toString(),
         specialty: (json['specialty'] ?? 'metal').toString(),
+        specialties: (json['specialties'] as List<dynamic>? ?? const []).map((e) => e.toString()).toList(),
         county: (json['county'] ?? 'King').toString(),
         voiceNotes: (json['voiceNotes'] ?? '').toString(),
         filePaths: (json['filePaths'] as List<dynamic>? ?? const []).map((e) => e.toString()).toList(),
         useQuickPackage: json['useQuickPackage'] == true,
+        materialsOverrides: (json['materialsOverrides'] as List<dynamic>? ?? const [])
+            .map((e) => Map<String, dynamic>.from(e as Map))
+            .toList(),
+        laborOverrides: (json['laborOverrides'] as List<dynamic>? ?? const [])
+            .map((e) => Map<String, dynamic>.from(e as Map))
+            .toList(),
+        markups: Map<String, dynamic>.from(json['markups'] as Map? ?? const {}),
+        validityDays: (json['validityDays'] as num? ?? 30).toInt(),
         createdAt: (json['createdAt'] ?? '').toString(),
       );
 }

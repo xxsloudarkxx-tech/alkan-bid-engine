@@ -261,14 +261,49 @@ class BidKitApiClient {
     return Map<String, dynamic>.from(_decodeJson(res) as Map);
   }
 
+  Future<DraftPreview> previewDraft({
+    required String key,
+    required String projectTitle,
+    required String profile,
+    required List<String> specialties,
+    required String county,
+    required String voiceNotes,
+    String? uploadId,
+  }) async {
+    final s = _requireSession();
+    final uri = Uri.parse('${s.baseUrl}/api/mobile/runs/preview-draft');
+    final res = await _http
+        .post(
+          uri,
+          headers: _headers(),
+          body: jsonEncode({
+            'key': key,
+            'project_title': projectTitle,
+            'profile': profile,
+            'specialty': specialties.isNotEmpty ? specialties.first : 'metal',
+            'specialties': specialties,
+            'county': county,
+            'voice_notes': voiceNotes,
+            if (uploadId != null && uploadId.isNotEmpty) 'upload_id': uploadId,
+          }),
+        )
+        .timeout(const Duration(seconds: 25));
+    return DraftPreview.fromJson(Map<String, dynamic>.from(_decodeJson(res) as Map));
+  }
+
   Future<RunExecutiveSummary> startQuickPackage({
     required String key,
     required String projectTitle,
     required String profile,
     required String specialty,
+    List<String> specialties = const [],
     required String county,
     required String voiceNotes,
     String? uploadId,
+    List<Map<String, dynamic>> materialsOverrides = const [],
+    List<Map<String, dynamic>> laborOverrides = const [],
+    Map<String, dynamic> markups = const {},
+    int? validityDays,
   }) async {
     final s = _requireSession();
     final uri = Uri.parse('${s.baseUrl}/api/mobile/runs/quick-package');
@@ -281,9 +316,14 @@ class BidKitApiClient {
             'project_title': projectTitle,
             'profile': profile,
             'specialty': specialty,
+            if (specialties.isNotEmpty) 'specialties': specialties,
             'county': county,
             'voice_notes': voiceNotes,
             if (uploadId != null && uploadId.isNotEmpty) 'upload_id': uploadId,
+            if (materialsOverrides.isNotEmpty) 'materials_overrides': materialsOverrides,
+            if (laborOverrides.isNotEmpty) 'labor_overrides': laborOverrides,
+            if (markups.isNotEmpty) 'markups': markups,
+            if (validityDays != null) 'validity_days': validityDays,
           }),
         )
         .timeout(const Duration(seconds: 45));

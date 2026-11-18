@@ -551,57 +551,193 @@ class MobileBidEngineAPI:
             },
         }
 
-    def quick_package(self, req: dict[str, Any], ctx: SecurityContext) -> dict[str, Any]:
-        """Generate a real verified 3-PDF DRAFT run synchronously from profile + specialty + voice notes."""
-        require_permission(ctx, "estimate:create", org_id=ctx.org_id)
+    def _assemble_draft(self, req: dict[str, Any], ctx: SecurityContext) -> dict[str, Any]:
+        """Assemble a pre-configured draft package from profile, specialties, voice notes, and P5/P6 overrides."""
         raw_key = str(req.get("key") or "FIELD").strip().upper()
         key = re.sub(r"[^A-Z0-9_-]+", "_", raw_key).strip("_")[:24] or "FIELD"
         if len(key) < 2:
             key = f"{key}_01"
         profile_name = str(req.get("profile") or "ss_custom_iron_works").strip()
-        specialty_id = str(req.get("specialty") or "metal").strip().lower()
+        raw_specs = req.get("specialties")
+        if isinstance(raw_specs, list) and raw_specs:
+            specialty_ids = [str(s).strip().lower() for s in raw_specs if str(s).strip()]
+        else:
+            specialty_ids = [str(req.get("specialty") or "metal").strip().lower()]
+
+        selected_specs = [
+            next((s for s in SPECIALTIES if s["id"] == sid), None) for sid in specialty_ids
+        ]
+        selected_specs = [s for s in selected_specs if s is not None] or [SPECIALTIES[0]]
+        primary_spec = selected_specs[0]
+
         county = str(req.get("county") or "King").strip() or "King"
         voice_transcript = str(req.get("voice_notes") or req.get("notes") or "").strip()
         project_title = str(req.get("project_title") or "").strip()
         upload_id = str(req.get("upload_id") or "").strip()
 
-        spec_meta = next((s for s in SPECIALTIES if s["id"] == specialty_id), SPECIALTIES[0])
         docs_list: list[str] = []
         if upload_id:
             folder = self._upload_folder(upload_id)
             if folder.is_dir():
                 docs_list = sorted(p.name for p in folder.iterdir() if p.is_file() and not p.name.startswith("."))
 
-        tpl_rel = spec_meta.get("template")
-        if tpl_rel and (self.root / tpl_rel).exists():
-            draft = json.loads((self.root / tpl_rel).read_text(encoding="utf-8"))
-        else:
-            draft = self._build_roofing_starter_draft(key, county, docs_list)
+        # Load primary template and cleanly merge additional selected specialties (if mixed scope)
+        def _load_spec_draft(spec_meta: dict[str, Any]) -> dict[str, Any]:
+            tpl_rel = spec_meta.get("template")
+            if tpl_rel and (self.root / tpl_rel).exists():
+                return json.loads((self.root / tpl_rel).read_text(encoding="utf-8"))
+            return self._build_roofing_starter_draft(key, county, docs_list)
 
+        draft = _load_spec_draft(primary_spec)
+        for extra_spec in selected_specs[1:]:
+            extra = _load_spec_draft(extra_spec)
+            for rk, rv in (extra.get("labor_rates") or {}).items():
+                draft.setdefault("labor_rates", {}).setdefault(rk, rv)
+            draft.setdefault("materials", []).extend(extra.get("materials") or [])
+            draft.setdefault("labor", []).extend(extra.get("labor") or [])
+            draft.setdefault("other", []).extend(extra.get("other") or [])
+            draft.setdefault("scope", []).extend(extra.get("scope") or [])
+
+        # Re-number IDs uniquely so multi-specialty packages never collide
+        for prefix, rows in (
+            ("M", draft.get("materials") or []),
+            ("L", draft.get("labor") or []),
+            ("O", draft.get("other") or []),
+        ):
+            for idx, row in enumerate(rows, 1):
+                row["id"] = f"{prefix}{idx:03d}"
+
+        # Apply user edits from P5 (Confirma cantidades)
+        mat_overrides = {
+            str(item.get("id")): str(item.get("qty"))
+            for item in (req.get("materials_overrides") or [])
+            if isinstance(item, dict) and item.get("id") and item.get("qty") not in (None, "")
+        }
+        for row in draft.get("materials") or []:
+            if row["id"] in mat_overrides:
+                val = str(mat_overrides[row["id"]]).strip()
+                if Decimal(val) > 0:
+                    row["qty"] = val
+
+        lab_overrides = {
+            str(item.get("id")): str(item.get("hours"))
+            for item in (req.get("labor_overrides") or [])
+            if isinstance(item, dict) and item.get("id") and item.get("hours") not in (None, "")
+        }
+        for row in draft.get("labor") or []:
+            if row["id"] in lab_overrides:
+                val = str(lab_overrides[row["id"]]).strip()
+                if Decimal(val) > 0:
+                    row["hours"] = val
+
+        spec_labels = ", ".join(s["label"] for s in selected_specs)
         draft["project"]["key"] = key
         draft["project"]["county"] = county
         if project_title:
             draft["project"]["short"] = project_title[:80]
-            draft["project"]["title"] = f"{project_title[:120]} — {spec_meta['label']}"
+            draft["project"]["title"] = f"{project_title[:120]} — {spec_labels}"
         if docs_list:
             draft["project"]["documents"] = docs_list + list(draft["project"].get("documents") or [])[:2]
         if voice_transcript:
+            draft.setdefault("scope", []).insert(
+                0,
+                {"title": "Field scope dictated by contractor", "text": voice_transcript[:1500]},
+            )
             draft.setdefault("assumptions", []).append(f"Nota de campo por voz ({ctx.actor}): {voice_transcript[:500]}")
 
         draft["release"] = {
             "authorized": False,
             "allow_budget_prices": True,
-            "note": (
-                f"DRAFT de campo ({spec_meta['label']}, {county} Co.) — pendiente revisión humana y cotizaciones reales."
-            ),
+            "note": f"DRAFT de campo ({spec_labels}, {county} Co.) — pendiente revisión humana y cotizaciones reales.",
         }
 
         profile_obj = self.app.runs.load_profile(profile_name)
         if not profile_obj.get("scope_policy"):
-            profile_obj["scope_policy"] = [spec_meta["trade_scope"]]
+            profile_obj["scope_policy"] = [s["trade_scope"] for s in selected_specs]
 
         pkg, prep_report = contrato.preparar(draft, profile_name, self.app.runs.profiles_dir())
         pkg.pop("subcontract_package", None)
+
+        # Apply optional P6 markup / validity overrides after profile merge
+        mk_override = req.get("markups")
+        if isinstance(mk_override, dict):
+            mk = dict(pkg.get("markups") or {})
+            for fld in ("contingency_pct", "overhead_pct", "profit_pct", "rounding"):
+                if mk_override.get(fld) not in (None, ""):
+                    mk[fld] = str(mk_override[fld]).strip()
+            pkg["markups"] = mk
+        if req.get("validity_days") not in (None, ""):
+            pkg["validity_days"] = max(1, int(req["validity_days"]))
+
+        return {
+            "key": key,
+            "profile_name": profile_name,
+            "profile_obj": profile_obj,
+            "selected_specs": selected_specs,
+            "spec_labels": spec_labels,
+            "county": county,
+            "voice_transcript": voice_transcript,
+            "docs_list": docs_list,
+            "pkg": pkg,
+            "prep_report": prep_report,
+        }
+
+    def preview_draft(self, req: dict[str, Any], ctx: SecurityContext) -> dict[str, Any]:
+        """Return pre-filled materials, labor, exclusions and defaults for P5/P6 mobile review."""
+        require_permission(ctx, "estimate:create", org_id=ctx.org_id)
+        assembled = self._assemble_draft(req, ctx)
+        pkg = assembled["pkg"]
+        prep_report = assembled["prep_report"]
+        return {
+            "key": assembled["key"],
+            "estimate_id": pkg.get("estimate_id", ""),
+            "contractor": (pkg.get("contractor") or {}).get("name", ""),
+            "county": assembled["county"],
+            "specialties": [s["id"] for s in assembled["selected_specs"]],
+            "exclusions": pkg.get("exclusions") or [],
+            "scope": pkg.get("scope") or [],
+            "materials": [
+                {
+                    "id": m.get("id", ""),
+                    "section": m.get("section", ""),
+                    "item": m.get("item", ""),
+                    "qty": str(m.get("qty", "1")),
+                    "unit": m.get("unit", "EA"),
+                    "unit_price": str(m.get("unit_price", "0.00")),
+                    "price_basis": str(m.get("price_basis", "BUDGET")).upper(),
+                }
+                for m in (pkg.get("materials") or [])
+            ],
+            "labor": [
+                {
+                    "id": l.get("id", ""),
+                    "task": l.get("task", ""),
+                    "rate": l.get("rate", ""),
+                    "hours": str(l.get("hours", "1")),
+                }
+                for l in (pkg.get("labor") or [])
+            ],
+            "markups": pkg.get("markups") or {},
+            "validity_days": pkg.get("validity_days", 30),
+            "fuera_de_alcance": prep_report.get("fuera_de_alcance") or [],
+            "faltan_datos": prep_report.get("faltan_datos") or [],
+        }
+
+    def quick_package(self, req: dict[str, Any], ctx: SecurityContext) -> dict[str, Any]:
+        """Generate a real verified 3-PDF DRAFT run synchronously from profile + specialty + voice notes + P5/P6 edits."""
+        require_permission(ctx, "estimate:create", org_id=ctx.org_id)
+        assembled = self._assemble_draft(req, ctx)
+        key = assembled["key"]
+        profile_name = assembled["profile_name"]
+        profile_obj = assembled["profile_obj"]
+        selected_specs = assembled["selected_specs"]
+        spec_labels = assembled["spec_labels"]
+        county = assembled["county"]
+        voice_transcript = assembled["voice_transcript"]
+        docs_list = assembled["docs_list"]
+        pkg = assembled["pkg"]
+        prep_report = assembled["prep_report"]
+
         run_id = f"{key}_{datetime.now():%Y%m%d_%H%M%S}"
         run_dir = self.app.runs.base / run_id
         run_dir.mkdir(parents=True, exist_ok=False)
@@ -619,7 +755,7 @@ class MobileBidEngineAPI:
             f"# Reporte de Paquete Preliminar — {key}",
             "",
             f"- **Contratista:** {pkg['contractor']['name']}",
-            f"- **Especialidad:** {spec_meta['label']} | **Condado:** {county}",
+            f"- **Especialidad:** {spec_labels} | **Condado:** {county}",
             f"- **Estado de entrega:** {manifest['proposal_release']['label']}",
             f"- **Precio de venta (DRAFT):** ${totals['price']}",
             f"- **Costo directo:** ${totals['direct']}",
@@ -651,11 +787,11 @@ class MobileBidEngineAPI:
             "profile": profile_name,
             "contractor": pkg["contractor"]["name"],
             "generic": bool(profile_obj.get("generic")),
-            "docs": ", ".join(docs_list) if docs_list else f"Plantilla base {spec_meta['label']}",
+            "docs": ", ".join(docs_list) if docs_list else f"Plantilla base {spec_labels}",
             "notes": voice_transcript[:2000],
-            "trade_scope": spec_meta["trade_scope"],
+            "trade_scope": ", ".join(s["trade_scope"] for s in selected_specs),
             "county": county,
-            "specialty": specialty_id,
+            "specialty": ",".join(s["id"] for s in selected_specs),
             "model": "quick-package-engine",
             "started_at": _now_iso(),
             "finished_at": _now_iso(),
@@ -684,7 +820,7 @@ class MobileBidEngineAPI:
             state_to="Review Required",
             resource_type="run",
             resource_id=run_id,
-            detail={"specialty": specialty_id, "county": county, "price": totals["price"]},
+            detail={"specialty": state["specialty"], "county": county, "price": totals["price"]},
         )
         return self.run_summary(run_id)
 
@@ -1009,6 +1145,9 @@ class MobileBidEngineAPI:
             if path == "/api/mobile/upload/chunk":
                 require_permission(ctx, "estimate:create", org_id=ctx.org_id)
                 return 200, self.upload_chunk(req)
+
+            if path == "/api/mobile/runs/preview-draft":
+                return 200, self.preview_draft(req, ctx)
 
             if path == "/api/mobile/runs/quick-package":
                 return 200, self.quick_package(req, ctx)

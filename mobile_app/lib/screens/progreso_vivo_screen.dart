@@ -6,6 +6,7 @@ import '../models/bid_models.dart';
 import '../services/bidkit_api_client.dart';
 import '../services/offline_store.dart';
 import '../theme/alkan_theme.dart';
+import '../widgets/alkan_loading_logo.dart';
 import 'paquete_aprobacion_screen.dart';
 
 /// Pantalla 3 — Progreso en Vivo conectado a RunManager con los 5 pasos del motor.
@@ -96,12 +97,8 @@ class _ProgresoVivoScreenState extends State<ProgresoVivoScreen> {
               children: [
                 Row(
                   children: [
-                    const SizedBox(
-                      width: 24,
-                      height: 24,
-                      child: CircularProgressIndicator(strokeWidth: 3, color: Colors.amberAccent),
-                    ),
-                    const SizedBox(width: 12),
+                    const AlkanLoadingAnimation(size: 56),
+                    const SizedBox(width: 14),
                     Expanded(
                       child: Text(
                         sum?.stage.isNotEmpty == true ? sum!.stage : 'Iniciando agente estimador...',

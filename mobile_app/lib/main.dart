@@ -6,6 +6,7 @@ import 'screens/mis_estimados_screen.dart';
 import 'services/bidkit_api_client.dart';
 import 'services/offline_store.dart';
 import 'theme/alkan_theme.dart';
+import 'widgets/alkan_loading_logo.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,7 +52,16 @@ class _AlkanBidEngineAppState extends State<AlkanBidEngineApp> {
       debugShowCheckedModeBanner: false,
       theme: buildAlkanTheme(),
       home: _booting
-          ? const Scaffold(body: Center(child: CircularProgressIndicator()))
+          ? const Scaffold(
+              backgroundColor: Color(0xFF041428),
+              body: Center(
+                child: AlkanLoadingAnimation(
+                  size: 160,
+                  label: 'Iniciando ALKAN Bid Engine...',
+                  textColor: Colors.white,
+                ),
+              ),
+            )
           : _session == null
               ? LoginScreen(
                   api: _api,

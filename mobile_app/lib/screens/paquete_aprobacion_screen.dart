@@ -9,8 +9,9 @@ import '../services/bidkit_api_client.dart';
 import '../services/offline_store.dart';
 import '../services/voice_dictation_service.dart';
 import '../theme/alkan_theme.dart';
+import '../widgets/alkan_loading_logo.dart';
 
-/// Pantalla 4 — Paquete de 3 Documentos + Candado de Control Humano obligatorio.
+/// Pantalla 4 (P8) — Listo: tus 3 documentos + Candado de Control Humano obligatorio.
 class PaqueteAprobacionScreen extends StatefulWidget {
   final BidKitApiClient api;
   final OfflineStore store;
@@ -315,7 +316,15 @@ class _PaqueteAprobacionScreenState extends State<PaqueteAprobacionScreen> {
     final proposalDoc = propMatches.isNotEmpty ? propMatches.first : null;
 
     return Scaffold(
-      appBar: AppBar(title: Text('Paquete ${run['key'] ?? ''}')),
+      appBar: AppBar(
+        title: Row(
+          children: [
+            const AlkanLogoBadge(size: 30, withBorder: false),
+            const SizedBox(width: 10),
+            Expanded(child: Text('Listo · ${run['key'] ?? ''}', overflow: TextOverflow.ellipsis)),
+          ],
+        ),
+      ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
@@ -415,7 +424,19 @@ class _PaqueteAprobacionScreenState extends State<PaqueteAprobacionScreen> {
           ),
           const SizedBox(height: 16),
 
-          const Text('Paquete de 3 Documentos', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w900)),
+          const Text('Listo — Tus 3 Documentos', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w900)),
+          const SizedBox(height: 6),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            decoration: BoxDecoration(
+              color: AlkanColors.primary.withOpacity(0.08),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: const Text(
+              'Cost Analysis es interno. Material List y Proposal son para el GC.',
+              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AlkanColors.primary),
+            ),
+          ),
           const SizedBox(height: 10),
           for (final doc in sum.documents)
             Padding(
@@ -455,8 +476,8 @@ class _PaqueteAprobacionScreenState extends State<PaqueteAprobacionScreen> {
             icon: Icon(sum.clientShareUnlocked ? Icons.share : Icons.lock, size: 24),
             label: Text(
               sum.clientShareUnlocked
-                  ? '📤 COMPARTIR 03 PROPOSAL AL CLIENTE'
-                  : '🔒 COMPARTIR AL CLIENTE (REQUIERE AUTORIZACIÓN)',
+                  ? '📤 ENVIAR AL GC (03 PROPOSAL)'
+                  : '🔒 ENVIAR AL GC (REQUIERE AUTORIZACIÓN)',
               textAlign: TextAlign.center,
             ),
           ),
@@ -473,7 +494,7 @@ class _PaqueteAprobacionScreenState extends State<PaqueteAprobacionScreen> {
                 minimumSize: const Size(double.infinity, 64),
               ),
               icon: const Icon(Icons.check_circle, size: 28),
-              label: const Text('✅ AUTORIZAR PAQUETE FINAL'),
+              label: const Text('✅ MANDAR A REVISIÓN / AUTORIZAR'),
             ),
             const SizedBox(height: 10),
           ],

@@ -6,8 +6,9 @@ import '../models/bid_models.dart';
 import '../services/bidkit_api_client.dart';
 import '../services/offline_store.dart';
 import '../theme/alkan_theme.dart';
+import '../widgets/alkan_loading_logo.dart';
+import 'estimate_flow_screen.dart';
 import 'mi_empresa_precios_screen.dart';
-import 'nuevo_estimado_screen.dart';
 import 'paquete_aprobacion_screen.dart';
 import 'progreso_vivo_screen.dart';
 
@@ -117,9 +118,14 @@ class _MisEstimadosScreenState extends State<MisEstimadosScreen> with WidgetsBin
             projectTitle: draft.projectTitle,
             profile: draft.profile,
             specialty: draft.specialty,
+            specialties: draft.specialties,
             county: draft.county,
             voiceNotes: draft.voiceNotes,
             uploadId: uploadId,
+            materialsOverrides: draft.materialsOverrides,
+            laborOverrides: draft.laborOverrides,
+            markups: draft.markups,
+            validityDays: draft.validityDays,
           );
         } else {
           await widget.api.startAgentRun(
@@ -143,7 +149,7 @@ class _MisEstimadosScreenState extends State<MisEstimadosScreen> with WidgetsBin
     final created = await Navigator.push<String>(
       context,
       MaterialPageRoute(
-        builder: (_) => NuevoEstimadoScreen(
+        builder: (_) => EstimateFlowScreen(
           api: widget.api,
           store: widget.store,
           initialFiles: initialFiles,
@@ -214,7 +220,13 @@ class _MisEstimadosScreenState extends State<MisEstimadosScreen> with WidgetsBin
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Mis Estimados'),
+        title: const Row(
+          children: [
+            AlkanLogoBadge(size: 32, withBorder: false),
+            SizedBox(width: 10),
+            Text('Mis Estimados'),
+          ],
+        ),
         actions: [
           IconButton(
             tooltip: 'Mi Empresa y Precios',
@@ -337,7 +349,9 @@ class _MisEstimadosScreenState extends State<MisEstimadosScreen> with WidgetsBin
             if (_loading && _runs.isEmpty)
               const Padding(
                 padding: EdgeInsets.all(40),
-                child: Center(child: CircularProgressIndicator()),
+                child: Center(
+                  child: AlkanLoadingAnimation(size: 84, label: 'Cargando estimados...'),
+                ),
               )
             else if (filtered.isEmpty)
               Container(

@@ -8,6 +8,7 @@
 
     <application
         android:label="ALKAN Bid Engine"
+        android:icon="@mipmap/ic_launcher"
         android:name="${applicationName}"
         android:usesCleartextTraffic="true">
         <activity

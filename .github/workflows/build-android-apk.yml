@@ -52,8 +52,19 @@ jobs:
               txt = p.read_text(encoding="utf-8")
               txt = re.sub(r"minSdk(?:Version)?\s*=?\s*flutter\.minSdkVersion", "minSdk = 24" if name.endswith(".kts") else "minSdkVersion 24", txt)
               txt = re.sub(r"compileSdk(?:Version)?\s*=?\s*flutter\.compileSdkVersion", "compileSdk = 35" if name.endswith(".kts") else "compileSdkVersion 35", txt)
-              txt = re.sub(r"targetSdk(?:Version)?\s*=?\s*flutter\.targetSdkVersion", "targetSdk = 34" if name.endswith(".kts") else "targetSdkVersion 34", txt)
+              txt = re.sub(r"targetSdk(?:Version)?\s*=?\s*flutter\.targetSdkVersion", "targetSdk = 35" if name.endswith(".kts") else "targetSdkVersion 35", txt)
               p.write_text(txt, encoding="utf-8")
+          PY
+          python3 -m pip install -q pillow
+          python3 - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+          logo = Image.open("assets/images/alkan_logo.png").convert("RGBA")
+          sizes = {"mdpi": 48, "hdpi": 72, "xhdpi": 96, "xxhdpi": 144, "xxxhdpi": 192}
+          for dpi, px in sizes.items():
+              out = Path(f"android/app/src/main/res/mipmap-{dpi}/ic_launcher.png")
+              out.parent.mkdir(parents=True, exist_ok=True)
+              logo.resize((px, px), Image.Resampling.LANCZOS).save(out, "PNG")
           PY
 
       - name: Get Flutter dependencies
