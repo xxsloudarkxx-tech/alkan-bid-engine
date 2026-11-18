@@ -333,10 +333,10 @@ class _PaqueteAprobacionScreenState extends State<PaqueteAprobacionScreen> {
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
               color: sum.isApproved
-                  ? Colors.green.shade50
+                  ? AlkanColors.approved.withOpacity(0.16)
                   : sum.isRejectedOrNoGo
-                      ? Colors.red.shade50
-                      : Colors.orange.shade50,
+                      ? AlkanColors.noGo.withOpacity(0.16)
+                      : AlkanColors.draft.withOpacity(0.16),
               borderRadius: BorderRadius.circular(14),
               border: Border.all(
                 color: sum.isApproved
@@ -470,7 +470,7 @@ class _PaqueteAprobacionScreenState extends State<PaqueteAprobacionScreen> {
                 ? null
                 : () => _shareProposalToClient(proposalDoc),
             style: ElevatedButton.styleFrom(
-              backgroundColor: sum.clientShareUnlocked ? AlkanColors.primary : Colors.grey.shade400,
+              backgroundColor: sum.clientShareUnlocked ? AlkanColors.primary : Colors.grey.shade700,
               minimumSize: const Size(double.infinity, 62),
             ),
             icon: Icon(sum.clientShareUnlocked ? Icons.share : Icons.lock, size: 24),
@@ -532,7 +532,7 @@ class _PaqueteAprobacionScreenState extends State<PaqueteAprobacionScreen> {
                 margin: const EdgeInsets.only(bottom: 8),
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AlkanColors.surface,
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: AlkanColors.border),
                 ),

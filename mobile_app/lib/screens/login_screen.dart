@@ -245,8 +245,9 @@ class _LoginScreenState extends State<LoginScreen> {
               Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF041428),
+                  color: AlkanColors.surface,
                   borderRadius: BorderRadius.circular(18),
+                  border: Border.all(color: AlkanColors.border),
                 ),
                 child: const Row(
                   children: [
@@ -312,7 +313,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: Colors.red.shade50,
+                    color: AlkanColors.noGo.withOpacity(0.16),
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(color: AlkanColors.noGo),
                   ),

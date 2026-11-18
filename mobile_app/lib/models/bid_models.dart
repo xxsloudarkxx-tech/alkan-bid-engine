@@ -94,6 +94,63 @@ class ContractorProfileItem {
       );
 }
 
+const List<ContractorProfileItem> defaultAlkanProfiles = [
+  ContractorProfileItem(
+    name: 'ss_custom_iron_works',
+    label: 'S & S Custom Iron Works LLC',
+    contractor: 'S & S CUSTOM IRON WORKS LLC',
+    generic: false,
+    hasLogo: true,
+    trade: 'Metal fabrication, structural steel, railings, fences & gates',
+    markups: {'contingency_pct': '5', 'overhead_pct': '10', 'profit_pct': '10'},
+  ),
+  ContractorProfileItem(
+    name: 'pj_roofing',
+    label: 'P J Roofing LLC',
+    contractor: 'P J ROOFING LLC',
+    generic: false,
+    hasLogo: false,
+    trade: 'Roofing, TPO, shingles & architectural flashing',
+    markups: {'contingency_pct': '5', 'overhead_pct': '10', 'profit_pct': '10'},
+  ),
+  ContractorProfileItem(
+    name: 'diaz_finish_carpenter',
+    label: 'Díaz Finish Carpenter',
+    contractor: 'DÍAZ FINISH CARPENTER',
+    generic: false,
+    hasLogo: false,
+    trade: 'Finish carpentry, drywall, painting & casework',
+    markups: {'contingency_pct': '5', 'overhead_pct': '10', 'profit_pct': '10'},
+  ),
+  ContractorProfileItem(
+    name: 'jc_granite_design',
+    label: 'JC Granite Design LLC',
+    contractor: 'JC GRANITE DESIGN LLC',
+    generic: false,
+    hasLogo: false,
+    trade: 'Stone, quartz & solid surface countertops',
+    markups: {'contingency_pct': '5', 'overhead_pct': '10', 'profit_pct': '10'},
+  ),
+  ContractorProfileItem(
+    name: 'duran_gc',
+    label: 'Duran General Contractor LLC',
+    contractor: 'DURAN GENERAL CONTRACTOR LLC',
+    generic: false,
+    hasLogo: false,
+    trade: 'General contracting & multi-trade commercial/residential',
+    markups: {'contingency_pct': '5', 'overhead_pct': '10', 'profit_pct': '10'},
+  ),
+  ContractorProfileItem(
+    name: 'generico_sin_marca',
+    label: 'Genérico sin marca',
+    contractor: '[CONTRACTOR NAME]',
+    generic: true,
+    hasLogo: false,
+    trade: 'Perfil neutro configurable para cualquier contratista WA',
+    markups: {'contingency_pct': '5', 'overhead_pct': '10', 'profit_pct': '10'},
+  ),
+];
+
 class EstimateRunCard {
   final String id;
   final String key;

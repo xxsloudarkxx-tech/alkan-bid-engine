@@ -95,6 +95,7 @@ class _EstimateFlowScreenState extends State<EstimateFlowScreen> {
   ];
 
   final _titleCtrl = TextEditingController();
+  final _clientNameCtrl = TextEditingController();
   final _notesCtrl = TextEditingController();
   final _contCtrl = TextEditingController(text: '5');
   final _ohCtrl = TextEditingController(text: '10');
@@ -112,6 +113,7 @@ class _EstimateFlowScreenState extends State<EstimateFlowScreen> {
   bool _listeningScope = false;
   bool _loadingPreview = false;
   bool _generating = false;
+  bool _savingClient = false;
   bool _expandAdjustments = false;
   double _uploadProgress = 0;
   String _genStatus = 'Preparando paquete ALKAN...';
@@ -121,7 +123,7 @@ class _EstimateFlowScreenState extends State<EstimateFlowScreen> {
   List<String> _selectedSpecialties = ['metal'];
   final List<File> _files = [];
 
-  List<ContractorProfileItem> _profiles = [];
+  List<ContractorProfileItem> _profiles = List.of(defaultAlkanProfiles);
   List<String> _exclusionsPreview = [];
   List<EditableMaterialLine> _materials = [];
   List<EditableLaborLine> _labor = [];
@@ -162,6 +164,7 @@ class _EstimateFlowScreenState extends State<EstimateFlowScreen> {
     if (!mounted) return;
     setState(() {
       _titleCtrl.text = (saved['projectTitle'] ?? '').toString();
+      _clientNameCtrl.text = (saved['clientName'] ?? '').toString();
       _selectedCounty = (saved['county'] ?? 'King').toString();
       _selectedProfile = (saved['profile'] ?? _selectedProfile).toString();
       final specs = (saved['specialties'] as List<dynamic>? ?? const []).map((e) => e.toString()).toList();
@@ -191,6 +194,7 @@ class _EstimateFlowScreenState extends State<EstimateFlowScreen> {
   Future<void> _persistLocalDraft() async {
     await widget.store.saveWizardDraft({
       'projectTitle': _titleCtrl.text,
+      'clientName': _clientNameCtrl.text,
       'county': _selectedCounty,
       'profile': _selectedProfile,
       'specialties': _selectedSpecialties,
@@ -205,22 +209,43 @@ class _EstimateFlowScreenState extends State<EstimateFlowScreen> {
     });
   }
 
+  List<ContractorProfileItem> _mergeProfiles(List<ContractorProfileItem> incoming) {
+    final map = <String, ContractorProfileItem>{
+      for (final p in defaultAlkanProfiles) p.name: p,
+    };
+    for (final p in incoming) {
+      map[p.name] = p;
+    }
+    return map.values.toList();
+  }
+
   Future<void> _loadProfilesAndHealth() async {
     final cached = await widget.store.loadCachedProfiles();
     if (cached.isNotEmpty && mounted) {
-      setState(() => _profiles = cached);
+      setState(() => _profiles = _mergeProfiles(cached));
     }
     try {
-      final profiles = await widget.api.fetchProfiles();
-      await widget.store.saveCachedProfiles(profiles);
-      final health = await widget.api.fetchHealth(widget.api.session!.baseUrl);
+      final results = await Future.wait<dynamic>([
+        widget.api.fetchProfiles(),
+        widget.api.fetchHealth(widget.api.session!.baseUrl),
+      ]);
+      final profiles = results[0] as List<ContractorProfileItem>;
+      final health = results[1] as Map<String, dynamic>;
+      final merged = _mergeProfiles([...cached, ...profiles]);
+      await widget.store.saveCachedProfiles(merged);
       if (!mounted) return;
       setState(() {
         _isOnline = true;
-        _profiles = profiles;
+        _profiles = merged;
         _hasAnthropicKey = health['has_anthropic_key'] == true;
-        if (profiles.isNotEmpty && !profiles.any((p) => p.name == _selectedProfile)) {
-          _selectedProfile = profiles.first.name;
+        if (_hasAnthropicKey && _files.any((f) {
+          final p = f.path.toLowerCase();
+          return p.endsWith('.pdf') || p.endsWith('.zip');
+        })) {
+          _useAiAgent = true;
+        }
+        if (merged.isNotEmpty && !merged.any((p) => p.name == _selectedProfile)) {
+          _selectedProfile = merged.first.name;
         }
       });
       await _applyClientPreconfig(_selectedProfile, autoSelectSpecialty: false);
@@ -308,46 +333,190 @@ class _EstimateFlowScreenState extends State<EstimateFlowScreen> {
   }
 
   Future<void> _pickPdfOrZip() async {
-    final result = await FilePicker.platform.pickFiles(
-      allowMultiple: true,
-      type: FileType.custom,
-      allowedExtensions: ['pdf', 'zip'],
-    );
-    if (result == null) return;
-    setState(() {
-      for (final f in result.files) {
-        if (f.path != null) _files.add(File(f.path!));
-      }
-    });
-    await _persistLocalDraft();
-  }
+    try {
+      final result = await FilePicker.platform.pickFiles(
+        allowMultiple: true,
+        type: FileType.any,
+      );
+      if (result == null) return;
+      const validExts = {'pdf', 'zip', 'jpg', 'jpeg', 'png', 'webp'};
+      int addedCount = 0;
+      int totalBytes = 0;
+      bool hasPlanDoc = false;
+      final rejected = <String>[];
 
-  Future<void> _pickWhatsAppOrAny() async {
-    final shared = await widget.api.consumeSharedFiles();
-    if (shared.isNotEmpty) {
+      for (final f in result.files) {
+        final path = f.path;
+        if (path == null) continue;
+        final lower = path.toLowerCase();
+        final ext = lower.contains('.') ? lower.split('.').last : '';
+        if (!validExts.contains(ext)) {
+          rejected.add(f.name);
+          continue;
+        }
+        final fileObj = File(path);
+        if (!await fileObj.exists()) continue;
+        final len = await fileObj.length();
+        totalBytes += len;
+        if (!_files.any((x) => x.path == fileObj.path)) {
+          _files.add(fileObj);
+          addedCount++;
+        }
+        if (ext == 'pdf' || ext == 'zip') hasPlanDoc = true;
+      }
+
+      if (!mounted) return;
       setState(() {
-        for (final p in shared) {
-          _files.add(File(p));
+        if (hasPlanDoc && _hasAnthropicKey) {
+          _useAiAgent = true;
         }
       });
       await _persistLocalDraft();
-      return;
-    }
-    final result = await FilePicker.platform.pickFiles(allowMultiple: true, type: FileType.any);
-    if (result == null) return;
-    setState(() {
-      for (final f in result.files) {
-        if (f.path != null) _files.add(File(f.path!));
+      if (!mounted) return;
+      if (addedCount > 0) {
+        final kb = (totalBytes / 1024).toStringAsFixed(0);
+        final aiNote = (hasPlanDoc && _hasAnthropicKey) ? ' · Lectura con Claude Sonnet 5 activada' : '';
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('✅ $addedCount archivo(s) adjuntado(s) ($kb KB)$aiNote')),
+        );
+      } else if (rejected.isNotEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Formato no compatible (${rejected.join(", ")}). Usa PDF, ZIP o imagen JPG/PNG.')),
+        );
       }
-    });
-    await _persistLocalDraft();
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('No se pudo abrir el selector de archivos: $e')),
+        );
+      }
+    }
+  }
+
+  Future<void> _pickWhatsAppOrAny() async {
+    try {
+      final shared = await widget.api.consumeSharedFiles();
+      if (shared.isNotEmpty) {
+        setState(() {
+          for (final p in shared) {
+            final f = File(p);
+            if (!_files.any((x) => x.path == f.path)) _files.add(f);
+          }
+          if (_hasAnthropicKey) _useAiAgent = true;
+        });
+        await _persistLocalDraft();
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('✅ ${shared.length} archivo(s) recibidos desde WhatsApp/Archivos.')),
+          );
+        }
+        return;
+      }
+      await _pickPdfOrZip();
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error al importar archivo: $e')));
+      }
+    }
   }
 
   Future<void> _takePhoto() async {
-    final photo = await _imagePicker.pickImage(source: ImageSource.camera, imageQuality: 85);
-    if (photo == null) return;
-    setState(() => _files.add(File(photo.path)));
-    await _persistLocalDraft();
+    try {
+      final photo = await _imagePicker.pickImage(source: ImageSource.camera, imageQuality: 85);
+      if (photo == null) return;
+      setState(() => _files.add(File(photo.path)));
+      await _persistLocalDraft();
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('✅ Fotografía adjuntada al alcance.')),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('No se pudo tomar foto: $e')));
+      }
+    }
+  }
+
+  Future<void> _registerNewClientDialog() async {
+    final nameCtrl = TextEditingController();
+    final contactCtrl = TextEditingController();
+    final phoneCtrl = TextEditingController();
+    final addrCtrl = TextEditingController();
+    final licCtrl = TextEditingController();
+
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Registrar Cliente / Contratista', style: TextStyle(fontWeight: FontWeight.w900)),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(controller: nameCtrl, decoration: const InputDecoration(labelText: 'Nombre del cliente / empresa *')),
+              const SizedBox(height: 10),
+              TextField(controller: contactCtrl, decoration: const InputDecoration(labelText: 'Persona de contacto')),
+              const SizedBox(height: 10),
+              TextField(controller: phoneCtrl, keyboardType: TextInputType.phone, decoration: const InputDecoration(labelText: 'Teléfono')),
+              const SizedBox(height: 10),
+              TextField(controller: addrCtrl, decoration: const InputDecoration(labelText: 'Dirección o ciudad WA')),
+              const SizedBox(height: 10),
+              TextField(controller: licCtrl, decoration: const InputDecoration(labelText: 'Licencia WA / UBI (opcional)')),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancelar')),
+          ElevatedButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('REGISTRAR Y USAR')),
+        ],
+      ),
+    );
+    if (ok != true || nameCtrl.text.trim().isEmpty) return;
+
+    final enteredName = nameCtrl.text.trim();
+    setState(() => _savingClient = true);
+    try {
+      final res = await widget.api.registerQuickProfile(
+        contractorName: enteredName,
+        contact: contactCtrl.text.trim(),
+        phone: phoneCtrl.text.trim(),
+        address: addrCtrl.text.trim(),
+        license: licCtrl.text.trim(),
+        specialty: _selectedSpecialties.join(', '),
+      );
+      final created = Map<String, dynamic>.from(res['profile'] as Map);
+      final slug = (created['name'] ?? '').toString();
+      final remoteList = (res['profiles'] as List<dynamic>? ?? const [])
+          .map((e) => ContractorProfileItem.fromJson(Map<String, dynamic>.from(e as Map)))
+          .toList();
+      final merged = _mergeProfiles([..._profiles, ...remoteList]);
+      await widget.store.saveCachedProfiles(merged);
+      await widget.store.saveCachedProfileDetail(slug, created);
+      if (!mounted) return;
+      setState(() {
+        _profiles = merged;
+        _clientNameCtrl.text = enteredName;
+      });
+      await _applyClientPreconfig(slug, autoSelectSpecialty: false);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('✅ Cliente "$enteredName" guardado y seleccionado.')),
+        );
+      }
+    } catch (_) {
+      // Respaldo offline: si no hay señal, guarda el nombre como destinatario con plantilla editable
+      if (mounted) {
+        setState(() {
+          _clientNameCtrl.text = enteredName;
+        });
+        await _persistLocalDraft();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Cliente "$enteredName" aplicado al borrador (se sincronizará al tener señal).')),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _savingClient = false);
+    }
   }
 
   /// Al avanzar de P4 → P5, prellena cantidades editables desde el servidor (o fallback offline local).
@@ -361,6 +530,7 @@ class _EstimateFlowScreenState extends State<EstimateFlowScreen> {
         specialties: _selectedSpecialties,
         county: _selectedCounty,
         voiceNotes: _notesCtrl.text.trim(),
+        clientName: _clientNameCtrl.text.trim(),
       );
       if (!mounted) return;
       setState(() {
@@ -471,8 +641,26 @@ class _EstimateFlowScreenState extends State<EstimateFlowScreen> {
   Future<void> _generateFinalPackage() async {
     final key = _projectKey();
     final title = _titleCtrl.text.trim().isEmpty ? key : _titleCtrl.text.trim();
-    final matOverrides = _materials.map((m) => {'id': m.id, 'qty': m.qty}).toList();
-    final labOverrides = _labor.map((l) => {'id': l.id, 'hours': l.hours}).toList();
+    final clientName = _clientNameCtrl.text.trim();
+    final matOverrides = _materials
+        .map((m) => {
+              'id': m.id,
+              'section': m.section,
+              'item': m.item,
+              'qty': m.qty,
+              'unit': m.unit,
+              'unit_price': m.unitPrice,
+              'price_basis': m.priceBasis,
+            })
+        .toList();
+    final labOverrides = _labor
+        .map((l) => {
+              'id': l.id,
+              'task': l.task,
+              'rate': l.rate,
+              'hours': l.hours,
+            })
+        .toList();
     final markups = {
       'contingency_pct': _contCtrl.text.trim(),
       'overhead_pct': _ohCtrl.text.trim(),
@@ -533,6 +721,7 @@ class _EstimateFlowScreenState extends State<EstimateFlowScreen> {
           county: _selectedCounty,
           voiceNotes: _notesCtrl.text.trim(),
           uploadId: uploadId,
+          clientName: clientName,
           materialsOverrides: matOverrides,
           laborOverrides: labOverrides,
           markups: markups,
@@ -583,6 +772,7 @@ class _EstimateFlowScreenState extends State<EstimateFlowScreen> {
   @override
   void dispose() {
     _titleCtrl.dispose();
+    _clientNameCtrl.dispose();
     _notesCtrl.dispose();
     _contCtrl.dispose();
     _ohCtrl.dispose();
@@ -692,87 +882,99 @@ class _EstimateFlowScreenState extends State<EstimateFlowScreen> {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        if (_profiles.isEmpty)
-          const Padding(
-            padding: EdgeInsets.all(20),
-            child: Text(
-              'Sin perfiles cacheados aún; usando el contratista predeterminado. Conéctate una vez para cargar la lista completa.',
-              style: TextStyle(fontWeight: FontWeight.w700),
-            ),
-          )
-        else
-          for (final p in _profiles)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: InkWell(
-                borderRadius: BorderRadius.circular(14),
-                onTap: () => _applyClientPreconfig(p.name),
-                child: Container(
-                  padding: const EdgeInsets.all(14),
-                  decoration: BoxDecoration(
-                    color: p.name == _selectedProfile ? AlkanColors.primary.withOpacity(0.1) : Colors.white,
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(
-                      color: p.name == _selectedProfile ? AlkanColors.primary : AlkanColors.border,
-                      width: p.name == _selectedProfile ? 2.4 : 1.2,
-                    ),
+        TextField(
+          controller: _clientNameCtrl,
+          onChanged: (_) => _persistLocalDraft(),
+          decoration: const InputDecoration(
+            labelText: 'Cliente / GC a quien va la propuesta (opcional)',
+            hintText: 'Ej. Skanska USA, Absher Construction o dueño directo',
+          ),
+        ),
+        const SizedBox(height: 12),
+        ElevatedButton.icon(
+          onPressed: _savingClient ? null : _registerNewClientDialog,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AlkanColors.accent,
+            minimumSize: const Size(double.infinity, 54),
+          ),
+          icon: const Icon(Icons.person_add_alt_1),
+          label: Text(_savingClient ? 'Registrando cliente...' : '+ REGISTRAR NUEVO CLIENTE / CONTRATISTA'),
+        ),
+        const SizedBox(height: 16),
+        const Text('O selecciona un contratista / plantilla:', style: TextStyle(fontSize: 14.5, fontWeight: FontWeight.w800, color: AlkanColors.muted)),
+        const SizedBox(height: 10),
+        for (final p in _profiles)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(14),
+              onTap: () => _applyClientPreconfig(p.name),
+              child: Container(
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  color: p.name == _selectedProfile ? AlkanColors.primary.withOpacity(0.22) : AlkanColors.surface,
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(
+                    color: p.name == _selectedProfile ? AlkanColors.accent : AlkanColors.border,
+                    width: p.name == _selectedProfile ? 2.4 : 1.2,
                   ),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 52,
-                        height: 52,
-                        decoration: BoxDecoration(
-                          color: AlkanColors.background,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: p.hasLogo && widget.api.session != null && _isOnline
-                            ? ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.network(
-                                  widget.api.profileLogoUrl(p.name),
-                                  headers: widget.api.authHeaders(),
-                                  fit: BoxFit.contain,
-                                  errorBuilder: (_, __, ___) => const Icon(Icons.apartment, color: AlkanColors.primary),
-                                ),
-                              )
-                            : const Icon(Icons.apartment, color: AlkanColors.primary, size: 28),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 52,
+                      height: 52,
+                      decoration: BoxDecoration(
+                        color: AlkanColors.surfaceAlt,
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(p.contractor, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900)),
-                            if (p.trade.isNotEmpty)
-                              Text(
-                                p.trade,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(fontSize: 12.5, color: AlkanColors.muted),
+                      child: p.hasLogo && widget.api.session != null && _isOnline
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.network(
+                                widget.api.profileLogoUrl(p.name),
+                                headers: widget.api.authHeaders(),
+                                fit: BoxFit.contain,
+                                errorBuilder: (_, __, ___) => const Icon(Icons.apartment, color: AlkanColors.accent),
                               ),
-                          ],
-                        ),
+                            )
+                          : const Icon(Icons.apartment, color: AlkanColors.accent, size: 28),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(p.contractor, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900)),
+                          if (p.trade.isNotEmpty)
+                            Text(
+                              p.trade,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(fontSize: 12.5, color: AlkanColors.muted),
+                            ),
+                        ],
                       ),
-                      if (p.name == _selectedProfile)
-                        const Icon(Icons.check_circle, color: AlkanColors.primary, size: 28),
-                    ],
-                  ),
+                    ),
+                    if (p.name == _selectedProfile)
+                      const Icon(Icons.check_circle, color: AlkanColors.accent, size: 28),
+                  ],
                 ),
               ),
             ),
+          ),
         if (_exclusionsPreview.isNotEmpty) ...[
           const SizedBox(height: 8),
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: Colors.green.shade50,
+              color: AlkanColors.approved.withOpacity(0.16),
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: AlkanColors.approved),
             ),
             child: Text(
               '✓ Preconfigurado: ${_exclusionsPreview.length} exclusiones base cargadas automáticamente.',
-              style: const TextStyle(fontWeight: FontWeight.w800, color: AlkanColors.primary),
+              style: const TextStyle(fontWeight: FontWeight.w800, color: AlkanColors.ink),
             ),
           ),
         ],
@@ -805,14 +1007,14 @@ class _EstimateFlowScreenState extends State<EstimateFlowScreen> {
           child: Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: selected ? AlkanColors.primary : Colors.white,
+              color: selected ? AlkanColors.primary : AlkanColors.surface,
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: selected ? AlkanColors.primary : AlkanColors.border, width: 2),
+              border: Border.all(color: selected ? AlkanColors.accent : AlkanColors.border, width: 2),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(spec['icon'] as IconData, size: 36, color: selected ? Colors.amberAccent : AlkanColors.primary),
+                Icon(spec['icon'] as IconData, size: 36, color: selected ? Colors.amberAccent : AlkanColors.accent),
                 const SizedBox(height: 8),
                 Text(
                   spec['label'] as String,
@@ -917,6 +1119,114 @@ class _EstimateFlowScreenState extends State<EstimateFlowScreen> {
     );
   }
 
+  Future<void> _addMaterialDialog() async {
+    final itemCtrl = TextEditingController();
+    final qtyCtrl = TextEditingController(text: '1');
+    final unitCtrl = TextEditingController(text: 'EA');
+    final priceCtrl = TextEditingController(text: '0.00');
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Agregar Material', style: TextStyle(fontWeight: FontWeight.w900)),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(controller: itemCtrl, decoration: const InputDecoration(labelText: 'Descripción del material *')),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: qtyCtrl,
+                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                      decoration: const InputDecoration(labelText: 'Cantidad'),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: TextField(controller: unitCtrl, decoration: const InputDecoration(labelText: 'Unidad (EA/LF/SF)')),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                controller: priceCtrl,
+                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                decoration: const InputDecoration(labelText: 'Precio unitario estimado (\$)'),
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancelar')),
+          ElevatedButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('AGREGAR')),
+        ],
+      ),
+    );
+    if (ok != true || itemCtrl.text.trim().isEmpty) return;
+    final nextId = 'M${(_materials.length + 101).toString().padLeft(3, '0')}';
+    setState(() {
+      _materials.add(
+        EditableMaterialLine(
+          id: nextId,
+          section: 'A. Field Additions',
+          item: itemCtrl.text.trim(),
+          qty: qtyCtrl.text.trim().isEmpty ? '1' : qtyCtrl.text.trim(),
+          unit: unitCtrl.text.trim().isEmpty ? 'EA' : unitCtrl.text.trim().toUpperCase(),
+          unitPrice: priceCtrl.text.trim().isEmpty ? '0.00' : priceCtrl.text.trim(),
+          priceBasis: 'BUDGET',
+        ),
+      );
+    });
+    await _persistLocalDraft();
+  }
+
+  Future<void> _addLaborDialog() async {
+    final taskCtrl = TextEditingController();
+    final hoursCtrl = TextEditingController(text: '8');
+    final rateCtrl = TextEditingController(text: 'SHOP');
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Agregar Mano de Obra', style: TextStyle(fontWeight: FontWeight.w900)),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(controller: taskCtrl, decoration: const InputDecoration(labelText: 'Tarea / actividad *')),
+              const SizedBox(height: 10),
+              TextField(
+                controller: hoursCtrl,
+                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                decoration: const InputDecoration(labelText: 'Horas'),
+              ),
+              const SizedBox(height: 10),
+              TextField(controller: rateCtrl, decoration: const InputDecoration(labelText: 'Clave de tarifa (SHOP / ADMIN)')),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancelar')),
+          ElevatedButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('AGREGAR')),
+        ],
+      ),
+    );
+    if (ok != true || taskCtrl.text.trim().isEmpty) return;
+    final nextId = 'L${(_labor.length + 101).toString().padLeft(3, '0')}';
+    setState(() {
+      _labor.add(
+        EditableLaborLine(
+          id: nextId,
+          task: taskCtrl.text.trim(),
+          rate: rateCtrl.text.trim().isEmpty ? 'SHOP' : rateCtrl.text.trim().toUpperCase(),
+          hours: hoursCtrl.text.trim().isEmpty ? '8' : hoursCtrl.text.trim(),
+        ),
+      );
+    });
+    await _persistLocalDraft();
+  }
+
   Widget _buildP5Quantities() {
     return ListView(
       padding: const EdgeInsets.all(16),
@@ -924,7 +1234,7 @@ class _EstimateFlowScreenState extends State<EstimateFlowScreen> {
         Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: Colors.red.shade50,
+            color: AlkanColors.noGo.withOpacity(0.16),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(color: AlkanColors.noGo),
           ),
@@ -934,7 +1244,16 @@ class _EstimateFlowScreenState extends State<EstimateFlowScreen> {
           ),
         ),
         const SizedBox(height: 14),
-        const Text('Materiales', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900)),
+        Row(
+          children: [
+            const Expanded(child: Text('Materiales', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900))),
+            TextButton.icon(
+              onPressed: _addMaterialDialog,
+              icon: const Icon(Icons.add_circle_outline, size: 20),
+              label: const Text('+ Agregar'),
+            ),
+          ],
+        ),
         const SizedBox(height: 8),
         for (final m in _materials)
           Padding(
@@ -953,19 +1272,28 @@ class _EstimateFlowScreenState extends State<EstimateFlowScreen> {
                 trailing: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   decoration: BoxDecoration(
-                    color: AlkanColors.primary.withOpacity(0.1),
+                    color: AlkanColors.primary.withOpacity(0.18),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Text(
                     '${m.qty} ${m.unit} ✏️',
-                    style: const TextStyle(fontWeight: FontWeight.w900, color: AlkanColors.primary),
+                    style: const TextStyle(fontWeight: FontWeight.w900, color: Color(0xFF7DD3FC)),
                   ),
                 ),
               ),
             ),
           ),
         const SizedBox(height: 12),
-        const Text('Mano de obra (Horas)', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900)),
+        Row(
+          children: [
+            const Expanded(child: Text('Mano de obra (Horas)', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900))),
+            TextButton.icon(
+              onPressed: _addLaborDialog,
+              icon: const Icon(Icons.add_circle_outline, size: 20),
+              label: const Text('+ Agregar'),
+            ),
+          ],
+        ),
         const SizedBox(height: 8),
         for (final l in _labor)
           Padding(
@@ -984,7 +1312,7 @@ class _EstimateFlowScreenState extends State<EstimateFlowScreen> {
                 trailing: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   decoration: BoxDecoration(
-                    color: AlkanColors.accent.withOpacity(0.14),
+                    color: AlkanColors.accent.withOpacity(0.18),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Text(

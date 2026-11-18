@@ -675,32 +675,85 @@ class MobileBidEngineAPI:
             for idx, row in enumerate(rows, 1):
                 row["id"] = f"{prefix}{idx:03d}"
 
-        # Apply user edits from P5 (Confirma cantidades)
-        mat_overrides = {
-            str(item.get("id")): str(item.get("qty"))
-            for item in (req.get("materials_overrides") or [])
-            if isinstance(item, dict) and item.get("id") and item.get("qty") not in (None, "")
-        }
-        for row in draft.get("materials") or []:
-            if row["id"] in mat_overrides:
-                val = str(mat_overrides[row["id"]]).strip()
-                if Decimal(val) > 0:
-                    row["qty"] = val
+        # Apply user edits from P5 (Confirma cantidades & nuevas partidas)
+        mat_list = draft.setdefault("materials", [])
+        mat_by_id = {str(r.get("id")): r for r in mat_list}
+        for item in (req.get("materials_overrides") or []):
+            if not isinstance(item, dict) or not item.get("id"):
+                continue
+            mid = str(item.get("id")).strip()
+            qty_raw = item.get("qty")
+            if qty_raw in (None, ""):
+                continue
+            qty_val = str(qty_raw).strip()
+            if Decimal(qty_val) <= 0:
+                continue
+            if mid in mat_by_id:
+                row = mat_by_id[mid]
+                row["qty"] = qty_val
+                if item.get("item"):
+                    row["item"] = str(item["item"]).strip()
+                if item.get("unit"):
+                    row["unit"] = str(item["unit"]).strip()
+                if item.get("unit_price") not in (None, ""):
+                    row["unit_price"] = str(item["unit_price"]).strip()
+            else:
+                new_mat = {
+                    "id": mid,
+                    "section": str(item.get("section") or "A. Field Additions").strip(),
+                    "item": str(item.get("item") or f"Material {mid}").strip(),
+                    "spec": str(item.get("spec") or "Added in field mobile P5").strip(),
+                    "qty": qty_val,
+                    "unit": str(item.get("unit") or "EA").strip(),
+                    "unit_price": str(item.get("unit_price") or "0.00").strip(),
+                    "price_basis": str(item.get("price_basis") or "BUDGET").strip().upper(),
+                    "price_source": "Field mobile intake — verify with supplier quote",
+                    "qty_source": "Field mobile P5 input",
+                }
+                mat_list.append(new_mat)
+                mat_by_id[mid] = new_mat
 
-        lab_overrides = {
-            str(item.get("id")): str(item.get("hours"))
-            for item in (req.get("labor_overrides") or [])
-            if isinstance(item, dict) and item.get("id") and item.get("hours") not in (None, "")
-        }
-        for row in draft.get("labor") or []:
-            if row["id"] in lab_overrides:
-                val = str(lab_overrides[row["id"]]).strip()
-                if Decimal(val) > 0:
-                    row["hours"] = val
+        profile_obj = self.app.runs.load_profile(profile_name)
+        valid_rate_keys = list((draft.get("labor_rates") or {}).keys()) + list((profile_obj.get("labor_rates") or {}).keys())
+        fallback_rate = valid_rate_keys[0] if valid_rate_keys else "SHOP"
+
+        lab_list = draft.setdefault("labor", [])
+        lab_by_id = {str(r.get("id")): r for r in lab_list}
+        for item in (req.get("labor_overrides") or []):
+            if not isinstance(item, dict) or not item.get("id"):
+                continue
+            lid = str(item.get("id")).strip()
+            hrs_raw = item.get("hours")
+            if hrs_raw in (None, ""):
+                continue
+            hrs_val = str(hrs_raw).strip()
+            if Decimal(hrs_val) <= 0:
+                continue
+            if lid in lab_by_id:
+                row = lab_by_id[lid]
+                row["hours"] = hrs_val
+                if item.get("task"):
+                    row["task"] = str(item["task"]).strip()
+            else:
+                req_rate = str(item.get("rate") or fallback_rate).strip()
+                if req_rate not in valid_rate_keys:
+                    req_rate = fallback_rate
+                new_lab = {
+                    "id": lid,
+                    "task": str(item.get("task") or f"Campo adicional {lid}").strip(),
+                    "rate": req_rate,
+                    "hours": hrs_val,
+                }
+                lab_list.append(new_lab)
+                lab_by_id[lid] = new_lab
 
         spec_labels = ", ".join(s["label"] for s in selected_specs)
         draft["project"]["key"] = key
         draft["project"]["county"] = county
+        client_name = str(req.get("client_name") or "").strip()
+        if client_name:
+            draft["project"]["prime_contractor"] = client_name[:120]
+            draft["project"]["owner"] = client_name[:120]
         if project_title:
             draft["project"]["short"] = project_title[:80]
             draft["project"]["title"] = f"{project_title[:120]} — {spec_labels}"
@@ -719,7 +772,6 @@ class MobileBidEngineAPI:
             "note": f"DRAFT de campo ({spec_labels}, {county} Co.) — pendiente revisión humana y cotizaciones reales.",
         }
 
-        profile_obj = self.app.runs.load_profile(profile_name)
         if not profile_obj.get("scope_policy"):
             profile_obj["scope_policy"] = [s["trade_scope"] for s in selected_specs]
 
@@ -1129,6 +1181,68 @@ class MobileBidEngineAPI:
             }
         raise ValueError(f"Formato de cotización no soportado: {ext}")
 
+    def quick_register_profile(self, req: dict[str, Any], ctx: SecurityContext) -> dict[str, Any]:
+        """Quickly register a new contractor/client profile from the mobile app without modifying built-in profiles."""
+        require_permission(ctx, "estimate:edit", org_id=ctx.org_id)
+        contractor_name = str(req.get("contractor_name") or req.get("name") or "").strip()
+        if not contractor_name:
+            raise ValueError("Ingresa el nombre del cliente o contratista.")
+        base_slug = re.sub(r"[^a-z0-9]+", "_", contractor_name.lower()).strip("_")[:50] or "cliente"
+        slug = base_slug
+        profiles_dir = self.app.runs.profiles_dir()
+        if (profiles_dir / f"{slug}.json").exists():
+            slug = f"{base_slug[:40]}_{datetime.now():%m%d%H%M%S}"
+        prefix_letters = re.sub(r"[^A-Z0-9]", "", contractor_name.upper())[:4] or "ALK"
+        specialty_txt = str(req.get("specialty") or "General subcontracting & field construction").strip()
+        profile_dict = {
+            "profile": contractor_name,
+            "estimate_prefix": f"{prefix_letters}-EST-2026",
+            "date": "AUTO",
+            "contractor": {
+                "name": contractor_name,
+                "address": str(req.get("address") or "Washington State").strip(),
+                "license": str(req.get("license") or "Pendiente verificar L&I").strip(),
+                "phone": str(req.get("phone") or "Pendiente").strip(),
+                "contact": str(req.get("contact") or contractor_name).strip(),
+            },
+            "relationship": "sub_to_gc",
+            "tier": "competitive",
+            "labor_rates": {
+                "SHOP": {"label": "Shop / Taller", "kind": "loaded", "rate": "65.00"},
+                "ADMIN": {"label": "PM / Oficina", "kind": "loaded", "rate": "75.00"},
+            },
+            "burden_pct": "15",
+            "markups": {
+                "contingency_pct": "5",
+                "overhead_pct": "10",
+                "profit_pct": "10",
+                "rounding": "50",
+            },
+            "validity_days": 30,
+            "scope_policy": [specialty_txt],
+            "exclusiones_base": [
+                "Permits, performance/payment bonds, and Washington State retail sales tax unless stated.",
+                "Work outside confirmed trade scope or undocumented site conditions.",
+            ],
+            "supuestos_base": [
+                "Pricing reflects base scope; alternates excluded unless listed.",
+            ],
+        }
+        saved = self.app.save_profile(slug, profile_dict)
+        self.app.v4._org_ledger(ctx.org_id).record(
+            org_id=ctx.org_id,
+            project_id="PROFILES",
+            actor=ctx.actor,
+            role=ctx.role,
+            action="PROFILE_REGISTERED",
+            state_from="",
+            state_to="Active",
+            resource_type="profile",
+            resource_id=slug,
+            detail={"contractor": contractor_name},
+        )
+        return {"profile": saved, "profiles": self.app.profiles()["profiles"]}
+
     # ───────────────────────────── request dispatcher
     def dispatch(
         self,
@@ -1253,6 +1367,9 @@ class MobileBidEngineAPI:
 
             if path == "/api/mobile/pricebook/import-file":
                 return 200, self.import_mobile_quote(req, ctx)
+
+            if path == "/api/mobile/profiles/register":
+                return 200, self.quick_register_profile(req, ctx)
 
             if path == "/api/app/run/authorize":
                 # Enforce strict separation of duties even through legacy /api/app/run/authorize

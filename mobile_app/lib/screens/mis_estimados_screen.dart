@@ -235,7 +235,7 @@ class _MisEstimadosScreenState extends State<MisEstimadosScreen> with WidgetsBin
               await Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => MiEmpresaPreciosScreen(api: widget.api),
+                  builder: (_) => MiEmpresaPreciosScreen(api: widget.api, store: widget.store),
                 ),
               );
             },
@@ -256,7 +256,7 @@ class _MisEstimadosScreenState extends State<MisEstimadosScreen> with WidgetsBin
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
               decoration: BoxDecoration(
-                color: _isOnline ? Colors.green.shade50 : Colors.amber.shade50,
+                color: _isOnline ? AlkanColors.approved.withOpacity(0.16) : AlkanColors.accent.withOpacity(0.16),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
                   color: _isOnline ? AlkanColors.approved : AlkanColors.accent,
@@ -307,7 +307,7 @@ class _MisEstimadosScreenState extends State<MisEstimadosScreen> with WidgetsBin
               onPressed: () async {
                 await Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => MiEmpresaPreciosScreen(api: widget.api)),
+                  MaterialPageRoute(builder: (_) => MiEmpresaPreciosScreen(api: widget.api, store: widget.store)),
                 );
               },
               icon: const Icon(Icons.storefront),
@@ -357,7 +357,7 @@ class _MisEstimadosScreenState extends State<MisEstimadosScreen> with WidgetsBin
               Container(
                 padding: const EdgeInsets.all(28),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AlkanColors.surface,
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(color: AlkanColors.border),
                 ),
@@ -446,7 +446,7 @@ class _MisEstimadosScreenState extends State<MisEstimadosScreen> with WidgetsBin
                                   Container(
                                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                                     decoration: BoxDecoration(
-                                      color: Colors.red.shade50,
+                                      color: AlkanColors.noGo.withOpacity(0.16),
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                     child: Text(

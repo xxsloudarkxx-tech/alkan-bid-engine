@@ -222,6 +222,33 @@ class BidKitApiClient {
     return Map<String, dynamic>.from(_decodeJson(res) as Map);
   }
 
+  Future<Map<String, dynamic>> registerQuickProfile({
+    required String contractorName,
+    String contact = '',
+    String phone = '',
+    String address = '',
+    String license = '',
+    String specialty = '',
+  }) async {
+    final s = _requireSession();
+    final uri = Uri.parse('${s.baseUrl}/api/mobile/profiles/register');
+    final res = await _http
+        .post(
+          uri,
+          headers: _headers(),
+          body: jsonEncode({
+            'contractor_name': contractorName,
+            if (contact.isNotEmpty) 'contact': contact,
+            if (phone.isNotEmpty) 'phone': phone,
+            if (address.isNotEmpty) 'address': address,
+            if (license.isNotEmpty) 'license': license,
+            if (specialty.isNotEmpty) 'specialty': specialty,
+          }),
+        )
+        .timeout(const Duration(seconds: 20));
+    return Map<String, dynamic>.from(_decodeJson(res) as Map);
+  }
+
   String profileLogoUrl(String profileName) {
     final s = _requireSession();
     return '${s.baseUrl}/api/mobile/profiles/${Uri.encodeComponent(profileName)}/logo';
@@ -336,6 +363,7 @@ class BidKitApiClient {
     required String county,
     required String voiceNotes,
     String? uploadId,
+    String? clientName,
   }) async {
     final s = _requireSession();
     final uri = Uri.parse('${s.baseUrl}/api/mobile/runs/preview-draft');
@@ -352,6 +380,7 @@ class BidKitApiClient {
             'county': county,
             'voice_notes': voiceNotes,
             if (uploadId != null && uploadId.isNotEmpty) 'upload_id': uploadId,
+            if (clientName != null && clientName.isNotEmpty) 'client_name': clientName,
           }),
         )
         .timeout(const Duration(seconds: 25));
@@ -367,6 +396,7 @@ class BidKitApiClient {
     required String county,
     required String voiceNotes,
     String? uploadId,
+    String? clientName,
     List<Map<String, dynamic>> materialsOverrides = const [],
     List<Map<String, dynamic>> laborOverrides = const [],
     Map<String, dynamic> markups = const {},
@@ -387,6 +417,7 @@ class BidKitApiClient {
             'county': county,
             'voice_notes': voiceNotes,
             if (uploadId != null && uploadId.isNotEmpty) 'upload_id': uploadId,
+            if (clientName != null && clientName.isNotEmpty) 'client_name': clientName,
             if (materialsOverrides.isNotEmpty) 'materials_overrides': materialsOverrides,
             if (laborOverrides.isNotEmpty) 'labor_overrides': laborOverrides,
             if (markups.isNotEmpty) 'markups': markups,

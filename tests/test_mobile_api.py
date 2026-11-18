@@ -647,6 +647,54 @@ class MobileBidEngineAPITest(unittest.TestCase):
         self.assertEqual(hdrs["authorization"], "Bearer sk-test-vnaipro")
         self.assertIn("user-agent", hdrs)
 
+    def test_quick_register_profile_and_added_lines(self) -> None:
+        _, est = self.api.handle_safe(
+            "POST",
+            "/api/mobile/auth/bootstrap",
+            body={"username": "estimator", "password": "Estimator!2026"},
+        )
+        hdrs = self._auth_headers(est["token"])
+
+        st_reg, reg_res = self.api.handle_safe(
+            "POST",
+            "/api/mobile/profiles/register",
+            body={
+                "contractor_name": "Cascade Steel Builders LLC",
+                "contact": "Roberto",
+                "phone": "(206) 555-0144",
+                "address": "Seattle, WA",
+                "specialty": "metal",
+            },
+            headers=hdrs,
+        )
+        self.assertEqual(st_reg, 200, reg_res)
+        slug = reg_res["profile"]["name"]
+        self.assertIn("cascade_steel", slug)
+        self.assertTrue(any(p["name"] == slug for p in reg_res["profiles"]))
+
+        st_qp, summary = self.api.handle_safe(
+            "POST",
+            "/api/mobile/runs/quick-package",
+            body={
+                "key": "CASC99",
+                "project_title": "Cascade Entry Gate",
+                "profile": slug,
+                "specialty": "metal",
+                "county": "King",
+                "client_name": "Absher Construction",
+                "materials_overrides": [
+                    {"id": "M101", "item": "Custom Steel Bollard", "qty": "4", "unit": "EA", "unit_price": "150.00"},
+                ],
+                "labor_overrides": [
+                    {"id": "L101", "task": "Field bollard anchor install", "rate": "SHOP", "hours": "6"},
+                ],
+            },
+            headers=hdrs,
+        )
+        self.assertEqual(st_qp, 200, summary)
+        self.assertEqual(summary["run"]["qa"], "PASS")
+        self.assertTrue(all(d["exists"] for d in summary["documents"]))
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

@@ -89,8 +89,9 @@ class _ProgresoVivoScreenState extends State<ProgresoVivoScreen> {
           Container(
             padding: const EdgeInsets.all(18),
             decoration: BoxDecoration(
-              color: AlkanColors.primary,
+              color: AlkanColors.surface,
               borderRadius: BorderRadius.circular(18),
+              border: Border.all(color: AlkanColors.primary, width: 1.5),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -150,7 +151,7 @@ class _ProgresoVivoScreenState extends State<ProgresoVivoScreen> {
                 child: Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AlkanColors.surface,
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(color: AlkanColors.border),
                   ),
@@ -191,7 +192,7 @@ class _ProgresoVivoScreenState extends State<ProgresoVivoScreen> {
       margin: const EdgeInsets.only(bottom: 10),
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AlkanColors.surface,
         borderRadius: BorderRadius.circular(14),
         border: Border.all(
           color: step.state == 'active' ? AlkanColors.analyzing : AlkanColors.border,
