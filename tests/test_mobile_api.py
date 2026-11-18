@@ -695,6 +695,58 @@ class MobileBidEngineAPITest(unittest.TestCase):
         self.assertEqual(summary["run"]["qa"], "PASS")
         self.assertTrue(all(d["exists"] for d in summary["documents"]))
 
+    def test_calibration_and_voice_signals(self) -> None:
+        _, est = self.api.handle_safe(
+            "POST",
+            "/api/mobile/auth/bootstrap",
+            body={"username": "estimator", "password": "Estimator!2026"},
+        )
+        hdrs = self._auth_headers(est["token"])
+
+        st_h, health = self.api.handle_safe("GET", "/api/mobile/health")
+        self.assertEqual(st_h, 200)
+        self.assertEqual(health["verified_wage_counties"], ["King", "Snohomish"])
+
+        st_p, profs = self.api.handle_safe("GET", "/api/mobile/profiles", headers=hdrs)
+        self.assertEqual(st_p, 200, profs)
+        by_name = {p["name"]: p for p in profs["profiles"]}
+        self.assertIn("calibration_pct", by_name["ss_custom_iron_works"])
+        self.assertGreater(
+            by_name["ss_custom_iron_works"]["calibration_pct"],
+            by_name["generico_sin_marca"]["calibration_pct"],
+        )
+
+        st_c, cal = self.api.handle_safe(
+            "GET",
+            "/api/mobile/calibration",
+            query={"profile": ["ss_custom_iron_works"]},
+            headers=hdrs,
+        )
+        self.assertEqual(st_c, 200, cal)
+        self.assertEqual(len(cal["modules"]), 5)
+        self.assertGreaterEqual(cal["percent"], 80)
+
+        # Unverified county emits honest warning & voice signals detect county + trade
+        st_prev, preview = self.api.handle_safe(
+            "POST",
+            "/api/mobile/runs/preview-draft",
+            body={
+                "key": "PIERCE1",
+                "project_title": "Pierce Gate",
+                "profile": "ss_custom_iron_works",
+                "specialty": "metal",
+                "county": "Pierce",
+                "voice_notes": "Trabajo en Snohomish County con barandal de acero y pintura exterior",
+            },
+            headers=hdrs,
+        )
+        self.assertEqual(st_prev, 200, preview)
+        self.assertFalse(preview["county_wage_verified"])
+        self.assertIn("King y Snohomish", preview["county_wage_warning"])
+        self.assertEqual(preview["detected"]["county"], "Snohomish")
+        self.assertIn("metal", preview["detected"]["specialties"])
+        self.assertIn("pintura", preview["detected"]["specialties"])
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

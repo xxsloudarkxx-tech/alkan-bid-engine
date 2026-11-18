@@ -9,9 +9,10 @@ import '../services/bidkit_api_client.dart';
 import '../services/offline_store.dart';
 import '../services/voice_dictation_service.dart';
 import '../theme/alkan_theme.dart';
+import '../widgets/alkan_components.dart';
 import '../widgets/alkan_loading_logo.dart';
 
-/// Pantalla 4 (P8) — Listo: tus 3 documentos + Candado de Control Humano obligatorio.
+/// Documentos reales (01 Cost Analysis, 02 Material List, 03 Client Proposal) + Control Humano.
 class PaqueteAprobacionScreen extends StatefulWidget {
   final BidKitApiClient api;
   final OfflineStore store;
@@ -91,7 +92,7 @@ class _PaqueteAprobacionScreenState extends State<PaqueteAprobacionScreen> {
   }
 
   Future<void> _shareProposalToClient(DeliverableDocItem proposalDoc) async {
-    if (_summary?.clientShareUnlocked != true) return;
+    if (_summary?.clientShareUnlocked != true || !proposalDoc.shareToClientAllowed) return;
     setState(() => _busyAction = true);
     try {
       final bytes = await widget.api.downloadRunFile(widget.runId, proposalDoc.filename);
@@ -123,7 +124,7 @@ class _PaqueteAprobacionScreenState extends State<PaqueteAprobacionScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(backgroundColor: listening ? AlkanColors.noGo : AlkanColors.accent),
+                style: ElevatedButton.styleFrom(backgroundColor: listening ? AlkanColors.noGo : AlkanColors.primary),
                 onPressed: () async {
                   if (listening) {
                     await voice.stopListening();
@@ -139,7 +140,7 @@ class _PaqueteAprobacionScreenState extends State<PaqueteAprobacionScreen> {
                   }
                 },
                 icon: Icon(listening ? Icons.stop : Icons.mic),
-                label: Text(listening ? 'Detener dictado' : '🎙️ Dictar ajuste'),
+                label: Text(listening ? 'Detener dictado' : 'Dictar ajuste por voz'),
               ),
               const SizedBox(height: 12),
               TextField(
@@ -166,7 +167,7 @@ class _PaqueteAprobacionScreenState extends State<PaqueteAprobacionScreen> {
       await widget.api.recordVoiceNote(runId: widget.runId, transcript: saved, kind: 'adjustment_request');
       await _load();
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Ajuste por voz registrado en bitácora.')));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Ajuste registrado en bitácora.')));
       }
     }
   }
@@ -196,7 +197,7 @@ class _PaqueteAprobacionScreenState extends State<PaqueteAprobacionScreen> {
                 needsIndependentLogin
                     ? 'Control humano estricto: quien preparó el estimado ($preparedBy) no puede auto-aprobarlo. Ingresa credenciales de un revisor/aprobador independiente:'
                     : 'Confirmas que revisaste los 3 documentos y autorizas liberar la Propuesta 03 (sin marca DRAFT).',
-                style: const TextStyle(fontSize: 13.5),
+                style: const TextStyle(fontSize: 13.5, color: AlkanColors.textSecondary),
               ),
               if (needsIndependentLogin) ...[
                 const SizedBox(height: 12),
@@ -298,7 +299,9 @@ class _PaqueteAprobacionScreenState extends State<PaqueteAprobacionScreen> {
   Widget build(BuildContext context) {
     final sum = _summary;
     if (_loading) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+      return const Scaffold(
+        body: Center(child: AlkanLoadingAnimation(size: 84, label: 'Cargando paquete de documentos...')),
+      );
     }
     if (sum == null) {
       return Scaffold(
@@ -315,232 +318,203 @@ class _PaqueteAprobacionScreenState extends State<PaqueteAprobacionScreen> {
     final propMatches = sum.documents.where((d) => d.docType == 'proposal');
     final proposalDoc = propMatches.isNotEmpty ? propMatches.first : null;
 
+    final lockColor = sum.isApproved
+        ? AlkanColors.approved
+        : sum.isRejectedOrNoGo
+            ? AlkanColors.noGo
+            : AlkanColors.draft;
+
     return Scaffold(
       appBar: AppBar(
         title: Row(
           children: [
             const AlkanLogoBadge(size: 30, withBorder: false),
             const SizedBox(width: 10),
-            Expanded(child: Text('Listo · ${run['key'] ?? ''}', overflow: TextOverflow.ellipsis)),
+            Expanded(child: Text('Documentos · ${run['key'] ?? ''}', overflow: TextOverflow.ellipsis)),
           ],
         ),
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          // Banda superior de Control Humano
-          Container(
-            padding: const EdgeInsets.all(14),
-            decoration: BoxDecoration(
-              color: sum.isApproved
-                  ? AlkanColors.approved.withOpacity(0.16)
-                  : sum.isRejectedOrNoGo
-                      ? AlkanColors.noGo.withOpacity(0.16)
-                      : AlkanColors.draft.withOpacity(0.16),
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(
-                color: sum.isApproved
-                    ? AlkanColors.approved
-                    : sum.isRejectedOrNoGo
-                        ? AlkanColors.noGo
-                        : AlkanColors.draft,
-                width: 2,
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 820),
+          child: ListView(
+            padding: const EdgeInsets.all(16),
+            children: [
+              // Estado de Control Humano
+              Container(
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  color: lockColor.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(color: lockColor.withOpacity(0.7), width: 1.5),
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      sum.isApproved
+                          ? Icons.verified
+                          : sum.isRejectedOrNoGo
+                              ? Icons.block
+                              : Icons.lock_outline,
+                      color: lockColor,
+                      size: 28,
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        (sum.humanLock['lock_message'] ?? '').toString(),
+                        style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 13.5, color: AlkanColors.textPrimary),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            child: Row(
-              children: [
-                Icon(
-                  sum.isApproved
-                      ? Icons.verified
-                      : sum.isRejectedOrNoGo
-                          ? Icons.block
-                          : Icons.lock,
-                  color: sum.isApproved
-                      ? AlkanColors.approved
-                      : sum.isRejectedOrNoGo
-                          ? AlkanColors.noGo
-                          : AlkanColors.draft,
-                  size: 30,
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Text(
-                    (sum.humanLock['lock_message'] ?? '').toString(),
-                    style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 13.5),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 14),
+              const SizedBox(height: 14),
 
-          // Resumen Ejecutivo (Precio, Margen, QA, BUDGET vs QUOTE)
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text((run['contractor'] ?? '').toString(), style: const TextStyle(fontWeight: FontWeight.w800, color: AlkanColors.muted)),
-                  const SizedBox(height: 4),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
+              // Totales calculados exclusivamente por el motor
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        '\$${fin['sell_price'] ?? '0.00'}',
-                        style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w900, color: AlkanColors.primary),
+                      Text((run['contractor'] ?? '').toString(), style: const TextStyle(fontWeight: FontWeight.w800, color: AlkanColors.textSecondary)),
+                      const SizedBox(height: 6),
+                      Wrap(
+                        spacing: 12,
+                        crossAxisAlignment: WrapCrossAlignment.end,
+                        children: [
+                          Text(
+                            '\$${fin['sell_price'] ?? '0.00'}',
+                            style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w900, color: AlkanColors.primary),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 5),
+                            child: Text(
+                              'Margen bruto: \$${fin['gross_margin'] ?? '--'}',
+                              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: AlkanColors.approved),
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(width: 10),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 5),
-                        child: Text(
-                          'Margen bruto: \$${fin['gross_margin'] ?? '--'}',
-                          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: AlkanColors.approved),
+                      const SizedBox(height: 10),
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        children: [
+                          _statPill('Directo: \$${fin['direct_cost'] ?? '0.00'}', AlkanColors.azulInstitucional),
+                          _statPill('QA: ${run['qa'] ?? 'N/A'}', run['qa'] == 'PASS' ? AlkanColors.approved : AlkanColors.noGo),
+                          _statPill('Decisión: ${run['decision'] ?? 'GO'}', run['decision'] == 'NO_GO' ? AlkanColors.noGo : AlkanColors.approved),
+                          _statPill('$quoteCount QUOTE · $budgetCount BUDGET', budgetCount > 0 ? AlkanColors.noGo : AlkanColors.approved),
+                        ],
+                      ),
+                      if (budgetCount > 0) ...[
+                        const SizedBox(height: 10),
+                        Text(
+                          '⚠️ Hay $budgetCount partidas BUDGET (marcadas en rojo en 02 Material List) pendientes de cotización real.',
+                          style: const TextStyle(color: AlkanColors.noGo, fontWeight: FontWeight.w700, fontSize: 13),
                         ),
+                      ],
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 18),
+
+              const Text('Los 3 Documentos del Motor', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w900)),
+              const SizedBox(height: 6),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                decoration: BoxDecoration(
+                  color: AlkanColors.azulSuave,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Text(
+                  '01 Cost Analysis es confidencial interno. 03 Client Proposal solo se libera tras aprobación independiente.',
+                  style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w700, color: AlkanColors.azulInstitucional),
+                ),
+              ),
+              const SizedBox(height: 10),
+              for (final doc in sum.documents)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: AlkanDocumentCard(
+                    doc: doc,
+                    busy: _busyAction,
+                    onView: () => _openPdf(doc),
+                    onShare: doc.shareToClientAllowed ? () => _shareProposalToClient(doc) : null,
+                  ),
+                ),
+
+              const SizedBox(height: 8),
+              AlkanPrimaryButton(
+                label: sum.clientShareUnlocked
+                    ? 'Enviar al GC (03 Proposal autorizado)'
+                    : 'Enviar al GC (bloqueado hasta autorización)',
+                icon: sum.clientShareUnlocked ? Icons.share : Icons.lock_outline,
+                backgroundColor: sum.clientShareUnlocked ? AlkanColors.primary : AlkanColors.textSecondary,
+                onPressed: (_busyAction || !sum.clientShareUnlocked || proposalDoc == null)
+                    ? null
+                    : () => _shareProposalToClient(proposalDoc),
+              ),
+
+              const SizedBox(height: 14),
+              const Divider(),
+              const SizedBox(height: 10),
+
+              if (!sum.isApproved && !sum.isRejectedOrNoGo) ...[
+                AlkanPrimaryButton(
+                  label: 'Mandar a revisión / Autorizar paquete',
+                  icon: Icons.check_circle_outline,
+                  backgroundColor: AlkanColors.approved,
+                  loading: _busyAction,
+                  onPressed: _authorizePackage,
+                ),
+                const SizedBox(height: 10),
+              ],
+              Row(
+                children: [
+                  Expanded(
+                    child: AlkanSecondaryButton(
+                      label: 'Ajuste por voz',
+                      icon: Icons.mic_outlined,
+                      onPressed: _busyAction ? null : _openVoiceAdjustmentDialog,
+                    ),
+                  ),
+                  if (!sum.isApproved && !sum.isRejectedOrNoGo) ...[
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: AlkanSecondaryButton(
+                        label: 'Marcar NO-GO',
+                        icon: Icons.cancel_outlined,
+                        foregroundColor: AlkanColors.noGo,
+                        borderColor: AlkanColors.noGo,
+                        onPressed: _busyAction ? null : _rejectPackage,
                       ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: [
-                      _statPill('Directo: \$${fin['direct_cost'] ?? '0.00'}', AlkanColors.primary),
-                      _statPill('QA: ${run['qa'] ?? 'N/A'}', run['qa'] == 'PASS' ? AlkanColors.approved : AlkanColors.noGo),
-                      _statPill('Decisión: ${run['decision'] ?? 'GO'}', run['decision'] == 'NO_GO' ? AlkanColors.noGo : AlkanColors.approved),
-                      _statPill('$quoteCount QUOTE · $budgetCount BUDGET', budgetCount > 0 ? AlkanColors.noGo : AlkanColors.approved),
-                    ],
-                  ),
-                  if (budgetCount > 0) ...[
-                    const SizedBox(height: 10),
-                    Text(
-                      '⚠️ Hay $budgetCount partidas con precio BUDGET (marcadas en rojo en 02 Material List) pendientes de cotización.',
-                      style: const TextStyle(color: AlkanColors.noGo, fontWeight: FontWeight.w700, fontSize: 13),
                     ),
                   ],
                 ],
               ),
-            ),
-          ),
-          const SizedBox(height: 16),
 
-          const Text('Listo — Tus 3 Documentos', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w900)),
-          const SizedBox(height: 6),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            decoration: BoxDecoration(
-              color: AlkanColors.primary.withOpacity(0.08),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: const Text(
-              'Cost Analysis es interno. Material List y Proposal son para el GC.',
-              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AlkanColors.primary),
-            ),
-          ),
-          const SizedBox(height: 10),
-          for (final doc in sum.documents)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: Card(
-                child: ListTile(
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-                  leading: Icon(
-                    Icons.picture_as_pdf,
-                    size: 36,
-                    color: doc.internalOnly ? AlkanColors.primary : AlkanColors.draft,
-                  ),
-                  title: Text(doc.title, style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
-                  subtitle: Text(
-                    '${doc.subtitle}\n${doc.internalOnly ? '🔒 Solo uso interno' : (doc.isDraft ? '🟠 DRAFT (No enviar)' : '🟢 Oficial Autorizado')}',
-                    style: const TextStyle(fontSize: 13),
-                  ),
-                  trailing: ElevatedButton(
-                    style: ElevatedButton.styleFrom(minimumSize: const Size(84, 44)),
-                    onPressed: _busyAction || !doc.exists ? null : () => _openPdf(doc),
-                    child: const Text('VER'),
-                  ),
-                ),
-              ),
-            ),
-
-          const SizedBox(height: 8),
-          // Botón de compartir al cliente (candado estricto: solo 03 y solo tras autorizar)
-          ElevatedButton.icon(
-            onPressed: (_busyAction || !sum.clientShareUnlocked || proposalDoc == null)
-                ? null
-                : () => _shareProposalToClient(proposalDoc),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: sum.clientShareUnlocked ? AlkanColors.primary : Colors.grey.shade700,
-              minimumSize: const Size(double.infinity, 62),
-            ),
-            icon: Icon(sum.clientShareUnlocked ? Icons.share : Icons.lock, size: 24),
-            label: Text(
-              sum.clientShareUnlocked
-                  ? '📤 ENVIAR AL GC (03 PROPOSAL)'
-                  : '🔒 ENVIAR AL GC (REQUIERE AUTORIZACIÓN)',
-              textAlign: TextAlign.center,
-            ),
-          ),
-
-          const SizedBox(height: 14),
-          const Divider(),
-          const SizedBox(height: 10),
-
-          if (!sum.isApproved && !sum.isRejectedOrNoGo) ...[
-            ElevatedButton.icon(
-              onPressed: _busyAction ? null : _authorizePackage,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AlkanColors.approved,
-                minimumSize: const Size(double.infinity, 64),
-              ),
-              icon: const Icon(Icons.check_circle, size: 28),
-              label: const Text('✅ MANDAR A REVISIÓN / AUTORIZAR'),
-            ),
-            const SizedBox(height: 10),
-          ],
-          Row(
-            children: [
-              Expanded(
-                child: OutlinedButton.icon(
-                  onPressed: _busyAction ? null : _openVoiceAdjustmentDialog,
-                  icon: const Icon(Icons.mic),
-                  label: const Text('Ajuste por Voz'),
-                ),
-              ),
-              const SizedBox(width: 10),
-              if (!sum.isApproved && !sum.isRejectedOrNoGo)
-                Expanded(
-                  child: OutlinedButton.icon(
-                    onPressed: _busyAction ? null : _rejectPackage,
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: AlkanColors.noGo,
-                      side: const BorderSide(color: AlkanColors.noGo, width: 1.8),
+              if (sum.voiceNotes.isNotEmpty) ...[
+                const SizedBox(height: 18),
+                const Text('Notas de Voz Registradas', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w900)),
+                const SizedBox(height: 8),
+                for (final vn in sum.voiceNotes)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Text('🎙️ ${vn['actor']}: ${vn['transcript']}'),
+                      ),
                     ),
-                    icon: const Icon(Icons.cancel),
-                    label: const Text('Marcar NO-GO'),
                   ),
-                ),
+              ],
+              const SizedBox(height: 24),
             ],
           ),
-
-          if (sum.voiceNotes.isNotEmpty) ...[
-            const SizedBox(height: 18),
-            const Text('Notas de Voz Registradas', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w900)),
-            const SizedBox(height: 8),
-            for (final vn in sum.voiceNotes)
-              Container(
-                margin: const EdgeInsets.only(bottom: 8),
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: AlkanColors.surface,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AlkanColors.border),
-                ),
-                child: Text('🎙️ ${vn['actor']}: ${vn['transcript']}'),
-              ),
-          ],
-          const SizedBox(height: 24),
-        ],
+        ),
       ),
     );
   }
@@ -549,7 +523,7 @@ class _PaqueteAprobacionScreenState extends State<PaqueteAprobacionScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.12),
+        color: color.withOpacity(0.1),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(label, style: TextStyle(color: color, fontWeight: FontWeight.w800, fontSize: 12.5)),

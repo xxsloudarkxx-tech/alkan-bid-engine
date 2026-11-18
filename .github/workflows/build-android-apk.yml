@@ -69,7 +69,9 @@ jobs:
 
       - name: Get Flutter dependencies
         working-directory: mobile_app
-        run: flutter pub get
+        run: |
+          flutter pub get
+          flutter analyze --no-fatal-infos
 
       - name: Build release APK
         working-directory: mobile_app

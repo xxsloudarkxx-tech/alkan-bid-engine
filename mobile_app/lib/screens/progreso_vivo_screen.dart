@@ -89,9 +89,8 @@ class _ProgresoVivoScreenState extends State<ProgresoVivoScreen> {
           Container(
             padding: const EdgeInsets.all(18),
             decoration: BoxDecoration(
-              color: AlkanColors.surface,
+              color: AlkanColors.azulProfundo,
               borderRadius: BorderRadius.circular(18),
-              border: Border.all(color: AlkanColors.primary, width: 1.5),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -108,7 +107,7 @@ class _ProgresoVivoScreenState extends State<ProgresoVivoScreen> {
                     ),
                     Text(
                       '$percent%',
-                      style: const TextStyle(color: Colors.amberAccent, fontSize: 22, fontWeight: FontWeight.w900),
+                      style: const TextStyle(color: AlkanColors.azulLuminoso, fontSize: 22, fontWeight: FontWeight.w900),
                     ),
                   ],
                 ),
@@ -119,7 +118,7 @@ class _ProgresoVivoScreenState extends State<ProgresoVivoScreen> {
                     value: percent / 100.0,
                     minHeight: 12,
                     backgroundColor: Colors.white24,
-                    valueColor: const AlwaysStoppedAnimation<Color>(Colors.amberAccent),
+                    valueColor: const AlwaysStoppedAnimation<Color>(AlkanColors.azulLuminoso),
                   ),
                 ),
                 const SizedBox(height: 12),

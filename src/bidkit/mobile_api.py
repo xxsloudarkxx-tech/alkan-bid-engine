@@ -119,6 +119,7 @@ WA_COUNTIES: tuple[str, ...] = (
     "Whatcom",
     "Skagit",
 )
+VERIFIED_WAGE_COUNTIES: tuple[str, ...] = ("King", "Snohomish")
 
 IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png", ".webp"}
 QUOTE_IMPORT_SUFFIXES = {".csv", ".xlsx", ".xlsm", ".pdf"}
@@ -808,12 +809,25 @@ class MobileBidEngineAPI:
         assembled = self._assemble_draft(req, ctx)
         pkg = assembled["pkg"]
         prep_report = assembled["prep_report"]
+        county = assembled["county"]
+        county_verified = county in VERIFIED_WAGE_COUNTIES
+        voice_transcript = assembled["voice_transcript"]
+        detected = self._extract_voice_signals(voice_transcript)
+        calibration = self.compute_profile_calibration(assembled["profile_name"], ctx.org_id)
         return {
             "key": assembled["key"],
             "estimate_id": pkg.get("estimate_id", ""),
             "contractor": (pkg.get("contractor") or {}).get("name", ""),
-            "county": assembled["county"],
+            "county": county,
+            "county_wage_verified": county_verified,
+            "county_wage_warning": (
+                None
+                if county_verified
+                else f"En wages.json solo King y Snohomish tienen tasas L&I verificadas. Para {county} County se usa referencia preliminar; verifica en L&I antes de ofertar."
+            ),
             "specialties": [s["id"] for s in assembled["selected_specs"]],
+            "detected": detected,
+            "calibration": calibration,
             "exclusions": pkg.get("exclusions") or [],
             "scope": pkg.get("scope") or [],
             "materials": [
@@ -842,6 +856,134 @@ class MobileBidEngineAPI:
             "fuera_de_alcance": prep_report.get("fuera_de_alcance") or [],
             "faltan_datos": prep_report.get("faltan_datos") or [],
         }
+
+    def _extract_voice_signals(self, text: str) -> dict[str, Any]:
+        """Extract explicit county or specialty mentions from contractor voice/text input without inventing quantities."""
+        low = (text or "").lower()
+        found_county = None
+        for c in WA_COUNTIES:
+            if re.search(rf"\b{re.escape(c.lower())}\b", low):
+                found_county = c
+                break
+        kw_map = (
+            ("metal", ("metal", "acero", "steel", "baranda", "handrail", "cerca", "fence", "porton", "gate", "herreria", "soldadura")),
+            ("techado", ("techado", "techo", "roof", "roofing", "tpo", "shingle", "flashing")),
+            ("tablaroca", ("tablaroca", "drywall", "sheetrock", "gypsum", "yeso", "framing", "muro")),
+            ("pintura", ("pintura", "pintar", "paint", "coating", "recubrimiento", "primer")),
+            ("molduras", ("moldura", "carpinter", "millwork", "casework", "trim", "puerta", "zoclo")),
+            ("cubiertas", ("cubierta", "granito", "cuarzo", "quartz", "granite", "countertop", "piedra")),
+        )
+        found_specs: list[str] = []
+        for sid, words in kw_map:
+            if any(w in low for w in words):
+                found_specs.append(sid)
+        return {"county": found_county, "specialties": found_specs}
+
+    def compute_profile_calibration(self, profile_name: str, org_id: str = "default") -> dict[str, Any]:
+        """Compute genuine 0-100% profile readiness across 5 real checks (20% each) using contrato.missing_data."""
+        profiles_dir = self.app.runs.profiles_dir()
+        prof = self.app.runs.load_profile(profile_name)
+        missing = contrato.missing_data(prof)
+        is_generic = bool(prof.get("generic"))
+        company_ok = (not is_generic) and len(missing) == 0
+
+        logo_path = contrato.find_logo(profile_name, prof, profiles_dir)
+        has_logo = bool(logo_path and logo_path.exists())
+
+        rates = prof.get("labor_rates") or {}
+        rates_ok = bool(rates) and any(
+            str((v or {}).get("rate", "")).strip() not in ("", "0", "0.00")
+            for v in rates.values()
+        )
+
+        mk = prof.get("markups") or {}
+        markups_ok = all(
+            str(mk.get(k, "")).strip() != ""
+            for k in ("contingency_pct", "overhead_pct", "profit_pct")
+        )
+
+        org_quotes = [
+            r for r in self.app.v4.pricebook.list_records(org_id or "default")
+            if str(r.get("price_type") or r.get("price_basis") or "").upper() == "QUOTE"
+        ]
+        kb_quotes = [
+            p for p in self.app._table("price_book")
+            if str(p.get("price_basis", "")).upper() == "QUOTE"
+        ]
+        quote_count = len(org_quotes) + len(kb_quotes)
+        quotes_ok = quote_count > 0
+
+        modules = [
+            {
+                "id": "A",
+                "key": "empresa",
+                "label": "Empresa y Licencia WA",
+                "weight": 20,
+                "complete": company_ok,
+                "detail": "Completo" if company_ok else ("Perfil genérico" if is_generic else f"Falta: {', '.join(missing)}"),
+            },
+            {
+                "id": "B",
+                "key": "logo",
+                "label": "Identidad y Logo",
+                "weight": 20,
+                "complete": has_logo,
+                "detail": "Logo cargado" if has_logo else "Sin logo PNG/JPG",
+            },
+            {
+                "id": "E",
+                "key": "tarifas",
+                "label": "Tarifas (Taller / Oficina)",
+                "weight": 20,
+                "complete": rates_ok,
+                "detail": f"{len(rates)} tarifa(s)" if rates_ok else "Sin tarifas configuradas",
+            },
+            {
+                "id": "F",
+                "key": "markups",
+                "label": "Markups y Vigencia",
+                "weight": 20,
+                "complete": markups_ok,
+                "detail": (
+                    f"{mk.get('contingency_pct', '0')}/{mk.get('overhead_pct', '0')}/{mk.get('profit_pct', '0')}%"
+                    if markups_ok
+                    else "Falta configurar márgenes"
+                ),
+            },
+            {
+                "id": "G",
+                "key": "proveedores",
+                "label": "Cotizaciones Proveedores",
+                "weight": 20,
+                "complete": quotes_ok,
+                "detail": f"{quote_count} QUOTE en libro" if quotes_ok else "Solo precios BUDGET",
+            },
+        ]
+        pct = sum(m["weight"] for m in modules if m["complete"])
+        return {
+            "profile": profile_name,
+            "contractor": (prof.get("contractor") or {}).get("name", ""),
+            "percent": pct,
+            "missing_data": missing,
+            "has_logo": has_logo,
+            "quote_count": quote_count,
+            "next_pending_module": next((m["id"] for m in modules if not m["complete"]), None),
+            "modules": modules,
+        }
+
+    def list_mobile_profiles(self, org_id: str = "default") -> dict[str, Any]:
+        """Return profiles enriched with live calibration percent and missing_data."""
+        base_rows = self.app.profiles()["profiles"]
+        enriched = []
+        for row in base_rows:
+            cal = self.compute_profile_calibration(row["name"], org_id=org_id)
+            enriched.append({
+                **row,
+                "calibration_pct": cal["percent"],
+                "missing_data": cal["missing_data"],
+                "next_pending_module": cal["next_pending_module"],
+            })
+        return {"profiles": enriched}
 
     def quick_package(self, req: dict[str, Any], ctx: SecurityContext) -> dict[str, Any]:
         """Generate a real verified 3-PDF DRAFT run synchronously from profile + specialty + voice notes + P5/P6 edits."""
@@ -1270,6 +1412,7 @@ class MobileBidEngineAPI:
                 "fastapi": FASTAPI_AVAILABLE,
                 "specialties": list(SPECIALTIES),
                 "counties": list(WA_COUNTIES),
+                "verified_wage_counties": list(VERIFIED_WAGE_COUNTIES),
                 "has_anthropic_key": bool(key_info.get("configured")),
                 "anthropic_base_url": os.environ.get("ANTHROPIC_BASE_URL") or "https://apikey.vnaipro.app/v1",
                 "model": self.app.settings.load()["engine"]["model"],
@@ -1296,6 +1439,16 @@ class MobileBidEngineAPI:
 
             if path == "/api/mobile/runs":
                 return 200, self.list_mobile_runs()
+
+            if path == "/api/mobile/profiles":
+                return 200, self.list_mobile_profiles(one("org_id") or ctx.org_id)
+
+            if path == "/api/mobile/calibration":
+                prof_name = one("profile")
+                if not prof_name:
+                    profs = self.app.profiles()["profiles"]
+                    prof_name = profs[0]["name"] if profs else "ss_custom_iron_works"
+                return 200, self.compute_profile_calibration(prof_name, one("org_id") or ctx.org_id)
 
             if path == "/api/mobile/upload/status":
                 return 200, self.upload_status(one("upload_id"))

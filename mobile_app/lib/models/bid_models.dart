@@ -72,6 +72,9 @@ class ContractorProfileItem {
   final bool hasLogo;
   final String trade;
   final Map<String, dynamic> markups;
+  final int? calibrationPct;
+  final List<String> missingData;
+  final String? nextPendingModule;
 
   const ContractorProfileItem({
     required this.name,
@@ -81,6 +84,9 @@ class ContractorProfileItem {
     required this.hasLogo,
     required this.trade,
     required this.markups,
+    this.calibrationPct,
+    this.missingData = const [],
+    this.nextPendingModule,
   });
 
   factory ContractorProfileItem.fromJson(Map<String, dynamic> json) => ContractorProfileItem(
@@ -91,6 +97,71 @@ class ContractorProfileItem {
         hasLogo: json['has_logo'] == true,
         trade: (json['trade'] ?? '').toString(),
         markups: (json['markups'] as Map<String, dynamic>? ?? const {}),
+        calibrationPct: (json['calibration_pct'] as num?)?.toInt(),
+        missingData: (json['missing_data'] as List<dynamic>? ?? const []).map((e) => e.toString()).toList(),
+        nextPendingModule: json['next_pending_module']?.toString(),
+      );
+}
+
+class CalibrationModule {
+  final String id;
+  final String key;
+  final String label;
+  final int weight;
+  final bool complete;
+  final String detail;
+
+  const CalibrationModule({
+    required this.id,
+    required this.key,
+    required this.label,
+    required this.weight,
+    required this.complete,
+    required this.detail,
+  });
+
+  factory CalibrationModule.fromJson(Map<String, dynamic> json) => CalibrationModule(
+        id: (json['id'] ?? '').toString(),
+        key: (json['key'] ?? '').toString(),
+        label: (json['label'] ?? '').toString(),
+        weight: (json['weight'] as num? ?? 20).toInt(),
+        complete: json['complete'] == true,
+        detail: (json['detail'] ?? '').toString(),
+      );
+}
+
+class ProfileCalibration {
+  final String profile;
+  final String contractor;
+  final int percent;
+  final List<String> missingData;
+  final bool hasLogo;
+  final int quoteCount;
+  final String? nextPendingModule;
+  final List<CalibrationModule> modules;
+
+  const ProfileCalibration({
+    required this.profile,
+    required this.contractor,
+    required this.percent,
+    required this.missingData,
+    required this.hasLogo,
+    required this.quoteCount,
+    this.nextPendingModule,
+    this.modules = const [],
+  });
+
+  factory ProfileCalibration.fromJson(Map<String, dynamic> json) => ProfileCalibration(
+        profile: (json['profile'] ?? '').toString(),
+        contractor: (json['contractor'] ?? '').toString(),
+        percent: (json['percent'] as num? ?? 0).toInt(),
+        missingData: (json['missing_data'] as List<dynamic>? ?? const []).map((e) => e.toString()).toList(),
+        hasLogo: json['has_logo'] == true,
+        quoteCount: (json['quote_count'] as num? ?? 0).toInt(),
+        nextPendingModule: json['next_pending_module']?.toString(),
+        modules: (json['modules'] as List<dynamic>? ?? const [])
+            .map((e) => CalibrationModule.fromJson(Map<String, dynamic>.from(e as Map)))
+            .toList(),
       );
 }
 
@@ -440,6 +511,12 @@ class EditableLaborLine {
 class DraftPreview {
   final String key;
   final String contractor;
+  final String county;
+  final bool countyWageVerified;
+  final String? countyWageWarning;
+  final List<String> specialties;
+  final String? detectedCounty;
+  final List<String> detectedSpecialties;
   final List<String> exclusions;
   final List<EditableMaterialLine> materials;
   final List<EditableLaborLine> labor;
@@ -449,6 +526,12 @@ class DraftPreview {
   const DraftPreview({
     required this.key,
     required this.contractor,
+    this.county = 'King',
+    this.countyWageVerified = true,
+    this.countyWageWarning,
+    this.specialties = const [],
+    this.detectedCounty,
+    this.detectedSpecialties = const [],
     required this.exclusions,
     required this.materials,
     required this.labor,
@@ -456,19 +539,28 @@ class DraftPreview {
     required this.validityDays,
   });
 
-  factory DraftPreview.fromJson(Map<String, dynamic> json) => DraftPreview(
-        key: (json['key'] ?? '').toString(),
-        contractor: (json['contractor'] ?? '').toString(),
-        exclusions: (json['exclusions'] as List<dynamic>? ?? const []).map((e) => e.toString()).toList(),
-        materials: (json['materials'] as List<dynamic>? ?? const [])
-            .map((e) => EditableMaterialLine.fromJson(Map<String, dynamic>.from(e as Map)))
-            .toList(),
-        labor: (json['labor'] as List<dynamic>? ?? const [])
-            .map((e) => EditableLaborLine.fromJson(Map<String, dynamic>.from(e as Map)))
-            .toList(),
-        markups: Map<String, dynamic>.from(json['markups'] as Map? ?? const {}),
-        validityDays: (json['validity_days'] as num? ?? 30).toInt(),
-      );
+  factory DraftPreview.fromJson(Map<String, dynamic> json) {
+    final det = Map<String, dynamic>.from(json['detected'] as Map? ?? const {});
+    return DraftPreview(
+      key: (json['key'] ?? '').toString(),
+      contractor: (json['contractor'] ?? '').toString(),
+      county: (json['county'] ?? 'King').toString(),
+      countyWageVerified: json['county_wage_verified'] != false,
+      countyWageWarning: json['county_wage_warning']?.toString(),
+      specialties: (json['specialties'] as List<dynamic>? ?? const []).map((e) => e.toString()).toList(),
+      detectedCounty: det['county']?.toString(),
+      detectedSpecialties: (det['specialties'] as List<dynamic>? ?? const []).map((e) => e.toString()).toList(),
+      exclusions: (json['exclusions'] as List<dynamic>? ?? const []).map((e) => e.toString()).toList(),
+      materials: (json['materials'] as List<dynamic>? ?? const [])
+          .map((e) => EditableMaterialLine.fromJson(Map<String, dynamic>.from(e as Map)))
+          .toList(),
+      labor: (json['labor'] as List<dynamic>? ?? const [])
+          .map((e) => EditableLaborLine.fromJson(Map<String, dynamic>.from(e as Map)))
+          .toList(),
+      markups: Map<String, dynamic>.from(json['markups'] as Map? ?? const {}),
+      validityDays: (json['validity_days'] as num? ?? 30).toInt(),
+    );
+  }
 }
 
 class PendingOfflineEstimate {

@@ -190,12 +190,28 @@ class BidKitApiClient {
 
   Future<List<ContractorProfileItem>> fetchProfiles() async {
     final s = _requireSession();
-    final uri = Uri.parse('${s.baseUrl}/api/app/profiles');
+    try {
+      final uri = Uri.parse('${s.baseUrl}/api/mobile/profiles');
+      final res = await _http.get(uri, headers: _headers()).timeout(const Duration(seconds: 12));
+      final data = Map<String, dynamic>.from(_decodeJson(res) as Map);
+      return (data['profiles'] as List<dynamic>? ?? const [])
+          .map((e) => ContractorProfileItem.fromJson(e as Map<String, dynamic>))
+          .toList();
+    } catch (_) {
+      final uri = Uri.parse('${s.baseUrl}/api/app/profiles');
+      final res = await _http.get(uri, headers: _headers()).timeout(const Duration(seconds: 12));
+      final data = Map<String, dynamic>.from(_decodeJson(res) as Map);
+      return (data['profiles'] as List<dynamic>? ?? const [])
+          .map((e) => ContractorProfileItem.fromJson(e as Map<String, dynamic>))
+          .toList();
+    }
+  }
+
+  Future<ProfileCalibration> fetchCalibration(String profileName) async {
+    final s = _requireSession();
+    final uri = Uri.parse('${s.baseUrl}/api/mobile/calibration?profile=${Uri.encodeQueryComponent(profileName)}');
     final res = await _http.get(uri, headers: _headers()).timeout(const Duration(seconds: 12));
-    final data = Map<String, dynamic>.from(_decodeJson(res) as Map);
-    return (data['profiles'] as List<dynamic>? ?? const [])
-        .map((e) => ContractorProfileItem.fromJson(e as Map<String, dynamic>))
-        .toList();
+    return ProfileCalibration.fromJson(Map<String, dynamic>.from(_decodeJson(res) as Map));
   }
 
   Future<Map<String, dynamic>> fetchProfileDetail(String name) async {

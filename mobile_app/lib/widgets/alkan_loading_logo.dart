@@ -22,11 +22,11 @@ class AlkanLogoBadge extends StatelessWidget {
       height: size,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: const Color(0xFF041428),
-        border: withBorder ? Border.all(color: const Color(0xFF38BDF8), width: math.max(1.5, size * 0.03)) : null,
+        color: AlkanColors.azulProfundo,
+        border: withBorder ? Border.all(color: AlkanColors.azulLuminoso, width: math.max(1.5, size * 0.03)) : null,
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF0284C7).withOpacity(0.28),
+            color: AlkanColors.azulElectrico.withOpacity(0.28),
             blurRadius: size * 0.22,
             spreadRadius: 1,
           ),
@@ -112,8 +112,8 @@ class _AlkanLoadingAnimationState extends State<AlkanLoadingAnimation> with Sing
                   height: outer,
                   child: const CircularProgressIndicator(
                     strokeWidth: 4,
-                    valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF0EA5E9)),
-                    backgroundColor: Color(0x330EA5E9),
+                    valueColor: AlwaysStoppedAnimation<Color>(AlkanColors.azulLuminoso),
+                    backgroundColor: Color(0x3320B9FF),
                   ),
                 ),
               ),

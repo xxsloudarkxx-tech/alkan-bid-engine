@@ -53,11 +53,11 @@ class _AlkanBidEngineAppState extends State<AlkanBidEngineApp> {
       theme: buildAlkanTheme(),
       home: _booting
           ? const Scaffold(
-              backgroundColor: Color(0xFF041428),
+              backgroundColor: AlkanColors.azulProfundo,
               body: Center(
                 child: AlkanLoadingAnimation(
-                  size: 160,
-                  label: 'Iniciando ALKAN Bid Engine...',
+                  size: 140,
+                  label: 'Iniciando ALKAN BidEngine...',
                   textColor: Colors.white,
                 ),
               ),

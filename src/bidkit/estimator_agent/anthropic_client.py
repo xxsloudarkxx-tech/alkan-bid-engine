@@ -21,7 +21,7 @@ from urllib.request import Request, urlopen
 API_URL = "https://apikey.vnaipro.app/v1/messages"
 MODELS_URL = "https://apikey.vnaipro.app/v1/models"
 API_VERSION = "2023-06-01"
-DEFAULT_MODEL = "claude-sonnet-5"
+DEFAULT_MODEL = os.environ.get("BIDKIT_CLAUDE_MODEL", "").strip() or "claude-fable-5-2"
 # Models that only accept manual thinking (type "enabled" + budget_tokens).
 _MANUAL_THINKING = re.compile(r"claude-(3|(opus|sonnet|haiku)-4(-[015])?(-\d{8})?$)")
 _CACHE = {"type": "ephemeral"}

@@ -49,7 +49,7 @@ class AlkanStepHeader extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                 decoration: BoxDecoration(
-                  color: AlkanColors.primary.withOpacity(0.08),
+                  color: AlkanColors.azulSuave,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(feedsDocument!,
@@ -64,8 +64,8 @@ class AlkanStepHeader extends StatelessWidget {
           child: LinearProgressIndicator(
             value: progress,
             minHeight: 7,
-            backgroundColor: AlkanColors.border,
-            valueColor: const AlwaysStoppedAnimation<Color>(AlkanColors.accent),
+            backgroundColor: AlkanColors.azulSuave,
+            valueColor: const AlwaysStoppedAnimation<Color>(AlkanColors.azulPrincipal),
           ),
         ),
         const SizedBox(height: 12),
@@ -195,14 +195,14 @@ class AlkanCoachTip extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 10),
       padding: const EdgeInsets.fromLTRB(14, 12, 8, 12),
       decoration: BoxDecoration(
-        color: AlkanColors.accent.withOpacity(0.12),
+        color: AlkanColors.azulSuave,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AlkanColors.accent.withOpacity(0.5)),
+        border: Border.all(color: AlkanColors.azulLuminoso.withOpacity(0.45)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(Icons.lightbulb_outline, size: 20, color: AlkanColors.draft),
+          const Icon(Icons.lightbulb_outline, size: 20, color: AlkanColors.primary),
           const SizedBox(width: 10),
           Expanded(
             child: Text(text,

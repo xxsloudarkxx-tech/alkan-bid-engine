@@ -24,7 +24,7 @@ EFFORTS = ("low", "medium", "high", "xhigh", "max")
 
 DEFAULTS = {
     "engine": {
-        "model": os.environ.get("BIDKIT_CLAUDE_MODEL", "").strip() or "claude-sonnet-5",
+        "model": os.environ.get("BIDKIT_CLAUDE_MODEL", "").strip() or "claude-fable-5-2",
         "review_model": "",                 # vacío = mismo modelo, contexto nuevo
         "effort": "high",
         "max_turns": 140,
@@ -80,13 +80,10 @@ class AppSettings:
         self._lock = threading.RLock()
         self._memory: dict[str, str] = {}
         self._saved: dict[str, str] = {}
-        for candidate in (self.secrets_path, _secrets_dir() / "secrets.json"):
-            try:
-                if candidate.exists():
-                    self._saved = json.loads(candidate.read_text(encoding="utf-8"))
-                    break
-            except (OSError, ValueError):
-                continue
+        try:
+            self._saved = json.loads(self.secrets_path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            self._saved = {}
         self.apply_legacy_env()
 
     # ───────────────────────────── settings
