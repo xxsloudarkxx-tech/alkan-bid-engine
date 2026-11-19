@@ -82,8 +82,18 @@ def build(input_path: str | Path, out_dir: str | Path) -> dict:
     out_dir = Path(out_dir)
     rendered = render_all(pkg, r, out_dir)
     report = qa(pkg, r, rendered["files"])
+    from .bid_snapshot import build_bid_snapshot
     from .suppliers import load_directory, purchasing_csv
     raw = json.loads(Path(input_path).read_text(encoding="utf-8"))
+    snapshot = raw.get("bid_snapshot") or build_bid_snapshot(
+        raw.get("notes") or [],
+        project_name=pkg.project.get("title"),
+        project_dict=pkg.project,
+        pkg_dict=raw,
+    )
+    (out_dir / f"{pkg.project['key']}_bid_snapshot.json").write_text(
+        json.dumps(snapshot, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
     extras = {}
     if any(m.get("supplier") for m in raw["materials"]):
         path = out_dir / f"{pkg.project['key']}_04_COMPRAS_POR_PROVEEDOR.csv"
@@ -96,6 +106,7 @@ def build(input_path: str | Path, out_dir: str | Path) -> dict:
         "qa": report,
         "files": {k: {"path": str(v), "sha256": _sha(v)} for k, v in rendered["files"].items()},
         "extras": {k: {"path": str(v), "sha256": _sha(v)} for k, v in extras.items()},
+        "bid_snapshot": snapshot,
     }
     (out_dir / f"{pkg.project['key']}_package_manifest.json").write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")

@@ -28,6 +28,7 @@ from urllib.parse import parse_qs, quote, urlsplit
 from . import contrato, delivery
 from .app_api import AppAPI, Download
 from .app_settings import AppSettings
+from .bid_snapshot import build_bid_snapshot
 from .criterio import review as review_criterio, write_report as write_criterio_report
 from .deliverables_v4 import ImmutableVersionError
 from .domain import AuditLedger, InvalidStateTransitionError
@@ -853,6 +854,12 @@ class MobileBidEngineAPI:
             ],
             "markups": pkg.get("markups") or {},
             "validity_days": pkg.get("validity_days", 30),
+            "bid_snapshot": build_bid_snapshot(
+                notes=[{"kind": "date", "text": f"County: {county}", "source": "Profile & intake"}],
+                project_name=assembled["key"],
+                project_dict=pkg.get("project"),
+                pkg_dict=pkg,
+            ),
             "fuera_de_alcance": prep_report.get("fuera_de_alcance") or [],
             "faltan_datos": prep_report.get("faltan_datos") or [],
         }
@@ -1065,6 +1072,7 @@ class MobileBidEngineAPI:
             "error": None,
             "authorized_by": None,
             "source_run": None,
+            "bid_snapshot": manifest.get("bid_snapshot"),
         }
         self.app.runs._write(run_dir, state)
         delivery.make_zip(run_dir, key, package_json=True, log=False)
@@ -1146,6 +1154,7 @@ class MobileBidEngineAPI:
                 "voice_notes_count": len(self._read_voice_notes(run_dir)),
                 "client_share_unlocked": bool(is_approved and state.get("qa") == "PASS"),
                 "progress_pct": prog["percent"],
+                "bid_snapshot": (manifest or {}).get("bid_snapshot") or state.get("bid_snapshot"),
             })
         return {"runs": cards, "active": self.app.runs.active()}
 
@@ -1270,6 +1279,12 @@ class MobileBidEngineAPI:
             "documents": documents,
             "voice_notes": self._read_voice_notes(run_dir),
             "report_md": run_data.get("report_md", ""),
+            "bid_snapshot": (
+                (manifest or {}).get("bid_snapshot")
+                or run_data.get("bid_snapshot")
+                or (json.loads((run_dir / "bid_snapshot.json").read_text(encoding="utf-8")) if (run_dir / "bid_snapshot.json").exists() else None)
+                or build_bid_snapshot(project_name=key, pkg_dict=pkg_raw)
+            ),
         }
 
     def import_mobile_quote(self, req: dict[str, Any], ctx: SecurityContext) -> dict[str, Any]:
@@ -1514,6 +1529,23 @@ class MobileBidEngineAPI:
             if path == "/api/mobile/runs/quick-package":
                 return 200, self.quick_package(req, ctx)
 
+            if path == "/api/mobile/runs/recycle":
+                require_permission(ctx, "estimate:create", org_id=ctx.org_id)
+                res = self.app.runs.recycle(
+                    project_key=req.get("key"),
+                    dry_run=bool(req.get("dry_run", False)),
+                )
+                return 200, res
+
+            if path == "/api/mobile/runs/purge":
+                require_permission(ctx, "estimate:create", org_id=ctx.org_id)
+                res = self.app.runs.purge_superseded(
+                    project_key=req.get("key"),
+                    keep_latest=int(req.get("keep_latest", 1)),
+                    dry_run=bool(req.get("dry_run", False)),
+                )
+                return 200, res
+
             m_vn = re.fullmatch(r"/api/mobile/runs/([^/]+)/voice-note", path)
             if m_vn:
                 return 200, self.add_voice_note(m_vn.group(1), req, ctx)
@@ -1540,6 +1572,16 @@ class MobileBidEngineAPI:
                 if result is not None:
                     return 200, result
 
+            return 404, {"error": f"Ruta no encontrada: {path}"}
+
+        if method == "DELETE":
+            m_del = re.fullmatch(r"/api/mobile/runs/([^/]+)", path)
+            if m_del:
+                require_permission(ctx, "estimate:create", org_id=ctx.org_id)
+                run_id = m_del.group(1)
+                run_dir = self.app.runs.run_dir(run_id)
+                from .recycler import delete_single_run
+                return 200, delete_single_run(run_dir)
             return 404, {"error": f"Ruta no encontrada: {path}"}
 
         return 405, {"error": f"Método no soportado: {method}"}
@@ -1593,16 +1635,16 @@ def create_fastapi_app(api: MobileBidEngineAPI | None = None):
         CORSMiddleware,
         allow_origins=origins or ["*"],
         allow_credentials=False,
-        allow_methods=["GET", "POST", "OPTIONS"],
+        allow_methods=["GET", "POST", "DELETE", "OPTIONS"],
         allow_headers=["*"],
     )
 
-    @fapp.api_route("/{full_path:path}", methods=["GET", "POST", "OPTIONS"])
+    @fapp.api_route("/{full_path:path}", methods=["GET", "POST", "DELETE", "OPTIONS"])
     async def _catch_all(full_path: str, request: Request):
         path = "/" + full_path.lstrip("/")
         query = {k: request.query_params.getlist(k) for k in request.query_params.keys()}
         body: dict[str, Any] = {}
-        if request.method == "POST":
+        if request.method in ("POST", "DELETE"):
             raw = await request.body()
             if raw:
                 try:

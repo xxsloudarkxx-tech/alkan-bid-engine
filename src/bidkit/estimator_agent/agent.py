@@ -278,8 +278,19 @@ class EstimatorAgent:
         if self.reviewer is not None and self.reviewer is not self.client:
             for k, v in self.reviewer.usage.items():
                 usage[k] = usage.get(k, 0) + v
+
+        from ..bid_snapshot import build_bid_snapshot
+        pkg_raw = None
+        if self.tb.package_path and self.tb.package_path.exists():
+            try:
+                pkg_raw = json.loads(self.tb.package_path.read_text(encoding="utf-8"))
+            except (OSError, ValueError):
+                pass
+        snapshot = build_bid_snapshot(self.tb.notes, project_name=key, pkg_dict=pkg_raw)
+
         return {"report": report, "notes": self.tb.notes, "build": self.tb.last_build,
                 "package": str(self.tb.package_path) if self.tb.package_path else None,
+                "bid_snapshot": snapshot,
                 "usage": usage, "images": self.tb.images, "reviews": self.reviews, "sanity": self.tb.last_sanity,
                 "warnings": list(getattr(self.client, "warnings", [])), "model": getattr(self.client, "model", ""),
                 "completed": bool(report)}
@@ -321,6 +332,41 @@ def write_report(out_dir: Path, key: str, result: dict) -> Path:
         lines += [f"- {x}" for x in rep["must_verify"]] + [""]
     else:
         lines += ["**La corrida terminó sin reporte final** (límite de pasos o de tokens). Revise la bitácora antes de usar los números.", ""]
+
+    from ..bid_snapshot import build_bid_snapshot
+    snap = result.get("bid_snapshot")
+    if not snap:
+        snap = build_bid_snapshot(result.get("notes") or [], project_name=key)
+    if snap:
+        lines += ["## Bid Snapshot"]
+        lines += [f"- **Proyecto:** {snap.get('project_name') or key}"]
+        dates = snap.get("dates") or {}
+        bd = dates.get("bid_due") or {}
+        if bd.get("date"):
+            meth = f" ({bd['method']})" if bd.get("method") else ""
+            t_str = f" a las {bd['time']}" if bd.get("time") else ""
+            lines += [f"- **Fecha límite de entrega (Bid Due):** {bd['date']}{t_str}{meth}"]
+        pm = dates.get("pre_bid_meeting") or {}
+        if pm.get("date"):
+            mand = " (OBLIGATORIA)" if pm.get("mandatory") else " (No obligatoria)"
+            passed = " — YA PASÓ" if pm.get("passed") else ""
+            lines += [f"- **Junta Pre-Bid / Visita:** {pm['date']}{mand}{passed}"]
+        qd = dates.get("questions_due") or {}
+        if qd.get("date"):
+            lines += [f"- **Límite de preguntas (RFI):** {qd['date']}"]
+        be = snap.get("budget_or_engineers_estimate") or {}
+        if be.get("amount"):
+            cov = "proyecto completo" if be.get("covers") == "whole_project" else "esta especialidad"
+            lines += [f"- **Presupuesto oficial / Engineer's Estimate:** {be['amount']} ({cov}) _[Referencia, no ancla]_"]
+        reqs = snap.get("bid_requirements") or []
+        if reqs:
+            lines += ["- **Requisitos de licitación:**"]
+            for rq in reqs:
+                st_icon = "🔴" if rq.get("status") == "cannot_meet" else ("🟡" if rq.get("status") == "at_risk" else "🟢")
+                lines += [f"  - {st_icon} {rq.get('item', '')} _(fuente: {rq.get('source', '')})_"]
+        if snap.get("go_no_go_explanation"):
+            lines += [f"- **Alerta Go/No-Go:** {snap['go_no_go_explanation']}"]
+        lines += [""]
     if t:
         lines += ["## Totales", f"- Precio de venta: ${t['price']}", f"- Costo directo: ${t['direct']}",
                   f"- QA: {b['qa']['status']}", f"- Propuesta: {b['proposal_release']['label']}", ""]

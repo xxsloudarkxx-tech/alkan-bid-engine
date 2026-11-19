@@ -5,7 +5,7 @@
   "contractor": {
     "name": "JC GRANITE DESIGN LLC",
     "tag": "COUNTERTOPS · SOLID SURFACES",
-    "address": "Tacoma, WA",
+    "address": "2247 W Cunningham Rd, Pasco, WA 99301 [verificar CP]",
     "license": "WA Contractor Lic. JCGRAGD775Q9 · UBI 605 354 075",
     "phone": "(509) 331-3687",
     "email": "",
@@ -83,5 +83,6 @@
       "patron": "(?i)\\b(base|wall|tall) cabinets?\\b|\\bcasework\\b(?!.*countertop)",
       "motivo": "JC Granite no hace casework: va con el sub de millwork (p.ej. Díaz)."
     }
-  ]
+  ],
+  "alerta_registro": "Licencia mostrada pendiente de verificar como ACTIVA en L&I (secure.lni.wa.gov/verify). WhatsApp (abr-jul 2026) indicaba registro no renovado / aseguranza y bond en proceso. Confirmar activo antes de ofertar public works (RCW 18.27)."
 }

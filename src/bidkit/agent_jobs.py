@@ -185,6 +185,24 @@ class RunManager:
         state["events"] = list(self._events.get(run_id) or self._tail(run_dir, state["key"]))
         report = run_dir / f"{state['key']}_REPORTE_AGENTE.md"
         state["report_md"] = report.read_text(encoding="utf-8") if report.exists() else ""
+        snap_file = run_dir / "bid_snapshot.json"
+        if snap_file.exists():
+            try:
+                state["bid_snapshot"] = json.loads(snap_file.read_text(encoding="utf-8"))
+            except (OSError, ValueError):
+                pass
+        elif not state.get("bid_snapshot"):
+            from .bid_snapshot import build_bid_snapshot
+            man_file = run_dir / f"{state['key']}_package_manifest.json"
+            if man_file.exists():
+                try:
+                    man = json.loads(man_file.read_text(encoding="utf-8"))
+                    if man.get("bid_snapshot"):
+                        state["bid_snapshot"] = man["bid_snapshot"]
+                except (OSError, ValueError):
+                    pass
+            if not state.get("bid_snapshot"):
+                state["bid_snapshot"] = build_bid_snapshot(project_name=state["key"])
         return state
 
     @staticmethod
@@ -351,6 +369,23 @@ class RunManager:
         build = result.get("build") or {}
         totals = (build.get("computation") or {}).get("totals") or {}
         decision = (result.get("report") or {}).get("decision")
+
+        from .bid_snapshot import build_bid_snapshot
+        pkg_file = run_dir / f"{key.lower()}.json"
+        pkg_data = None
+        if pkg_file.exists():
+            try:
+                pkg_data = json.loads(pkg_file.read_text(encoding="utf-8"))
+            except (OSError, ValueError):
+                pass
+        snapshot = result.get("bid_snapshot") or build_bid_snapshot(
+            result.get("notes") or [],
+            project_name=key,
+            pkg_dict=pkg_data,
+        )
+        state["bid_snapshot"] = snapshot
+        (run_dir / "bid_snapshot.json").write_text(json.dumps(snapshot, indent=2, ensure_ascii=False), encoding="utf-8")
+
         state.update(decision=decision, price=totals.get("price"), direct=totals.get("direct"),
                      qa=(build.get("qa") or {}).get("status"), proposal=(build.get("proposal_release") or {}).get("label"),
                      tokens=state["tokens"], usage=result.get("usage"), images=result.get("images"),
@@ -487,3 +522,19 @@ class RunManager:
         delivery.make_zip(out, src["key"], package_json=deliv["zip_include_package_json"], log=False)
         self._write(out, state)
         return self.get(new_id)
+
+    def purge_superseded(self, project_key: str | None = None, keep_latest: int = 1, dry_run: bool = False) -> dict:
+        """Purga borradores redundantes u obsoletos para optimizar almacenamiento."""
+        from .recycler import purge_superseded_runs
+        return purge_superseded_runs(self.base, project_key=project_key, keep_latest_drafts=keep_latest, dry_run=dry_run)
+
+    def purge_uploads(self, max_age_seconds: float = 3600.0, dry_run: bool = False) -> dict:
+        """Purga fragmentos y archivos de carga temporales en data/uploads/."""
+        from .recycler import purge_raw_uploads
+        return purge_raw_uploads(self.root / "data" / "uploads", max_age_seconds=max_age_seconds, dry_run=dry_run)
+
+    def recycle(self, project_key: str | None = None, dry_run: bool = False) -> dict:
+        """Ejecuta una pasada integral de reciclaje de corridas y cargas temporales."""
+        from .recycler import recycle_all
+        return recycle_all(self.root, project_key=project_key, dry_run=dry_run)
+
