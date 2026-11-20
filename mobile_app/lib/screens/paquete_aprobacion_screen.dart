@@ -295,6 +295,54 @@ class _PaqueteAprobacionScreenState extends State<PaqueteAprobacionScreen> {
     }
   }
 
+  Future<void> _deleteCurrentRun() async {
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Eliminar Estimado', style: TextStyle(fontWeight: FontWeight.w900)),
+        content: const Text('¿Deseas eliminar este estimado? Se borrarán sus documentos y el registro del servidor.'),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancelar')),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: AlkanColors.noGo),
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('ELIMINAR'),
+          ),
+        ],
+      ),
+    );
+    if (ok != true) return;
+    setState(() => _busyAction = true);
+    try {
+      await widget.api.deleteRun(widget.runId);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Estimado eliminado correctamente.')));
+        Navigator.pop(context);
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _busyAction = false);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error al eliminar: $e')));
+      }
+    }
+  }
+
+  void _resumeEstimate(Map<String, dynamic> run) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (_) => EstimateFlowScreen(
+          api: widget.api,
+          store: widget.store,
+          initialProfile: (run['profile'] ?? '').toString(),
+          initialTitle: (run['key'] ?? '').toString(),
+          initialCounty: (run['county'] ?? '').toString(),
+          initialSpecialties: [(run['specialty'] ?? 'metal').toString()],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final sum = _summary;
@@ -333,6 +381,18 @@ class _PaqueteAprobacionScreenState extends State<PaqueteAprobacionScreen> {
             Expanded(child: Text('Documentos · ${run['key'] ?? ''}', overflow: TextOverflow.ellipsis)),
           ],
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.edit_note_rounded),
+            tooltip: 'Editar / Continuar en Asistente',
+            onPressed: () => _resumeEstimate(run),
+          ),
+          IconButton(
+            icon: const Icon(Icons.delete_outline_rounded, color: AlkanColors.noGo),
+            tooltip: 'Eliminar Estimado',
+            onPressed: _busyAction ? null : _deleteCurrentRun,
+          ),
+        ],
       ),
       body: Center(
         child: ConstrainedBox(
@@ -490,6 +550,18 @@ class _PaqueteAprobacionScreenState extends State<PaqueteAprobacionScreen> {
                         foregroundColor: AlkanColors.noGo,
                         borderColor: AlkanColors.noGo,
                         onPressed: _busyAction ? null : _rejectPackage,
+                      ),
+                    ),
+                  ],
+                  if (sum.isRejectedOrNoGo) ...[
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: AlkanSecondaryButton(
+                        label: 'Editar / Reanudar',
+                        icon: Icons.edit_note_rounded,
+                        foregroundColor: AlkanColors.primary,
+                        borderColor: AlkanColors.primary,
+                        onPressed: () => _resumeEstimate(run),
                       ),
                     ),
                   ],

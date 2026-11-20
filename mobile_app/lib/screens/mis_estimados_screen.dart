@@ -237,6 +237,119 @@ class _MisEstimadosScreenState extends State<MisEstimadosScreen> with WidgetsBin
     await _refresh();
   }
 
+  Future<bool> _confirmDeleteRun(EstimateRunCard run) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Eliminar Estimado', style: TextStyle(fontWeight: FontWeight.w900)),
+        content: Text('¿Deseas eliminar "${run.key}"? Se borrará de la lista y del almacenamiento del servidor.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('Cancelar'),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: AlkanColors.noGo),
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('ELIMINAR'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true) return false;
+
+    try {
+      await widget.api.deleteRun(run.id);
+    } catch (_) {}
+    if (mounted) {
+      setState(() {
+        _runs.removeWhere((r) => r.id == run.id);
+      });
+      await widget.store.saveCachedRuns(_runs);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Estimado ${run.key} eliminado correctamente.')),
+      );
+    }
+    return true;
+  }
+
+  Future<void> _resumeOrEditRun(EstimateRunCard run) async {
+    String? voiceNotes;
+    try {
+      final summary = await widget.api.fetchRunSummary(run.id);
+      final rawNotes = summary.run['voice_notes'] ?? summary.run['notes'];
+      if (rawNotes is String) voiceNotes = rawNotes;
+    } catch (_) {}
+
+    if (!mounted) return;
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => EstimateFlowScreen(
+          api: widget.api,
+          store: widget.store,
+          initialProfile: run.profile,
+          initialTitle: run.key,
+          initialVoiceNotes: voiceNotes,
+          initialCounty: run.county,
+          initialSpecialties: [run.specialty],
+        ),
+      ),
+    );
+    await _refresh();
+  }
+
+  void _showRunOptionsSheet(EstimateRunCard run) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      builder: (ctx) => SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 14),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 40,
+                height: 4,
+                margin: const EdgeInsets.only(bottom: 12),
+                decoration: BoxDecoration(color: Colors.grey.shade400, borderRadius: BorderRadius.circular(2)),
+              ),
+              ListTile(
+                leading: const Icon(Icons.remove_red_eye_outlined, color: AlkanColors.primary),
+                title: const Text('Ver paquete de documentos', style: TextStyle(fontWeight: FontWeight.w700)),
+                subtitle: Text('${run.key} · ${run.badgeLabel}'),
+                onTap: () {
+                  Navigator.pop(ctx);
+                  _openRun(run.id);
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.edit_note_rounded, color: Colors.blue),
+                title: const Text('Editar / Continuar estimado', style: TextStyle(fontWeight: FontWeight.w700)),
+                subtitle: const Text('Abre el asistente con los datos de este estimado'),
+                onTap: () {
+                  Navigator.pop(ctx);
+                  _resumeOrEditRun(run);
+                },
+              ),
+              const Divider(),
+              ListTile(
+                leading: const Icon(Icons.delete_outline_rounded, color: AlkanColors.noGo),
+                title: const Text('Eliminar estimado', style: TextStyle(fontWeight: FontWeight.w700, color: AlkanColors.noGo)),
+                subtitle: const Text('Borra este estimado del servidor'),
+                onTap: () {
+                  Navigator.pop(ctx);
+                  _confirmDeleteRun(run);
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   Future<void> _registerContractorIsolated() async {
     final cnameCtrl = TextEditingController();
     final contactCtrl = TextEditingController();
@@ -594,9 +707,53 @@ class _MisEstimadosScreenState extends State<MisEstimadosScreen> with WidgetsBin
             for (final r in filtered)
               Padding(
                 padding: const EdgeInsets.only(bottom: 10),
-                child: AlkanProjectCard(
-                  run: r,
-                  onTap: () => _openRun(r.id),
+                child: Dismissible(
+                  key: Key(r.id),
+                  direction: DismissDirection.horizontal,
+                  background: Container(
+                    alignment: Alignment.centerLeft,
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    decoration: BoxDecoration(
+                      color: Colors.blue.shade700,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: const Row(
+                      children: [
+                        Icon(Icons.edit_note_rounded, color: Colors.white, size: 28),
+                        SizedBox(width: 8),
+                        Text('Editar / Continuar', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 14)),
+                      ],
+                    ),
+                  ),
+                  secondaryBackground: Container(
+                    alignment: Alignment.centerRight,
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    decoration: BoxDecoration(
+                      color: AlkanColors.noGo,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text('Eliminar', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 14)),
+                        SizedBox(width: 8),
+                        Icon(Icons.delete_outline_rounded, color: Colors.white, size: 28),
+                      ],
+                    ),
+                  ),
+                  confirmDismiss: (direction) async {
+                    if (direction == DismissDirection.endToStart) {
+                      return await _confirmDeleteRun(r);
+                    } else {
+                      await _resumeOrEditRun(r);
+                      return false;
+                    }
+                  },
+                  child: AlkanProjectCard(
+                    run: r,
+                    onTap: () => _openRun(r.id),
+                    onOptions: () => _showRunOptionsSheet(r),
+                  ),
                 ),
               ),
           const SizedBox(height: 20),

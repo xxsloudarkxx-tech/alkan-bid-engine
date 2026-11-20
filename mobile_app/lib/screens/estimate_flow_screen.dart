@@ -21,6 +21,12 @@ class EstimateFlowScreen extends StatefulWidget {
   final OfflineStore store;
   final List<String> initialFiles;
   final String? initialProfile;
+  final String? initialKey;
+  final String? initialTitle;
+  final String? initialVoiceNotes;
+  final String? initialCounty;
+  final List<String>? initialSpecialties;
+  final String? initialClientName;
 
   const EstimateFlowScreen({
     super.key,
@@ -28,6 +34,12 @@ class EstimateFlowScreen extends StatefulWidget {
     required this.store,
     this.initialFiles = const [],
     this.initialProfile,
+    this.initialKey,
+    this.initialTitle,
+    this.initialVoiceNotes,
+    this.initialCounty,
+    this.initialSpecialties,
+    this.initialClientName,
   });
 
   @override
@@ -107,6 +119,21 @@ class _EstimateFlowScreenState extends State<EstimateFlowScreen> {
     await _restoreLocalDraft();
     if (widget.initialProfile != null && widget.initialProfile!.isNotEmpty) {
       _selectedProfile = widget.initialProfile!;
+    }
+    if (widget.initialTitle != null && widget.initialTitle!.isNotEmpty) {
+      _titleCtrl.text = widget.initialTitle!;
+    }
+    if (widget.initialVoiceNotes != null && widget.initialVoiceNotes!.isNotEmpty) {
+      _notesCtrl.text = widget.initialVoiceNotes!;
+    }
+    if (widget.initialClientName != null && widget.initialClientName!.isNotEmpty) {
+      _clientNameCtrl.text = widget.initialClientName!;
+    }
+    if (widget.initialCounty != null && widget.initialCounty!.isNotEmpty) {
+      _selectedCounty = widget.initialCounty!;
+    }
+    if (widget.initialSpecialties != null && widget.initialSpecialties!.isNotEmpty) {
+      _selectedSpecialties = List.of(widget.initialSpecialties!);
     }
     await _loadProfilesAndHealth();
   }

@@ -374,11 +374,13 @@ class AlkanProgressIndicator extends StatelessWidget {
 class AlkanProjectCard extends StatelessWidget {
   final EstimateRunCard run;
   final VoidCallback onTap;
+  final VoidCallback? onOptions;
 
   const AlkanProjectCard({
     super.key,
     required this.run,
     required this.onTap,
+    this.onOptions,
   });
 
   @override
@@ -402,6 +404,15 @@ class AlkanProjectCard extends StatelessWidget {
                     ),
                   ),
                   AlkanStatusBadge(status: run.badgeStatus, label: run.badgeLabel),
+                  if (onOptions != null) ...[
+                    const SizedBox(width: 4),
+                    IconButton(
+                      icon: const Icon(Icons.more_vert, size: 20, color: AlkanColors.textSecondary),
+                      onPressed: onOptions,
+                      padding: EdgeInsets.zero,
+                      constraints: const BoxConstraints(),
+                    ),
+                  ],
                 ],
               ),
               const SizedBox(height: 6),

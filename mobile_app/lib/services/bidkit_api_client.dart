@@ -282,6 +282,16 @@ class BidKitApiClient {
         .toList();
   }
 
+  /// Elimina una corrida o estimado bloqueado del servidor.
+  Future<void> deleteRun(String runId) async {
+    final s = _requireSession();
+    final uri = Uri.parse('${s.baseUrl}/api/mobile/runs/${Uri.encodeComponent(runId)}');
+    final res = await _http.delete(uri, headers: _headers()).timeout(const Duration(seconds: 12));
+    if (res.statusCode != 200 && res.statusCode != 204) {
+      throw ApiException(res.statusCode, 'No se pudo eliminar la corrida: ${res.body}');
+    }
+  }
+
   /// Genera un upload_id hexadecimal válido para el backend (32 hex chars).
   String newUploadId() {
     final rnd = Random.secure();
