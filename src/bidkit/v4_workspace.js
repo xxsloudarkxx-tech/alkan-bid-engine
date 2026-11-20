@@ -16,30 +16,28 @@
     audit: { title: "Audit Trail", sub: "SHA-256 hash-chained event ledger & verified backups" }
   };
 
-  let _token = null;
-  async function tok(){
-    if(_token) return _token;
-    const r = await fetch("/api/session");
-    const j = await r.json();
-    _token = j.token;
-    return _token;
-  }
+  const A = () => window.ALKAN || {};
+  async function ensureAuth(){ if(A().ensureAuth) return A().ensureAuth(); }
+  function hdr(extra){ return A().authHeaders ? A().authHeaders(extra) : (extra || {}); }
   function actorName(){
     return (document.getElementById("actor")?.value || "").trim() || "Estimator";
   }
-  async function v4Get(path){
-    const r = await fetch(path);
+  async function v4Get(path, _retry){
+    await ensureAuth();
+    const r = await fetch(path, {headers: hdr()});
+    if(r.status === 401 && !_retry){ if(A().bust) A().bust(); return v4Get(path, true); }
     const j = await r.json();
     if(!r.ok) throw new Error(j.error || r.statusText);
     return j;
   }
-  async function v4Post(path, body){
-    const t = await tok();
+  async function v4Post(path, body, _retry){
+    await ensureAuth();
     const r = await fetch(path, {
       method: "POST",
-      headers: {"Content-Type":"application/json","X-ALKAN-Token":t},
+      headers: hdr({"Content-Type":"application/json"}),
       body: JSON.stringify({actor: actorName(), ...body})
     });
+    if(r.status === 401 && !_retry){ if(A().bust) A().bust(); return v4Post(path, body, true); }
     const j = await r.json();
     if(!r.ok) throw new Error(j.error || r.statusText);
     return j;

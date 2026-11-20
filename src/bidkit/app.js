@@ -7,7 +7,7 @@ const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '
 const money = v => v ? '$' + Number(String(v).replace(/,/g, '')).toLocaleString('en-US', {minimumFractionDigits: 2}) : '—';
 const when = iso => iso ? new Date(iso).toLocaleString('es-MX', {day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit'}) : '—';
 const size = b => b > 1048576 ? (b / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(b / 1024)) + ' KB';
-let token = '', timer = null, status = null, uploads = [];
+let token = localStorage.getItem('alkan.token') || '', timer = null, status = null, uploads = [];
 
 /* ───────── API ───────── */
 function actor() {
@@ -16,14 +16,54 @@ function actor() {
   localStorage.setItem('alkan.actor', name);
   return name;
 }
-async function api(path, data) {
-  const opt = data === undefined ? {} : {method: 'POST', headers: {'Content-Type': 'application/json', 'X-ALKAN-Token': token},
-    body: JSON.stringify({actor: actor(), ...data})};
+function authHeaders(extra) {
+  const h = Object.assign({}, extra || {});
+  if (token) h['Authorization'] = 'Bearer ' + token;
+  return h;
+}
+async function api(path, data, _retry) {
+  const opt = data === undefined
+    ? {headers: authHeaders()}
+    : {method: 'POST', headers: authHeaders({'Content-Type': 'application/json'}), body: JSON.stringify({actor: actor(), ...data})};
   const r = await fetch(path, opt);
+  if (r.status === 401 && !_retry) { token = ''; localStorage.removeItem('alkan.token'); await ensureAuth(); return api(path, data, true); }
   const out = await r.json().catch(() => ({error: 'Respuesta inválida del motor'}));
   if (!r.ok) throw Error(out.error || 'Error ' + r.status);
   return out;
 }
+function ensureAuth() {
+  if (token) return Promise.resolve();
+  return new Promise(resolve => {
+    const ov = document.createElement('div');
+    ov.id = 'alkanLogin';
+    ov.style.cssText = 'position:fixed;inset:0;background:rgba(16,62,67,.55);display:grid;place-items:center;z-index:50';
+    ov.innerHTML = '<form id="lgForm" style="background:#fff;padding:26px 28px;border-radius:14px;min-width:300px;box-shadow:0 20px 50px -20px rgba(0,0,0,.5)">'
+      + '<h2 style="margin:0 0 4px;color:#103e43">ALKAN Bid Engine</h2>'
+      + '<p style="margin:0 0 16px;color:#61747c;font-size:13px">Inicia sesion para continuar</p>'
+      + '<label class="f" style="margin-bottom:10px">Usuario<input id="lgUser" type="text" autocomplete="username"></label>'
+      + '<label class="f" style="margin-bottom:14px">Contrasena<input id="lgPass" type="password" autocomplete="current-password"></label>'
+      + '<div id="lgErr" class="notice error" style="display:none;margin-bottom:10px"></div>'
+      + '<button class="primary" type="submit" style="width:100%">Entrar</button></form>';
+    document.body.appendChild(ov);
+    const err = m => { const e = ov.querySelector('#lgErr'); e.style.display = 'block'; e.textContent = m; };
+    ov.querySelector('#lgUser').focus();
+    ov.querySelector('#lgForm').addEventListener('submit', async ev => {
+      ev.preventDefault();
+      const username = ov.querySelector('#lgUser').value.trim();
+      const password = ov.querySelector('#lgPass').value;
+      if (!username || !password) return err('Escribe usuario y contrasena.');
+      try {
+        const r = await fetch('/api/v4/auth/login', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({username, password})});
+        const j = await r.json().catch(() => ({}));
+        if (!r.ok) return err(j.error || 'Usuario o contrasena invalidos.');
+        token = j.token; localStorage.setItem('alkan.token', token);
+        if (!$('actor').value.trim()) { $('actor').value = j.actor || username; localStorage.setItem('alkan.actor', $('actor').value); }
+        ov.remove(); resolve();
+      } catch (e) { err('No se pudo conectar con el servidor.'); }
+    });
+  });
+}
+window.ALKAN = { authHeaders, getToken: () => token, ensureAuth, bust: () => { token = ''; localStorage.removeItem('alkan.token'); } };
 function toast(msg, kind = '') {
   $('toast').innerHTML = `<div class="notice ${kind}">${esc(msg)}</div>`;
   clearTimeout(toast.t); toast.t = setTimeout(() => { $('toast').innerHTML = ''; }, kind === 'error' ? 9000 : 4000);
@@ -404,7 +444,7 @@ window.addEventListener('hashchange', () => route());
   $('actor').value = localStorage.getItem('alkan.actor') || '';
   $('actor').onchange = () => localStorage.setItem('alkan.actor', $('actor').value.trim());
   try {
-    token = (await api('/api/session')).token;
+    await ensureAuth();
     const st = await api('/api/app/status');
     $('ver').textContent = 'v' + st.version;
     $('liveDot').classList.toggle('hidden', !st.active_run);
