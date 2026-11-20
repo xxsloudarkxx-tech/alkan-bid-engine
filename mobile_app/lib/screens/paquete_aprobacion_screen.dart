@@ -11,6 +11,7 @@ import '../services/voice_dictation_service.dart';
 import '../theme/alkan_theme.dart';
 import '../widgets/alkan_components.dart';
 import '../widgets/alkan_loading_logo.dart';
+import 'estimate_flow_screen.dart';
 
 /// Documentos reales (01 Cost Analysis, 02 Material List, 03 Client Proposal) + Control Humano.
 class PaqueteAprobacionScreen extends StatefulWidget {
