@@ -1417,6 +1417,26 @@ class MobileBidEngineAPI:
         if method == "OPTIONS":
             return 204, b""
 
+        # Desktop Web Dashboard & Assets (PC / Browser access)
+        if method == "GET":
+            accept_hdr = (headers or {}).get("Accept") or (headers or {}).get("accept") or ""
+            if path in ("/app", "/desktop", "/web") or (path == "/" and "text/html" in accept_hdr):
+                app_html = (Path(__file__).parent / "app.html").read_bytes()
+                return 200, BinaryResponse(app_html, "text/html; charset=utf-8")
+            if path in ("/app.js", "/nav.js", "/v4_workspace.js", "/contractor_workflow.js", "/intelligence_ui.js", "/estimation_tools.js"):
+                js_file = Path(__file__).parent / path.lstrip("/")
+                if js_file.exists():
+                    return 200, BinaryResponse(js_file.read_bytes(), "text/javascript; charset=utf-8")
+            if path in ("/nuevo", "/quick_start"):
+                qs_html = (Path(__file__).parent / "quick_start.html").read_bytes()
+                return 200, BinaryResponse(qs_html, "text/html; charset=utf-8")
+            if path in ("/intelligence", "/expedientes"):
+                ui_html = (Path(__file__).parent / "intelligence_ui.html").read_bytes()
+                return 200, BinaryResponse(ui_html, "text/html; charset=utf-8")
+            if path in ("/herramientas", "/tools"):
+                tools_html = (Path(__file__).parent / "estimation_tools.html").read_bytes()
+                return 200, BinaryResponse(tools_html, "text/html; charset=utf-8")
+
         # Public endpoints
         if method == "GET" and path in PUBLIC_GET_PATHS:
             key_info = self.app.settings.secret_view("anthropic")
